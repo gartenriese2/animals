@@ -1,0 +1,4 @@
+./premake4 gmake --clang
+./clangfix.sh
+make clean
+make -j
