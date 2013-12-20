@@ -79,6 +79,17 @@ const std::string Type::getEffectStringAgainst(const Type & against) const {
 
 }
 
+const bool Type::isPartOf(const Type & other) const {
+
+	for (auto i : m_types) {
+		for (auto j : other.getBaseTypes()) {
+			if (i == j) return true;
+		}
+	}
+	return false;
+
+}
+
 std::ostream & operator<<(std::ostream & os, Type type) {
   
   os << type.getString();

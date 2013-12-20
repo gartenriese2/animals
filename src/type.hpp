@@ -19,6 +19,8 @@ class Type {
 		const EffectiveType getEffectTypeAgainst(const Type &) const;
 		const std::string getEffectStringAgainst(const Type & against) const;
 
+		const bool isPartOf(const Type &) const;
+
 	private:
 
 		const std::string getString() const;

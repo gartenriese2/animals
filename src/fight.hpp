@@ -7,19 +7,24 @@ class Fight {
 	
 	public:
 		
-		Fight(Animal &, Animal &);
+		Fight(Animal &, Animal &, const bool);
 		~Fight();
 
 		void printStatus() const;
 
 		void oneAttacks(const Attack &);
+		void oneAttacksRandom();
 		void twoAttacks(const Attack &);
+		void twoAttacksRandom();
 
 	private:
 
+		const int calculateDamageAgainst(const Animal &, const Attack &, const Animal &) const;
+		void printAttack(const std::string &, const std::string &, const int, const EffectiveType &) const;
+
 		Animal & m_animal1;
 		Animal & m_animal2;
-
+		bool m_logging;
 	
 };
 
