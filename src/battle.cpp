@@ -20,7 +20,7 @@ Battle::~Battle() {
 void Battle::addExp() const {
 
 	unsigned int foeStats = m_animal2.getMaxHealth() + m_animal2.getAttack() + m_animal2.getDefense();
-	foeStats *= m_animal2.getLevel() / m_animal1.getLevel();
+	foeStats *= static_cast<float>(m_animal2.getLevel()) / static_cast<float>(m_animal1.getLevel());
 	std::cout << m_animal1.getName() << " gains " << foeStats << " experience points." << std::endl;
 	m_animal1.gainExp(foeStats);
 

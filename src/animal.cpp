@@ -135,7 +135,9 @@ void Animal::gainExp(const unsigned int xp) {
 }
 
 void Animal::levelUp() {
+	float ratio = static_cast<float>(getActualHealth()) / static_cast<float>(getMaxHealth());
 	++m_level;
+	m_actualHealth = static_cast<unsigned int>(ratio * static_cast<float>(getMaxHealth()));
 	std::cout << getName() << " reached level " << getLevel() << "!" << std::endl;
 }
 
