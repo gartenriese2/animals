@@ -1,5 +1,5 @@
-#ifndef _DATABASE_H
-#define _DATABASE_H
+#ifndef _DATABASE_HPP
+#define _DATABASE_HPP
 
 #include <map>
 #include <vector>
@@ -36,4 +36,4 @@ class Database {
 
 };
 
-#endif // _DATABASE_H
+#endif // _DATABASE_HPP

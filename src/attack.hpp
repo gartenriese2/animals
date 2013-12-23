@@ -14,13 +14,16 @@ class Attack {
 		const std::string getName() const { return m_name; }
 		const Type & getType() const { return m_type; }
 
+		static const std::map<std::string, Attack> & getAttacks();
+		static const std::map<std::string, Attack> getAttacks(const Type &);
+		static const std::shared_ptr<Attack> getAttack(const std::string);
+
 	private:
 
 		std::string m_name;
 		Type m_type;
 		unsigned int m_damage;
 
-	
 };
 
 #endif // _ATTACK_H

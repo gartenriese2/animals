@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <time.h>
+#include <cstdlib>
 
 #include "battle.hpp"
 
@@ -37,21 +38,21 @@ int main () {
 	// compare(t6,t2);
 	// compare(t6,t1);
 
-	Attack atk1("Tackle", Type(BaseType::Normal), 30);
-	Attack atk2("Water Blast", Type(BaseType::Water), 50);
-	Attack atk3("Fire Blast", Type(BaseType::Fire), 50);
-	Attack atk4("Twine", Type(BaseType::Plant), 40);
+	const std::shared_ptr<Attack> atk1 = Attack::getAttack("Tackle");
+	const std::shared_ptr<Attack> atk2 = Attack::getAttack("Water Blast");
+	const std::shared_ptr<Attack> atk3 = Attack::getAttack("Fire Blast");
+	const std::shared_ptr<Attack> atk4 = Attack::getAttack("Twine");
 	Stats s1(120,80,100, 2.4f);
 	Stats s2(80,100,100, 1.5f);
 	Animal a1("Waterdevil", t6, s1, {atk1, atk2, atk3});
 	Animal a2("Duckweed", t1, s2, {atk1, atk2, atk4});
-	a1.setLevel(47);
+	a1.setLevel(32);
 	a1.heal();
-	a2.setLevel(42);
+	a2.setLevel(16);
 	a2.heal();
 	
-	Battle b(a1,a2);
-	b.startAIvsAIRandom(true);
+	Battle b(a2,a1);
+	b.startUservsAIRandom();
 	
 	return 0;
 }

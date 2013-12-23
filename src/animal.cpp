@@ -5,10 +5,10 @@
 
 static constexpr unsigned int k_healthBars = 50;
 
-Animal::Animal(const std::string & name, const Type & type, const Stats & stats, const std::vector<Attack> & moves)
+Animal::Animal(const std::string & name, const Type & type, const Stats & stats, const std::vector<std::shared_ptr<Attack>> & moves)
   : m_name(name), m_type(type), m_baseStats(stats), m_level(1), m_actualHealth(getMaxHealth())
 {	
-	for (auto atk : moves) {
+	for (const auto atk : moves) {
 		m_moves.emplace_back(atk);
 	}
 }
@@ -40,9 +40,9 @@ void Animal::printInfo() const {
 	std::cout << "Attack:  " << getAttack() << std::endl;
 	std::cout << "Defense: " << getDefense() << std::endl;
 	std::cout << "Moves:" << std::endl;
-	for (auto i : m_moves) {
-		std::cout << "---- " << i.getName() << " (" << i.getDamage() << ") ["
-			<< i.getType() << "]" << std::endl;
+	for (const auto i : m_moves) {
+		std::cout << "---- " << i->getName() << " (" << i->getDamage() << ") ["
+			<< i->getType() << "]" << std::endl;
 	}
 	std::cout << "------------------------" << std::endl;
 
@@ -76,7 +76,7 @@ const unsigned int Animal::getDefense() const {
 
 }
 
-const Attack & Animal::getRandomAttack() const {
+const std::shared_ptr<Attack> Animal::getRandomAttack() const {
 
 	int choice = rand() % m_moves.size();
 	return m_moves[choice];

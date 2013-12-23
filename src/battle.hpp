@@ -11,6 +11,7 @@ class Battle {
 		~Battle();
 
 		void startAIvsAIRandom(const bool);
+		void startUservsAIRandom();
 
 	private:
 

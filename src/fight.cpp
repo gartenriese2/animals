@@ -20,40 +20,40 @@ void Fight::printStatus() const {
 
 }
 
-void Fight::oneAttacks(const Attack & atk) {
+void Fight::oneAttacks(const std::shared_ptr<Attack> atk) {
 
 	const int dmg = calculateDamageAgainst(m_animal1, atk, m_animal2);
-	const EffectiveType eff = atk.getType().getEffectTypeAgainst(m_animal2.getType());
-	if (m_logging) printAttack(m_animal1.getName(), atk.getName(), dmg, eff);
+	const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal2.getType());
+	if (m_logging) printAttack(m_animal1.getName(), atk->getName(), dmg, eff);
 	m_animal2.changeHealth(-dmg);
 
 }
 
 void Fight::oneAttacksRandom() {
 
-	const Attack & atk = m_animal1.getRandomAttack();
+	const std::shared_ptr<Attack> atk = m_animal1.getRandomAttack();
 	const int dmg = calculateDamageAgainst(m_animal1, atk, m_animal2);
-	const EffectiveType eff = atk.getType().getEffectTypeAgainst(m_animal2.getType());
-	if (m_logging) printAttack(m_animal1.getName(), atk.getName(), dmg, eff);
+	const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal2.getType());
+	if (m_logging) printAttack(m_animal1.getName(), atk->getName(), dmg, eff);
 	m_animal2.changeHealth(-dmg);
 
 }
 
-void Fight::twoAttacks(const Attack & atk) {
+void Fight::twoAttacks(const std::shared_ptr<Attack> atk) {
 
 	const int dmg = calculateDamageAgainst(m_animal2, atk, m_animal1);
-	const EffectiveType eff = atk.getType().getEffectTypeAgainst(m_animal1.getType());
-	if (m_logging) printAttack(m_animal2.getName(), atk.getName(), dmg, eff);
+	const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal1.getType());
+	if (m_logging) printAttack(m_animal2.getName(), atk->getName(), dmg, eff);
 	m_animal1.changeHealth(-dmg);
 
 }
 
 void Fight::twoAttacksRandom() {
 
-	const Attack & atk = m_animal2.getRandomAttack();
+	const std::shared_ptr<Attack> atk = m_animal2.getRandomAttack();
 	const int dmg = calculateDamageAgainst(m_animal2, atk, m_animal1);
-	const EffectiveType eff = atk.getType().getEffectTypeAgainst(m_animal1.getType());
-	if (m_logging) printAttack(m_animal2.getName(), atk.getName(), dmg, eff);
+	const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal1.getType());
+	if (m_logging) printAttack(m_animal2.getName(), atk->getName(), dmg, eff);
 	m_animal1.changeHealth(-dmg);
 
 }
@@ -67,12 +67,12 @@ void Fight::printAttack(const std::string & animalName, const std::string & atkN
 
 }
 
-const int Fight::calculateDamageAgainst(const Animal & a1, const Attack & atk, const Animal & a2) const {
+const int Fight::calculateDamageAgainst(const Animal & a1, const std::shared_ptr<Attack> atk, const Animal & a2) const {
 
 	float factor = static_cast<float>(a1.getAttack()) / static_cast<float>(a2.getDefense());
 	factor *= static_cast<float>(a1.getAttack()) / 100.f;
-	float effect = atk.getType().getEffectValueAgainst(a2.getType());
-	float boost = a1.getType().isPartOf(atk.getType()) ? 1.f : 0.75f;
-	return static_cast<int>(static_cast<float>(atk.getDamage()) * factor * effect * boost);
+	float effect = atk->getType().getEffectValueAgainst(a2.getType());
+	float boost = a1.getType().isPartOf(atk->getType()) ? 1.f : 0.75f;
+	return static_cast<int>(static_cast<float>(atk->getDamage()) * factor * effect * boost);
 
 }

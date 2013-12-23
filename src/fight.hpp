@@ -12,14 +12,14 @@ class Fight {
 
 		void printStatus() const;
 
-		void oneAttacks(const Attack &);
+		void oneAttacks(const std::shared_ptr<Attack>);
 		void oneAttacksRandom();
-		void twoAttacks(const Attack &);
+		void twoAttacks(const std::shared_ptr<Attack>);
 		void twoAttacksRandom();
 
 	private:
 
-		const int calculateDamageAgainst(const Animal &, const Attack &, const Animal &) const;
+		const int calculateDamageAgainst(const Animal &, const std::shared_ptr<Attack>, const Animal &) const;
 		void printAttack(const std::string &, const std::string &, const int, const EffectiveType &) const;
 
 		Animal & m_animal1;

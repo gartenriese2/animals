@@ -81,12 +81,14 @@ const std::string Type::getEffectStringAgainst(const Type & against) const {
 
 const bool Type::isPartOf(const Type & other) const {
 
+	bool b = false;
 	for (auto i : m_types) {
-		for (auto j : other.getBaseTypes()) {
-			if (i == j) return true;
+		b = false;
+		for (const auto j : other.getBaseTypes()) {
+			if (i == j) b = true;
 		}
 	}
-	return false;
+	return b;
 
 }
 
