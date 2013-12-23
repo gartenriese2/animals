@@ -126,8 +126,8 @@ const unsigned int Animal::getNeededExp() const {
 void Animal::gainExp(const unsigned int xp) {
 
 	if (m_exp + xp > getNeededExp()) {
-		levelUp();
 		m_exp = (m_exp + xp) % getNeededExp();
+		levelUp();
 	} else {
 		m_exp += xp;
 	}
