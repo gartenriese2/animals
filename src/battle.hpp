@@ -13,6 +13,8 @@ class Battle {
 		void startAIvsAIRandom(const bool);
 		void startUservsAIRandom();
 
+		void addExp() const;
+
 	private:
 
 		Animal & m_animal1;

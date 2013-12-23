@@ -8,12 +8,12 @@
 
 class IO {
 
-    public:
+	public:
 
-        IO();
-        ~IO();
+		IO();
+		~IO();
 
-        const std::shared_ptr<Attack> chooseAttack(const std::vector<std::shared_ptr<Attack>> &);
+		const std::shared_ptr<Attack> chooseAttack(const std::vector<std::shared_ptr<Attack>> &);
 
 
 };

@@ -17,6 +17,15 @@ Battle::Battle(Animal & a1, Animal & a2)
 Battle::~Battle() {
 }
 
+void Battle::addExp() const {
+
+	unsigned int foeStats = m_animal2.getMaxHealth() + m_animal2.getAttack() + m_animal2.getDefense();
+	foeStats *= m_animal2.getLevel() / m_animal1.getLevel();
+	std::cout << m_animal1.getName() << " gains " << foeStats << " experience points." << std::endl;
+	m_animal1.gainExp(foeStats);
+
+}
+
 void Battle::startAIvsAIRandom(const bool log) {
 
 	Fight f(m_animal1, m_animal2, log);
@@ -51,6 +60,7 @@ void Battle::startAIvsAIRandom(const bool log) {
 	
 	if (m_animal1.getActualHealth() > m_animal2.getActualHealth()) {
 		std::cout << m_animal1.getName() << " won!" << std::endl;
+		addExp();
 	} else {
 		std::cout << m_animal2.getName() << " won!" << std::endl;
 	}
@@ -93,6 +103,7 @@ void Battle::startUservsAIRandom() {
 	
 	if (m_animal1.getActualHealth() > m_animal2.getActualHealth()) {
 		std::cout << "You won!" << std::endl;
+		addExp();
 	} else {
 		std::cout << "You lost!" << std::endl;
 	}

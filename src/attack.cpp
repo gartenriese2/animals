@@ -10,7 +10,12 @@ const std::map<std::string, Attack> & Attack::getAttacks() {
         // Plant
         std::pair<std::string, Attack>("Twine", Attack("Twine", Type(BaseType::Plant), 40)),
         // Normal
-        std::pair<std::string, Attack>("Tackle", Attack("Tackle", Type(BaseType::Normal), 30))
+        std::pair<std::string, Attack>("Tackle", Attack("Tackle", Type(BaseType::Normal), 30)),
+        // Dark
+        std::pair<std::string, Attack>("Darkness", Attack("Darkness", Type(BaseType::Dark), 60)),
+        // Magic
+        std::pair<std::string, Attack>("Hex", Attack("Hex", Type(BaseType::Magic), 25))
+        
         
     };
     return s_attacks;
