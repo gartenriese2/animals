@@ -31,6 +31,9 @@ class Animal {
 		void levelUp() { m_level++; }
 		void heal() { m_actualHealth = getMaxHealth(); }
 
+		static const std::map<std::string, Animal> & getAnimals();
+		static const std::shared_ptr<Animal> getAnimal(const std::string);
+
 	private:
 
 		std::string m_name;

@@ -5,6 +5,28 @@
 
 static constexpr unsigned int k_healthBars = 50;
 
+const std::map<std::string, Animal> & Animal::getAnimals() {	
+	
+	static std::map<std::string, Animal> s_animals {
+	    // FireWater
+	    std::pair<std::string, Animal>("Waterdevil", Animal("Waterdevil",
+	    													Type(BaseType::Fire, BaseType::Water),
+	    													Stats(120, 80, 100, 2.4f),
+	    													{Attack::getAttack("Tackle"),
+	    														Attack::getAttack("Water Blast"),
+	    														Attack::getAttack("Fire Blast")})),
+	    // WaterPlant
+	    std::pair<std::string, Animal>("Duckweed", Animal("Duckweed",
+	    													Type(BaseType::Plant, BaseType::Water),
+	    													Stats(80, 100, 100, 1.5f),
+	    													{Attack::getAttack("Tackle"),
+	    														Attack::getAttack("Water Blast"),
+	    														Attack::getAttack("Twine")}))  
+	};
+	return s_animals;
+
+}
+
 Animal::Animal(const std::string & name, const Type & type, const Stats & stats, const std::vector<std::shared_ptr<Attack>> & moves)
   : m_name(name), m_type(type), m_baseStats(stats), m_level(1), m_actualHealth(getMaxHealth())
 {	
@@ -14,6 +36,14 @@ Animal::Animal(const std::string & name, const Type & type, const Stats & stats,
 }
 
 Animal::~Animal() {
+}
+
+const std::shared_ptr<Animal> Animal::getAnimal(const std::string s) {
+    if (getAnimals().count(s) == 0) {
+    	std::cout << "no such animal: " << s << std::endl;
+    	abort();
+    }
+    return std::make_shared<Animal>(getAnimals().at(s));
 }
 
 void Animal::printHealth() const {
