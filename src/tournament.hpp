@@ -16,6 +16,9 @@ class Tournament {
 
 		void startKOBattles();
 
+        void startWithFirestarter();
+        //void startWithWaterstarter();
+
 	private:
 
 };

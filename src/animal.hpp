@@ -8,12 +8,14 @@ class Animal {
 	
 	public:
 		
-		Animal(const std::string &, const Type &, const Stats &, const std::vector<std::shared_ptr<Attack>> &);
+		Animal(const std::string &, const Type &, const Stats &, const AttackSet &);
 		Animal(const Animal &);
 		~Animal();
 
 		void printHealth() const;
 		void printInfo() const;
+
+		void reset();
 
 		const std::string & getName() const { return m_name; }
 		const std::string getNameCopy() const { return m_name; }
@@ -21,6 +23,8 @@ class Animal {
 		const Type getTypeCopy() const { return m_type; }
 		const Stats & getStats() const { return m_stats; }
 		const Stats getStatsCopy() const { return m_stats; }
+		const AttackSet & getAttackSet() const { return m_attackSet; }
+		const AttackSet getAttackSetCopy() const { return m_attackSet; }
 		const std::vector<std::shared_ptr<Attack>> & getAttacks() const { return m_moves; }
 		const unsigned int getActualHealth() const { return m_stats.getActualHealth(); }
 		const unsigned int getMaxHealth() const { return m_stats.getHealth(); }
@@ -29,7 +33,7 @@ class Animal {
 		const unsigned int getActualSpeed() const { return m_stats.getActualSpeed(); }
 		const unsigned int getMaxSpeed() const { return m_stats.getSpeed(); }
 		const unsigned int getLevel() const { return m_level; }
-		void setLevel(const unsigned int lvl) { m_level = lvl; }
+		void setLevel(const unsigned int);
 		void levelUp();
 		const unsigned int getExp() const { return m_exp; }
 		const unsigned int getNeededExp() const;
@@ -48,10 +52,14 @@ class Animal {
 		std::string m_name;
 		Type m_type;
 		Stats m_stats;
+		AttackSet m_attackSet;
 
 		unsigned int m_level;
 		unsigned int m_exp;
 		std::vector<std::shared_ptr<Attack>> m_moves;
+
+		void fillActualAttacks();
+		bool checkForNewMoves();
 	
 };
 

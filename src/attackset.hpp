@@ -3,16 +3,20 @@
 
 #include "attack.hpp"
 
+using AttackSetMap = std::multimap<unsigned int, std::shared_ptr<Attack>>;
+
 class AttackSet {
 	
 	public:
 
-		AttackSet(const std::multimap<unsigned int, std::shared_ptr<Attack>> &);
+		AttackSet(const AttackSetMap &);
 		~AttackSet();
+
+        const AttackSetMap & get() const { return m_set; }
 
 	private:
 
-		std::multimap<unsigned int, std::shared_ptr<Attack>> m_set;
+		AttackSetMap m_set;
 
 };
 

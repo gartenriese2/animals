@@ -51,3 +51,20 @@ void Tournament::startKOBattles() {
 	std::cout << "You won " << victories << " times!" << std::endl;
 
 }
+
+void Tournament::startWithFirestarter() {
+
+	Animal own(Animal::getAnimal("Firestarter"));
+	own.setLevel(5);
+
+	while (true) {
+		std::cout << "-------------" << std::endl;
+		std::cout << "NEXT BATTLE!" << std::endl;
+		std::cout << "-------------" << std::endl;
+		Animal foe(Animal::getRandomAnimal());
+		Battle b(own, foe);
+		b.startUservsAIRandom();
+		own.heal();
+	}
+
+}
