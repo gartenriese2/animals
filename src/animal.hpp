@@ -1,9 +1,8 @@
 #ifndef _ANIMAL_H
 #define _ANIMAL_H
 
-#include "type.hpp"
-#include "attack.hpp"
 #include "stats.hpp"
+#include "attackset.hpp"
 
 class Animal {
 	
@@ -20,23 +19,25 @@ class Animal {
 		const std::string getNameCopy() const { return m_name; }
 		const Type & getType() const { return m_type; }
 		const Type getTypeCopy() const { return m_type; }
-		const Stats & getBaseStats() const { return m_baseStats; }
-		const Stats getBaseStatsCopy() const { return m_baseStats; }
+		const Stats & getStats() const { return m_stats; }
+		const Stats getStatsCopy() const { return m_stats; }
 		const std::vector<std::shared_ptr<Attack>> & getAttacks() const { return m_moves; }
-		const unsigned int getActualHealth() const { return m_actualHealth; }
-		const unsigned int getMaxHealth() const;
-		const unsigned int getAttack() const;
-		const unsigned int getDefense() const;
+		const unsigned int getActualHealth() const { return m_stats.getActualHealth(); }
+		const unsigned int getMaxHealth() const { return m_stats.getHealth(); }
+		const unsigned int getMaxAttack() const { return m_stats.getAttack(); }
+		const unsigned int getMaxDefense() const { return m_stats.getDefense(); }
+		const unsigned int getActualSpeed() const { return m_stats.getActualSpeed(); }
+		const unsigned int getMaxSpeed() const { return m_stats.getSpeed(); }
 		const unsigned int getLevel() const { return m_level; }
 		void setLevel(const unsigned int lvl) { m_level = lvl; }
 		void levelUp();
 		const unsigned int getExp() const { return m_exp; }
 		const unsigned int getNeededExp() const;
-		void gainExp(const unsigned int);
+		void gainExp(unsigned int);
 		void changeHealth(const int h);
 		const std::shared_ptr<Attack> getRandomAttack() const;
 
-		void heal() { m_actualHealth = getMaxHealth(); }
+		void heal() { m_stats.setActualHealth(getMaxHealth()); }
 
 		static const std::map<std::string, Animal> & getAnimals();
 		static const Animal & getAnimal(const std::string);
@@ -46,13 +47,11 @@ class Animal {
 
 		std::string m_name;
 		Type m_type;
-		Stats m_baseStats;
+		Stats m_stats;
 
 		unsigned int m_level;
 		unsigned int m_exp;
 		std::vector<std::shared_ptr<Attack>> m_moves;
-
-		unsigned int m_actualHealth;
 	
 };
 

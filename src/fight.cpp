@@ -1,6 +1,7 @@
 #include "fight.hpp"
 
 #include <iostream>
+#include <math.h>
 
 Fight::Fight(Animal & animal1, Animal & animal2, const bool logging)
   : m_animal1(animal1), m_animal2(animal2), m_logging(logging)
@@ -69,10 +70,12 @@ void Fight::printAttack(const std::string & animalName, const std::string & atkN
 
 const int Fight::calculateDamageAgainst(const Animal & a1, const std::shared_ptr<Attack> atk, const Animal & a2) const {
 
-	float factor = static_cast<float>(a1.getAttack()) / static_cast<float>(a2.getDefense());
-	factor *= static_cast<float>(a1.getAttack()) / 100.f;
+	float factor = static_cast<float>(a1.getMaxAttack()) / static_cast<float>(a2.getMaxDefense());
+	factor *= static_cast<float>(a1.getMaxAttack()) / 100.f;
 	float effect = atk->getType().getEffectValueAgainst(a2.getType());
-	float boost = a1.getType().isPartOf(atk->getType()) ? 1.f : 0.75f;
-	return static_cast<int>(static_cast<float>(atk->getDamage()) * factor * effect * boost);
+	float boost = a1.getType().isPartOf(atk->getType()) ? 1.5f : 1.f;
+	int dmg = round(static_cast<float>(atk->getDamage()) * factor * effect * boost);
+	if (effect != 0.f && dmg == 0) dmg = 1;
+	return dmg;
 
 }

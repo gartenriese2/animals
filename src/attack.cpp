@@ -4,6 +4,7 @@ const std::map<std::string, Attack> & Attack::getAttacks() {
     
     static std::map<std::string, Attack> s_attacks {
         // Fire
+        std::pair<std::string, Attack>("Fire Spark", Attack("Fire Spark", Type(BaseType::Fire), 25)),
         std::pair<std::string, Attack>("Fire Blast", Attack("Fire Blast", Type(BaseType::Fire), 50)),
         // Water
         std::pair<std::string, Attack>("Water Blast", Attack("Water Blast", Type(BaseType::Water), 50)),
