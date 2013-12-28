@@ -71,7 +71,7 @@ void Fight::printAttack(const std::string & animalName, const std::string & atkN
 const int Fight::calculateDamageAgainst(const Animal & a1, const std::shared_ptr<Attack> atk, const Animal & a2) const {
 
 	float factor = static_cast<float>(a1.getMaxAttack()) / static_cast<float>(a2.getMaxDefense());
-	factor *= static_cast<float>(a1.getMaxAttack()) / 100.f;
+	factor *= static_cast<float>(a1.getLevel()) / 100.f;
 	float effect = atk->getType().getEffectValueAgainst(a2.getType());
 	float boost = a1.getType().isPartOf(atk->getType()) ? 1.5f : 1.f;
 	int dmg = round(static_cast<float>(atk->getDamage()) * factor * effect * boost);

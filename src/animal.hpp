@@ -8,7 +8,7 @@ class Animal {
 	
 	public:
 		
-		Animal(const std::string &, const Type &, const Stats &, const AttackSet &);
+		Animal(const std::string &, const Type &, const Stats &, const AttackSet &, const unsigned int);
 		Animal(const Animal &);
 		~Animal();
 

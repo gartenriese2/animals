@@ -8,7 +8,7 @@ int main () {
 	srand(time(NULL));
 	
 	Tournament t;
-	t.startWithFirestarter();
+	t.startRandomBattles();
 	
 	return 0;
 

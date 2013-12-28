@@ -52,6 +52,24 @@ void Tournament::startKOBattles() {
 
 }
 
+void Tournament::startRandomBattles() {
+
+	while(1) {
+
+		std::cout << "-------------" << std::endl;
+		std::cout << "NEXT BATTLE!" << std::endl;
+		std::cout << "-------------" << std::endl;
+		Animal own(Animal::getRandomAnimal());
+		own.setLevel(rand() % 6 + 3);
+		Animal foe(Animal::getRandomAnimal());
+		foe.setLevel(rand() % 5 + 2);
+		Battle b(own, foe);
+		b.startUservsAIRandom();
+
+	}
+
+}
+
 void Tournament::startWithFirestarter() {
 
 	Animal own(Animal::getAnimal("Firestarter"));
