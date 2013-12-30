@@ -94,7 +94,7 @@ const bool Type::isPartOf(const Type & other) const {
 
 std::ostream & operator<<(std::ostream & os, Type type) {
   
-  os << type.getString();
-  return os;
+	os << type.getString();
+	return os;
 
 }

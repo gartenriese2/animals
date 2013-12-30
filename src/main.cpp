@@ -8,7 +8,7 @@ int main () {
 	srand(time(NULL));
 	
 	Tournament t;
-	t.startRandomBattles();
+	t.startRandomBattles(12,18);
 	
 	return 0;
 

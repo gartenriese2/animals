@@ -19,8 +19,7 @@ class Fight {
 
 	private:
 
-		const int calculateDamageAgainst(const Animal &, const std::shared_ptr<Attack>, const Animal &) const;
-		void printAttack(const std::string &, const std::string &, const int, const EffectiveType &) const;
+		void printAttack(const std::string &, const std::string &, const EffectiveType &) const;
 
 		Animal & m_animal1;
 		Animal & m_animal2;

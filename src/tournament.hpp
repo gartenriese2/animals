@@ -15,7 +15,7 @@ class Tournament {
 		void startSingleRandomBattle();
 
 		void startKOBattles();
-		void startRandomBattles();
+		void startRandomBattles(unsigned int, unsigned int);
 
         void startWithFirestarter();
         //void startWithWaterstarter();

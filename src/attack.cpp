@@ -4,25 +4,62 @@ const std::map<std::string, Attack> & Attack::getAttacks() {
     
     static std::map<std::string, Attack> s_attacks {
         // Fire
-        std::pair<std::string, Attack>("Fire Spark", Attack("Fire Spark", Type(BaseType::Fire), 25)),
-        std::pair<std::string, Attack>("Fire Blast", Attack("Fire Blast", Type(BaseType::Fire), 50)),
+        {"Fire Spark", Attack("Fire Spark", AttackStats(Type(BaseType::Fire), 25))},
+        {"Fire Blast", Attack("Fire Blast", AttackStats(Type(BaseType::Fire), 50))},
+        {"Flamethrower", Attack("Flamethrower", AttackStats(Type(BaseType::Fire), 100))},
+        {"Fire Ball", Attack("Fire Ball", AttackStats(Type(BaseType::Fire), 40))},
+        {"Hellfire", Attack("Hellfire", AttackStats(Type(BaseType::Fire), 120))},
+        {"Flamebullet", Attack("Flamebullet", AttackStats(Type(BaseType::Fire), 75))},
         // Water
-        std::pair<std::string, Attack>("Water Splash", Attack("Water Splash", Type(BaseType::Water), 25)),
-        std::pair<std::string, Attack>("Water Blast", Attack("Water Blast", Type(BaseType::Water), 50)),
-        std::pair<std::string, Attack>("Water Wave", Attack("Water Wave", Type(BaseType::Water), 70)),
-        std::pair<std::string, Attack>("Rainstorm", Attack("Rainstorm", Type(BaseType::Water), 80)),
-        std::pair<std::string, Attack>("Tsunami", Attack("Tsunami", Type(BaseType::Water), 100)),
-        std::pair<std::string, Attack>("Fin Attack", Attack("Fin Attack", Type(BaseType::Water), 30)),
+        {"Water Splash", Attack("Water Splash", AttackStats(Type(BaseType::Water), 25))},
+        {"Water Blast", Attack("Water Blast", AttackStats(Type(BaseType::Water), 50))},
+        {"Water Wave", Attack("Water Wave", AttackStats(Type(BaseType::Water), 70))},
+        {"Rainstorm", Attack("Rainstorm", AttackStats(Type(BaseType::Water), 80))},
+        {"Tsunami", Attack("Tsunami", AttackStats(Type(BaseType::Water), 100))},
+        {"Fin Attack", Attack("Fin Attack", AttackStats(Type(BaseType::Water), 30))},
+        // Ice
+        {"Ice Blow", Attack("Ice Blow", AttackStats(Type(BaseType::Ice), 35))},
+        {"Icerain", Attack("Icerain", AttackStats(Type(BaseType::Ice), 50))},
+        // Snow
+        {"Snowball", Attack("Snowball", AttackStats(Type(BaseType::Snow), 30))},
+        {"Snowstorm", Attack("Snowstorm", AttackStats(Type(BaseType::Snow), 85))},
+        {"Avalanche", Attack("Avalanche", AttackStats(Type(BaseType::Snow), 120))},
+        // Electro
+        // Stone
+        // Earth
+        // Air
+        {"Claw", Attack("Claw", AttackStats(Type(BaseType::Air), 35))},
         // Plant
-        std::pair<std::string, Attack>("Twine", Attack("Twine", Type(BaseType::Plant), 40)),
+        {"Twine", Attack("Twine", AttackStats(Type(BaseType::Plant), 40))},
+        {"Leaf Wrap", Attack("Leaf Wrap", AttackStats(Type(BaseType::Plant), 30))},
         // Normal
-        std::pair<std::string, Attack>("Tackle", Attack("Tackle", Type(BaseType::Normal), 30)),
-        std::pair<std::string, Attack>("Shove", Attack("Shove", Type(BaseType::Normal), 20)),
-        std::pair<std::string, Attack>("Nudge", Attack("Nudge", Type(BaseType::Normal), 10)),
+        {"Tackle", Attack("Tackle", AttackStats(Type(BaseType::Normal), 30))},
+        {"Shove", Attack("Shove", AttackStats(Type(BaseType::Normal), 20))},
+        {"Nudge", Attack("Nudge", AttackStats(Type(BaseType::Normal), 10))},
+        {"Stomp", Attack("Stomp", AttackStats(Type(BaseType::Normal), 50))},
+        // Ghost
+        {"Spook", Attack("Spook", AttackStats(Type(BaseType::Ghost), 25))},
+        {"Haunt", Attack("Haunt", AttackStats(Type(BaseType::Ghost), 45))},
+        {"Nightmare", Attack("Nightmare", AttackStats(Type(BaseType::Ghost), 65))},
+        // Psycho
+        // Steel
+        {"Steel Blow", Attack("Steel Blow", AttackStats(Type(BaseType::Steel), 35))},
+        // Fighting
         // Dark
-        std::pair<std::string, Attack>("Dark Shadow", Attack("Dark Shadow", Type(BaseType::Dark), 60)),
+        {"Dark Shadow", Attack("Dark Shadow", AttackStats(Type(BaseType::Dark), 60))},
+        // Light
+        // Magma
+        // Magnet
+        // Underground
+        {"Sonar", Attack("Sonar", AttackStats(Type(BaseType::Underground), 20))},
+        {"Subduct", Attack("Subduct", AttackStats(Type(BaseType::Underground), 60))},
+        {"Earthquake", Attack("Earthquake", AttackStats(Type(BaseType::Underground), 120))},
+        // Poison
+        // Radiation
+        // Antic
+        // Technology
         // Magic
-        std::pair<std::string, Attack>("Hex", Attack("Hex", Type(BaseType::Magic), 25))
+        {"Hex", Attack("Hex", AttackStats(Type(BaseType::Magic), 25))},
         
         
     };
@@ -30,8 +67,8 @@ const std::map<std::string, Attack> & Attack::getAttacks() {
 
 }
 
-Attack::Attack(const std::string & name, const Type & type, const unsigned int damage)
-  : m_name(name), m_type(type), m_damage(damage)
+Attack::Attack(const std::string & name, const AttackStats & stats)
+  : m_name(name), m_stats(stats)
 {
 }
 

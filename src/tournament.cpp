@@ -52,7 +52,12 @@ void Tournament::startKOBattles() {
 
 }
 
-void Tournament::startRandomBattles() {
+void Tournament::startRandomBattles(unsigned int a, unsigned int b) {
+
+	if (a == 0) a = 1;
+	if (b == 0) b = 1;
+	if (a > b) std::swap(a, b);
+	unsigned int var = b - a;
 
 	while(1) {
 
@@ -60,9 +65,9 @@ void Tournament::startRandomBattles() {
 		std::cout << "NEXT BATTLE!" << std::endl;
 		std::cout << "-------------" << std::endl;
 		Animal own(Animal::getRandomAnimal());
-		own.setLevel(rand() % 6 + 3);
+		own.raiseLevels(rand() % var + a + 1);
 		Animal foe(Animal::getRandomAnimal());
-		foe.setLevel(rand() % 5 + 2);
+		foe.raiseLevels(rand() % var + a);
 		Battle b(own, foe);
 		b.startUservsAIRandom();
 
@@ -73,7 +78,7 @@ void Tournament::startRandomBattles() {
 void Tournament::startWithFirestarter() {
 
 	Animal own(Animal::getAnimal("Firestarter"));
-	own.setLevel(5);
+	own.raiseLevels(4);
 
 	while (true) {
 		std::cout << "-------------" << std::endl;
