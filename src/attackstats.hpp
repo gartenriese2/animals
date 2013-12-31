@@ -27,6 +27,7 @@ class AttackStats {
 			float oam = 1.f, float odm = 1.f, float osm = 1.f,
 			float ohm = 0.f);
 		AttackStats(const std::unordered_map<std::string, Data> &);
+		AttackStats(const Type &, int, float);
 		~AttackStats();
 
 		const Type & getType() const { return m_type; }

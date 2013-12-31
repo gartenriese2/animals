@@ -27,7 +27,7 @@ AttackStats::AttackStats(const Type & type, int fdmg, int odmg,
 	m_ownAttackModifier(oam),
 	m_ownDefenseModifier(odm),
 	m_ownSpeedModifier(osm),
-	m_ownHealthModifier(ohm)  	
+	m_ownHealthModifier(ohm)
 {
 }
 
@@ -43,6 +43,21 @@ AttackStats::AttackStats(const std::unordered_map<std::string, Data> & map) {
 	m_ownDefenseModifier = (map.count("OwnDefMod") == 1) ? map.at("OwnDefMod").getFloat() : k_defaultOwnDefenseModifier;
 	m_ownSpeedModifier = (map.count("OwnSpdMod") == 1) ? map.at("OwnSpdMod").getFloat() : k_defaultOwnSpeedModifier;
 	m_ownHealthModifier = (map.count("OwnHPMod") == 1) ? map.at("OwnHPMod").getFloat() : k_defaultOwnHealthModifier;
+}
+
+AttackStats::AttackStats(const Type & type, int dmg, float prob)
+  : m_type(type),
+  	m_foeDamage(dmg),
+  	m_ownDamage(k_defaultOwnDmg),
+  	m_probability(prob),
+  	m_foeAttackModifier(k_defaultFoeAttackModifier),
+	m_foeDefenseModifier(k_defaultFoeDefenseModifier),
+	m_foeSpeedModifier(k_defaultFoeSpeedModifier),
+	m_ownAttackModifier(k_defaultOwnAttackModifier),
+	m_ownDefenseModifier(k_defaultOwnDefenseModifier),
+	m_ownSpeedModifier(k_defaultOwnSpeedModifier),
+	m_ownHealthModifier(k_defaultOwnHealthModifier)
+{
 }
 
 AttackStats::~AttackStats() {

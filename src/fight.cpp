@@ -23,8 +23,12 @@ void Fight::printStatus() const {
 
 void Fight::oneAttacks(const std::shared_ptr<Attack> atk) {
 
-	const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal2.getType());
-	if (m_logging) printAttack(m_animal1.getName(), atk->getName(), eff);
+	std::cout << m_animal1.getName() << " uses " << atk->getName() << "!" << std::endl;
+
+	if (atk->getType().getBaseTypes().at(0) != BaseType::None) {
+		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal2.getType());
+		if (m_logging) printAttack(m_animal1.getName(), atk->getName(), eff);
+	}
 
 	m_animal1.useAttack(atk, m_animal2);
 
@@ -33,9 +37,13 @@ void Fight::oneAttacks(const std::shared_ptr<Attack> atk) {
 void Fight::oneAttacksRandom() {
 
 	const std::shared_ptr<Attack> atk = m_animal1.getRandomAttack();
+
+	std::cout << m_animal1.getName() << " uses " << atk->getName() << "!" << std::endl;
 	
-	const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal2.getType());
-	if (m_logging) printAttack(m_animal1.getName(), atk->getName(), eff);
+	if (atk->getType().getBaseTypes().at(0) != BaseType::None) {
+		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal2.getType());
+		if (m_logging) printAttack(m_animal1.getName(), atk->getName(), eff);
+	}
 
 	m_animal1.useAttack(atk, m_animal2);
 
@@ -43,8 +51,12 @@ void Fight::oneAttacksRandom() {
 
 void Fight::twoAttacks(const std::shared_ptr<Attack> atk) {
 
-	const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal1.getType());
-	if (m_logging) printAttack(m_animal2.getName(), atk->getName(), eff);
+	std::cout << m_animal2.getName() << " uses " << atk->getName() << "!" << std::endl;
+
+	if (atk->getType().getBaseTypes().at(0) != BaseType::None) {
+		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal1.getType());
+		if (m_logging) printAttack(m_animal2.getName(), atk->getName(), eff);
+	}
 
 	m_animal2.useAttack(atk, m_animal1);
 
@@ -54,8 +66,12 @@ void Fight::twoAttacksRandom() {
 
 	const std::shared_ptr<Attack> atk = m_animal2.getRandomAttack();
 	
-	const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal1.getType());
-	if (m_logging) printAttack(m_animal2.getName(), atk->getName(), eff);
+	std::cout << m_animal2.getName() << " uses " << atk->getName() << "!" << std::endl;
+
+	if (atk->getType().getBaseTypes().at(0) != BaseType::None) {
+		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal1.getType());
+		if (m_logging) printAttack(m_animal2.getName(), atk->getName(), eff);
+	}
 
 	m_animal2.useAttack(atk, m_animal1);
 
@@ -63,7 +79,6 @@ void Fight::twoAttacksRandom() {
 
 void Fight::printAttack(const std::string & animalName, const std::string & atkName, const EffectiveType & eff) const {
 
-	std::cout << animalName << " uses " << atkName << "!" << std::endl;
 	if (eff != EffectiveType::Neutral && eff != EffectiveType::Zero) {
 		std::cout << "It is " << Database::getStringFromEffectivenessType(eff) << "!" << std::endl;
 	} else if (eff == EffectiveType::Zero) {

@@ -36,7 +36,7 @@ const float Type::getEffectValueAgainst(const Type & against) const {
 			f *= Database::getEffectivenessValue(Database::getEffectiveness(i, j));
 		}
 	}
-
+	
 	return f;
 
 }
