@@ -1,11 +1,13 @@
 #include "tournament.hpp"
 
-Tournament::Tournament() {
+#include <random>
 
+extern std::mt19937 generator;
+
+Tournament::Tournament() {
 }
 
 Tournament::~Tournament() {
-
 }
 
 void Tournament::startSingleBattle(Animal & a1, Animal & a2) {
@@ -57,7 +59,7 @@ void Tournament::startRandomBattles(unsigned int a, unsigned int b) {
 	if (a == 0) a = 1;
 	if (b == 0) b = 1;
 	if (a > b) std::swap(a, b);
-	unsigned int var = b - a;
+	std::uniform_int_distribution<int> dist(a, b);
 
 	while(1) {
 
@@ -65,9 +67,10 @@ void Tournament::startRandomBattles(unsigned int a, unsigned int b) {
 		std::cout << "NEXT BATTLE!" << std::endl;
 		std::cout << "-------------" << std::endl;
 		Animal own(Animal::getRandomAnimal());
-		own.raiseLevels(rand() % var + a + 1);
+
+		own.raiseLevels(dist(generator) + 1);
 		Animal foe(Animal::getRandomAnimal());
-		foe.raiseLevels(rand() % var + a);
+		foe.raiseLevels(dist(generator));
 		Battle b(own, foe);
 		b.startUservsAIRandom();
 
@@ -79,15 +82,50 @@ void Tournament::startWithFirestarter() {
 
 	Animal own(Animal::getAnimal("Firestarter"));
 	own.raiseLevels(4);
+	unsigned int victories = 0;
 
-	while (true) {
+	std::uniform_int_distribution<int> dist(2, 4);
+
+	while (own.getActualHealth() > 0) {
 		std::cout << "-------------" << std::endl;
 		std::cout << "NEXT BATTLE!" << std::endl;
 		std::cout << "-------------" << std::endl;
+		own.resetBattleStats();
 		Animal foe(Animal::getRandomAnimal());
+		foe.raiseLevels(own.getLevel() - dist(generator));
 		Battle b(own, foe);
 		b.startUservsAIRandom();
-		own.heal();
+		if (own.getActualHealth() > 0) {
+			++victories;
+		}
 	}
+
+	std::cout << "You won " << victories << " times!" << std::endl;
+
+}
+
+void Tournament::startWithWaterstarter() {
+
+	Animal own(Animal::getAnimal("Waterstarter")); 
+	own.raiseLevels(4);
+	unsigned int victories = 0;
+
+	std::uniform_int_distribution<int> dist(2, 4);
+
+	while (own.getActualHealth() > 0) {
+		std::cout << "-------------" << std::endl;
+		std::cout << "NEXT BATTLE!" << std::endl;
+		std::cout << "-------------" << std::endl;
+		own.resetBattleStats();
+		Animal foe(Animal::getRandomAnimal());
+		foe.raiseLevels(own.getLevel() - dist(generator));
+		Battle b(own, foe);
+		b.startUservsAIRandom();
+		if (own.getActualHealth() > 0) {
+			++victories;
+		}
+	}
+
+	std::cout << "You won " << victories << " times!" << std::endl;
 
 }

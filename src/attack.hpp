@@ -21,6 +21,8 @@ class Attack {
 		const float getOwnAttackModifier() const { return m_stats.getOwnAttackModifier(); }
 		const float getOwnDefenseModifier() const { return m_stats.getOwnDefenseModifier(); }
 		const float getOwnSpeedModifier() const { return m_stats.getOwnSpeedModifier(); }
+		const float getOwnHealthModifier() const { return m_stats.getOwnHealthModifier(); }
+		const float getProbability() const { return m_stats.getProbability(); }
 
 		static const std::map<std::string, Attack> & getAttacks();
 		static const std::map<std::string, Attack> getAttacks(const Type &);

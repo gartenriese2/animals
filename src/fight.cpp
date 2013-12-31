@@ -23,35 +23,41 @@ void Fight::printStatus() const {
 
 void Fight::oneAttacks(const std::shared_ptr<Attack> atk) {
 
-	m_animal1.useAttack(atk, m_animal2);
 	const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal2.getType());
 	if (m_logging) printAttack(m_animal1.getName(), atk->getName(), eff);
+
+	m_animal1.useAttack(atk, m_animal2);
 
 }
 
 void Fight::oneAttacksRandom() {
 
 	const std::shared_ptr<Attack> atk = m_animal1.getRandomAttack();
-	m_animal1.useAttack(atk, m_animal2);
+	
 	const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal2.getType());
 	if (m_logging) printAttack(m_animal1.getName(), atk->getName(), eff);
+
+	m_animal1.useAttack(atk, m_animal2);
 
 }
 
 void Fight::twoAttacks(const std::shared_ptr<Attack> atk) {
 
-	m_animal2.useAttack(atk, m_animal1);
 	const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal1.getType());
 	if (m_logging) printAttack(m_animal2.getName(), atk->getName(), eff);
+
+	m_animal2.useAttack(atk, m_animal1);
 
 }
 
 void Fight::twoAttacksRandom() {
 
 	const std::shared_ptr<Attack> atk = m_animal2.getRandomAttack();
-	m_animal2.useAttack(atk, m_animal1);
+	
 	const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal1.getType());
 	if (m_logging) printAttack(m_animal2.getName(), atk->getName(), eff);
+
+	m_animal2.useAttack(atk, m_animal1);
 
 }
 

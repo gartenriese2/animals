@@ -8,9 +8,12 @@ class Animal {
 	
 	public:
 		
-		Animal(const std::string &, const Type &, const AnimalStats &, AttackSet, const unsigned int);
+		Animal(const std::string &, const Type &, const AnimalStats &, AttackSet,
+			const unsigned int, const std::pair<unsigned int,std::string>);
 		Animal(const Animal &);
 		~Animal();
+
+		void setLog(bool b) { m_log = b; }
 
 		void printHealth() const;
 		void printInfo() const;
@@ -33,8 +36,11 @@ class Animal {
 		const unsigned int getActualSpeed() const { return m_stats.getActualSpeed(); }
 		const unsigned int getMaxSpeed() const { return m_stats.getSpeed(); }
 		const unsigned int getLevel() const { return m_level; }
+		const std::pair<unsigned int, std::string> & getEvolve() const { return m_evolve; }
+		const std::pair<unsigned int, std::string> getEvolveCopy() const { return m_evolve; }
+
 		void raiseLevels(const unsigned int);
-		void levelUp();
+		
 		const unsigned int getExp() const { return m_exp; }
 		const unsigned int getNeededExp() const;
 		void gainExp(unsigned int);
@@ -46,12 +52,27 @@ class Animal {
 		void modifyAttack(float);
 		void modifyDefense(float);
 		void modifySpeed(float);
+		void modifyHealth(float);
+		void resetBattleStats();
 
 		static const std::map<std::string, Animal> & getAnimals();
 		static const Animal & getAnimal(const std::string);
 		static const Animal & getRandomAnimal();
+		static std::vector<Animal> getAnimalVector();
+		static void printAnimalsSortByAllStats(unsigned int);
+		static bool allStatsSort(Animal, Animal);
+		static void printAnimalsSortByHealth(unsigned int);
+		static bool healthSort(Animal, Animal);
+		static void printAnimalsSortByAttack(unsigned int);
+		static bool attackSort(Animal, Animal);
+		static void printAnimalsSortByDefense(unsigned int);
+		static bool defenseSort(Animal, Animal);
+		static void printAnimalsSortBySpeed(unsigned int);
+		static bool speedSort(Animal, Animal);
 
 	private:
+
+		bool m_log;
 
 		std::string m_name;
 		Type m_type;
@@ -62,9 +83,12 @@ class Animal {
 		unsigned int m_exp;
 		std::vector<std::shared_ptr<Attack>> m_moves;
 
+		std::pair<unsigned int, std::string> m_evolve;
+
 		void fillActualAttacks();
 		bool checkForNewMoves();
-		void reset();
+		void levelUp();
+		void evolveInto(const Animal &);
 	
 };
 
