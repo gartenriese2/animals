@@ -11,6 +11,7 @@ class Type {
 	public:
 		
 		Type(const BaseType, const BaseType = BaseType::None);
+		Type() { m_types.emplace_back(BaseType::None); }
 		~Type();
 
 		const std::vector<BaseType> & getBaseTypes() const;

@@ -2,6 +2,21 @@
 #define _ATTACKSTATS_HPP
 
 #include "type.hpp"
+#include <unordered_map>
+
+class Data {
+public:
+	Data(const Type & t) { m_type = t; }
+	Data(int i) { m_int = i; }
+	Data(float f) { m_float = f; }
+	Type getType() const { return m_type; }
+	int getInt() const { return m_int; }
+	float getFloat() const { return m_float; }
+private:
+	Type m_type;
+	int m_int;
+	float m_float;
+};
 
 class AttackStats {
 
@@ -11,6 +26,7 @@ class AttackStats {
 			float fam = 1.f, float fdm = 1.f, float fsm = 1.f,
 			float oam = 1.f, float odm = 1.f, float osm = 1.f,
 			float ohm = 0.f);
+		AttackStats(const std::unordered_map<std::string, Data> &);
 		~AttackStats();
 
 		const Type & getType() const { return m_type; }
@@ -45,6 +61,10 @@ class AttackStats {
 		float m_ownSpeedModifier;
 		float m_ownHealthModifier;
 
+		
+
 };
+
+
 
 #endif // _ATTACKSTATS_HPP

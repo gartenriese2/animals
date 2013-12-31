@@ -39,6 +39,9 @@ void Tournament::startKOBattles() {
 	Animal own(Animal::getRandomAnimal());
 	unsigned int victories = 0;
 	while (own.getActualHealth() > 0) {
+		std::cout << "Next Battle? (y)" << std::endl;
+		std::string tmp;
+		std::cin >> tmp;
 		std::cout << "-------------" << std::endl;
 		std::cout << "NEXT BATTLE!" << std::endl;
 		std::cout << "-------------" << std::endl;
@@ -63,6 +66,9 @@ void Tournament::startRandomBattles(unsigned int a, unsigned int b) {
 
 	while(1) {
 
+		std::cout << "Next Battle? (y)" << std::endl;
+		std::string tmp;
+		std::cin >> tmp;
 		std::cout << "-------------" << std::endl;
 		std::cout << "NEXT BATTLE!" << std::endl;
 		std::cout << "-------------" << std::endl;
@@ -87,6 +93,9 @@ void Tournament::startWithFirestarter() {
 	std::uniform_int_distribution<int> dist(2, 4);
 
 	while (own.getActualHealth() > 0) {
+		std::cout << "Next Battle? (y)" << std::endl;
+		std::string tmp;
+		std::cin >> tmp;
 		std::cout << "-------------" << std::endl;
 		std::cout << "NEXT BATTLE!" << std::endl;
 		std::cout << "-------------" << std::endl;
@@ -113,6 +122,9 @@ void Tournament::startWithWaterstarter() {
 	std::uniform_int_distribution<int> dist(2, 4);
 
 	while (own.getActualHealth() > 0) {
+		std::cout << "Next Battle? (y)" << std::endl;
+		std::string tmp;
+		std::cin >> tmp;
 		std::cout << "-------------" << std::endl;
 		std::cout << "NEXT BATTLE!" << std::endl;
 		std::cout << "-------------" << std::endl;

@@ -35,7 +35,10 @@ const std::map<std::string, Attack> & Attack::getAttacks() {
         {"Twine", Attack("Twine", AttackStats(Type(BaseType::Plant), 40, 0, 0.95f))},
         {"Leaf Wrap", Attack("Leaf Wrap", AttackStats(Type(BaseType::Plant), 30, 0, 0.95f))},
         // Normal
-        {"Tackle", Attack("Tackle", AttackStats(Type(BaseType::Normal), 30, 0, 0.95f))},
+        // {"Tackle", Attack("Tackle", AttackStats(Type(BaseType::Normal), 30, 0, 0.95f))},
+        {"Tackle", Attack("Tackle", AttackStats({{"Type",Data(Type(BaseType::Normal))},
+                                                {"Dmg",Data(30)},
+                                                {"Prob",Data(0.95f)}}))},
         {"Shove", Attack("Shove", AttackStats(Type(BaseType::Normal), 20, 0, 0.95f))},
         {"Nudge", Attack("Nudge", AttackStats(Type(BaseType::Normal), 10, 0, 0.95f))},
         {"Stomp", Attack("Stomp", AttackStats(Type(BaseType::Normal), 50, 0, 0.95))},
