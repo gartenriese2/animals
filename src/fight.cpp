@@ -3,7 +3,7 @@
 #include <iostream>
 #include <math.h>
 
-Fight::Fight(Animal & animal1, Animal & animal2, const bool logging)
+Fight::Fight(Animal & animal1, Animal & animal2, bool logging)
   : m_animal1(animal1), m_animal2(animal2), m_logging(logging)
 {
 	std::cout << std::endl << "Fight begins!" << std::endl << std::endl;

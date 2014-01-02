@@ -41,7 +41,7 @@ void Tournament::startKOBattles() {
 	while (own.getActualHealth() > 0) {
 		std::cout << "Next Battle? (y)" << std::endl;
 		std::string tmp;
-		std::cin >> tmp;
+		std::getline(std::cin, tmp);
 		std::cout << "-------------" << std::endl;
 		std::cout << "NEXT BATTLE!" << std::endl;
 		std::cout << "-------------" << std::endl;
@@ -68,7 +68,7 @@ void Tournament::startRandomBattles(unsigned int a, unsigned int b) {
 
 		std::cout << "Next Battle? (y)" << std::endl;
 		std::string tmp;
-		std::cin >> tmp;
+		std::getline(std::cin, tmp);
 		std::cout << "-------------" << std::endl;
 		std::cout << "NEXT BATTLE!" << std::endl;
 		std::cout << "-------------" << std::endl;
@@ -95,7 +95,7 @@ void Tournament::startWithFirestarter() {
 	while (own.getActualHealth() > 0) {
 		std::cout << "Next Battle? (y)" << std::endl;
 		std::string tmp;
-		std::cin >> tmp;
+		std::getline(std::cin, tmp);
 		std::cout << "-------------" << std::endl;
 		std::cout << "NEXT BATTLE!" << std::endl;
 		std::cout << "-------------" << std::endl;
@@ -124,7 +124,7 @@ void Tournament::startWithWaterstarter() {
 	while (own.getActualHealth() > 0) {
 		std::cout << "Next Battle? (y)" << std::endl;
 		std::string tmp;
-		std::cin >> tmp;
+		std::getline(std::cin, tmp);
 		std::cout << "-------------" << std::endl;
 		std::cout << "NEXT BATTLE!" << std::endl;
 		std::cout << "-------------" << std::endl;

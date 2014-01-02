@@ -7,7 +7,7 @@ class Fight {
 	
 	public:
 		
-		Fight(Animal &, Animal &, const bool);
+		Fight(Animal &, Animal &, bool);
 		~Fight();
 
 		void printStatus() const;

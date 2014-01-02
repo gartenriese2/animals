@@ -104,7 +104,9 @@ void Battle::startUservsAIRandom() {
 		std::cout << std::endl;
 
 		std::shared_ptr<Attack> atk;
-		while (!(atk = s_io.chooseAttack(m_animal1.getAttacks())));
+		// while (!(atk = s_io.chooseAttack(m_animal1.getAttacks())));
+		atk = s_io.chooseAttackWithArrowKeys(m_animal1.getAttacks());
+		
 		if (m_animal1.getActualSpeed() >= m_animal2.getActualSpeed()) {
 			f.oneAttacks(atk);
 			if (m_animal2.getActualHealth() == 0) {

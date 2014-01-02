@@ -136,7 +136,7 @@ void Animal::modifyAttack(float f) {
 	if (n == 0) n = 1;
 	if (n != getActualAttack()) std::cout << "DEBUG: Atk modified! " << getActualAttack() << "->" << n << std::endl;
 	m_stats.setActualAttack(n);
-
+std::cout << "modify atk" << f << std::endl;
 }
 
 void Animal::modifyDefense(float f) {
@@ -273,7 +273,7 @@ void Animal::useAttack(std::shared_ptr<Attack> atk, Animal & foe) {
 		if (m_log && foeDmg != 0) std::cout << "DEBUG: " << foeDmg << "dmg" << std::endl;
 
 		foe.changeHealth(-foeDmg);
-		if (effValue != 0.f) {
+		if (effValue != 0.f || atk->getType().getBaseTypes()[0] == BaseType::None) {
 			foe.modifyAttack(atk->getFoeAttackModifier());
 			foe.modifyDefense(atk->getFoeDefenseModifier());
 			foe.modifySpeed(atk->getFoeSpeedModifier());
@@ -430,7 +430,7 @@ bool Animal::speedSort(Animal a1, Animal a2) {
 using AnimalEntry = std::pair<std::string, Animal>;
 using AttackSetEntry = std::pair<unsigned int, std::shared_ptr<Attack>>;
 
-const std::map<std::string, Animal> & Animal::getAnimals() {	
+const std::map<std::string, Animal> & Animal::getAnimals() {
 	
 	static std::map<std::string, Animal> s_animals {
 		// Fire
