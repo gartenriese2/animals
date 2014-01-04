@@ -55,6 +55,22 @@ void Area::setPlayerPos(unsigned int x, unsigned int y) {
 
 	if (x < m_base[0].size() && y < m_base.size() && m_base[y][x] != AreaType::BORDER) {
 		m_playerPos = std::make_tuple(x, y);
+		switch (m_base[y][x]) {
+			case AreaType::GRASS:
+				std::cout << "you walk in grass" << std::endl;
+				break;
+			case AreaType::PORTAL:
+				std::cout << "this is a portal to another area!" << std::endl;
+				break;
+			default:
+				break;
+		}
 	}
+
+}
+
+void Area::addPortal(const std::tuple<unsigned int, unsigned int> coord, std::shared_ptr<Area> area) {
+
+	m_portals.emplace(std::make_pair(coord,area));
 
 }
