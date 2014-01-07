@@ -17,7 +17,7 @@ class Player {
 
 	private:
 
-		Area & m_area;
+		Area m_area;
 		Position m_position;
 
 		void setPosition(unsigned int x, unsigned int y);

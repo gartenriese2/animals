@@ -2,7 +2,7 @@
 
 Player::Player(Area & area)
   : m_area(area),
-  	m_position(0,0)
+  	m_position(1,1)
 {
 }
 
@@ -65,7 +65,7 @@ void Player::setPosition(unsigned int x, unsigned int y) {
 				break;
 			case AreaType::PORTAL:
 				std::cout << "this is a portal to another area!" << std::endl;
-				m_area.getAreaFromPortalPos(m_position);
+				enterArea(m_area.getAreaFromPortalPos(m_position).getName());
 				break;
 			default:
 				break;
@@ -74,8 +74,10 @@ void Player::setPosition(unsigned int x, unsigned int y) {
 
 }
 
-void Player::enterArea(const std::string & area) {
+void Player::enterArea(const std::string & name) {
 
-
+	std::string oldName = m_area.getName();
+	m_area = Area::getArea(name);
+	m_position = m_area.getPortalPos(oldName);
 
 }

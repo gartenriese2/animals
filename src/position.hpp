@@ -19,8 +19,13 @@ class Position {
 			return (m_x == other.getX() && m_y == other.getY());
 		}
 
+		bool operator<(const Position & other) const {
+			return (m_x < other.getX()) || (m_x == other.getX() && m_y < other.getY());
+		}
+
 		friend std::ostream & operator<<(std::ostream & output, const Position & pos) {
-			output << "(" << pos.getX() << "|" << pos.getY() << ")";
+			std::string str = "(" + std::to_string(pos.getX()) + "|" + std::to_string(pos.getY()) + ")";
+			output << str;
 			return output;
 		}
 
