@@ -24,7 +24,8 @@ const Area & World::getArea(const std::string & s) {
 const std::map<std::string, Area> & World::getAreas() {
 	
 	static std::map<std::string, Area> s_areas {
-		{"Test",Area({{
+		{"Test",Area("Test",
+				{{
 				{"+++++++++"},
 				{"+       +"},
 				{"+       +"},

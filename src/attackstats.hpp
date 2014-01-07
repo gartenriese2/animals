@@ -28,7 +28,27 @@ class AttackStats {
 			float ohm = 0.f);
 		AttackStats(const std::unordered_map<std::string, Data> &);
 		AttackStats(const Type &, int, float);
+
+		// template<typename ... Tn>
+		// AttackStats(Tn && ... args) {
+		// 	handleTemplateArgs(args ...);
+		// }
+
+		// template<typename T>
+		// void handleTemplateArgs(T && arg1) {
+		// 	handleArg(arg1);
+		// }
+		// template<typename T1, typename ... Tn>
+		// void handleTemplateArgs(T1 && arg1, Tn && ... args) {
+		// 	handleTemplateArgs(arg1);
+		// 	handleTemplateArgs(args ...);
+		// }
+
 		~AttackStats();
+
+		void handleArg(std::pair<std::string,int> &);
+		void handleArg(std::pair<std::string,float> &);
+		void handleArg(const Type &);
 
 		const Type & getType() const { return m_type; }
 		const int getFoeDamage() const { return m_foeDamage; }

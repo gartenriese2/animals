@@ -61,5 +61,16 @@ AttackStats::AttackStats(const Type & type, int dmg, float prob)
 }
 
 AttackStats::~AttackStats() {
+}
+
+void AttackStats::handleArg(std::pair<std::string,int> &) {
+
+}
+
+void AttackStats::handleArg(std::pair<std::string,float> &) {
+
+}
+
+void AttackStats::handleArg(const Type &) {
 
 }

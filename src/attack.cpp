@@ -4,7 +4,8 @@ const std::map<std::string, Attack> & Attack::getAttacks() {
 	
 	static std::map<std::string, Attack> s_attacks {
 		// Fire
-		{"Fire Spark", Attack("Fire Spark", AttackStats(Type(BaseType::Fire), 25, 0, 0.95f))},
+		{"Fire Spark", Attack("Fire Spark", AttackStats(Type(BaseType::Fire), 25, 0.95f))},
+		// {"Fire Spark", Attack("Fire Spark", AttackStats(Type(BaseType::Fire),{"Dmg",25}))},
 		{"Fire Blast", Attack("Fire Blast", AttackStats(Type(BaseType::Fire), 50, 0, 0.95f))},
 		{"Flamethrower", Attack("Flamethrower", AttackStats(Type(BaseType::Fire), 100))},
 		{"Fire Ball", Attack("Fire Ball", AttackStats(Type(BaseType::Fire), 40, 0, 0.80f))},

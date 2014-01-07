@@ -3,7 +3,8 @@
 #include <iostream>
 
 Area::Area()
-  : m_playerPos(std::make_tuple(1,1))
+  : m_name("default"),
+  	m_playerPos(std::make_tuple(1,1))  	
 {
 
 	m_base = {{
@@ -21,8 +22,9 @@ Area::Area()
 
 }
 
-Area::Area(const twoDimArr<char,k_height,k_width> & base)
-  : m_base(base),
+Area::Area(const std::string & name, const twoDimArr<char,k_height,k_width> & base)
+  : m_name(name),
+  	m_base(base),
   	m_playerPos(std::make_tuple(1,1))
 {
 }
@@ -72,5 +74,20 @@ void Area::setPlayerPos(unsigned int x, unsigned int y) {
 void Area::addPortal(const std::tuple<unsigned int, unsigned int> coord, std::shared_ptr<Area> area) {
 
 	m_portals.emplace(std::make_pair(coord,area));
+
+}
+
+const std::tuple<unsigned int, unsigned int> & Area::getPortalPos(const std::string & name) const {
+
+	for (const auto & i : m_portals) {
+
+		if (name == i.second->getName()) {
+			return i.first;
+		}
+
+	}
+
+	std::cout << "no portal to area " << getName() << " from area " << name << std::endl;
+	return m_playerPos;
 
 }
