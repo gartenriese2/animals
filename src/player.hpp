@@ -8,16 +8,20 @@ class Player {
 
 	public:
 
-		Player(std::shared_ptr<Area>);
+		Player(Area &);
 		~Player();
 
-		void printArea() const { m_area->print(); }
+		void print() const;
 
 		void move(ArrowKey);
 
 	private:
 
-		std::shared_ptr<Area> m_area;
+		Area & m_area;
+		Position m_position;
+
+		void setPosition(unsigned int x, unsigned int y);
+		void enterArea(const std::string &);
 
 };
 
