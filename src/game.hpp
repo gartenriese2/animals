@@ -16,6 +16,7 @@ class Game {
 		World m_world;
 		IO m_io;
 
+		void intro();
 		void loop();
 
 };

@@ -1,5 +1,12 @@
 #include "player.hpp"
 
+#include <random>
+#include "tournament.hpp"
+
+extern std::mt19937 generator;
+
+static constexpr float k_grassEncounterProb = 0.15f;
+
 Player::Player(Area & area)
   : m_area(area),
   	m_position(1,1)
@@ -61,12 +68,13 @@ void Player::setPosition(unsigned int x, unsigned int y) {
 		m_position.set(x, y);
 		switch (base[y][x]) {
 			case AreaType::GRASS:
-				std::cout << "you walk in grass" << std::endl;
+				grassAction();
 				break;
 			case AreaType::PORTAL:
-				std::cout << "this is a portal to another area!" << std::endl;
 				enterArea(m_area.getAreaFromPortalPos(m_position).getName());
 				break;
+			case AreaType::HEALING:
+				m_party.heal();
 			default:
 				break;
 		}
@@ -79,5 +87,15 @@ void Player::enterArea(const std::string & name) {
 	std::string oldName = m_area.getName();
 	m_area = Area::getArea(name);
 	m_position = m_area.getPortalPos(oldName);
+
+}
+
+void Player::grassAction() {
+
+	std::uniform_real_distribution<float> dist(0.f, 1.f);
+	if (dist(generator) < k_grassEncounterProb) {
+		Tournament t;
+		t.startSingleRandomBattle(m_party.getFrontAnimal());
+	}
 
 }

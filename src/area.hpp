@@ -14,7 +14,7 @@ static constexpr unsigned int k_width = 20;
 using portalMap = std::map<Position, std::string>;
 using twoDimArr = std::array<std::array<char, k_width>, k_height>;
 
-enum AreaType : char { BORDER = '+', GRASS = '#', PORTAL = 'o' };
+enum AreaType : char { BORDER = '+', GRASS = '#', PORTAL = 'o', HEALING = 'H' };
 
 class Area {
 	

@@ -440,7 +440,6 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 											0.9f, 0.72f, 0.7f, 0.7f, 1.0f),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Tackle")),
-											AttackSetEntry(1, Attack::getAttack("Heal")),
 											AttackSetEntry(5, Attack::getAttack("Glow")),
 											AttackSetEntry(7, Attack::getAttack("Fire Spark"))
 										}),
@@ -453,7 +452,6 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 											0.93f, 0.76f, 0.72f, 0.73f, 1.0f),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Tackle")),
-											AttackSetEntry(1, Attack::getAttack("Heal")),
 											AttackSetEntry(5, Attack::getAttack("Glow")),
 											AttackSetEntry(7, Attack::getAttack("Fire Spark")),
 											AttackSetEntry(16, Attack::getAttack("Fire Blast"))
@@ -467,7 +465,6 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 											0.96f, 0.8f, 0.74f, 0.76f, 1.0f),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Tackle")),
-											AttackSetEntry(1, Attack::getAttack("Heal")),
 											AttackSetEntry(5, Attack::getAttack("Glow")),
 											AttackSetEntry(7, Attack::getAttack("Fire Spark")),
 											AttackSetEntry(16, Attack::getAttack("Fire Blast"))
@@ -506,7 +503,6 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 											0.9f, 0.7f, 0.72f, 0.7f, 1.0f),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Tackle")),
-											AttackSetEntry(1, Attack::getAttack("Heal")),
 											AttackSetEntry(7, Attack::getAttack("Water Splash")),
 											AttackSetEntry(16, Attack::getAttack("Water Blast"))
 										})

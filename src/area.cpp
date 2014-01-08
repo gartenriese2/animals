@@ -99,10 +99,10 @@ std::map<std::string, Area> & Area::getAreas() {
 				{"+o      +"},
 				{"+       +"},
 				{"+       +"},
-				{"+       +"},
+				{"+      H+"},
 				{"+++++++++"}
 				}},
-				{{Position(0,5), "Test"}})			
+				{{Position(1,5), "Test"}})		
 		},
 	};
 

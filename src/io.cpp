@@ -58,7 +58,29 @@ const std::shared_ptr<Attack> IO::chooseAttackWithArrowKeys(const std::vector<st
 
 }
 
-ArrowKey IO::getArrowKey() {
+const std::string IO::chooseStarter() const {
+
+	std::vector<std::string> v { "Firestarter", "Waterstarter" };
+
+	int choice = 0;
+	ArrowKey k;
+	while ((k = getArrowKey()) != ArrowKey::ENTER) {
+		if (k == ArrowKey::DOWN) {
+			choice = (choice + 1 == v.size() ? 0 : choice + 1);
+		}
+		if (k == ArrowKey::UP) {
+			choice = (choice == 0 ? v.size() - 1 : choice - 1);
+		}
+		std::cout << "\r\033[K" << "I choose " << v[choice];
+	}
+
+	std::cout << std::endl;
+	return v[choice];
+
+}
+
+
+ArrowKey IO::getArrowKey() const {
 	
 	static struct termios oldt, newt;
 	tcgetattr( STDIN_FILENO, &oldt);
