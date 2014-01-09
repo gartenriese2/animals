@@ -18,6 +18,8 @@ class Game {
 
 		void intro();
 		void loop();
+		void clearScreen(unsigned int);
+		void printScreen();
 
 };
 

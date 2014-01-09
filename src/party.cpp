@@ -31,11 +31,11 @@ Animal & Party::getFrontAnimal() {
 	
 }
 
-void Party::heal(){
+const std::string Party::heal(){
 
 	for (auto & i : m_animals) {
 		i.heal();
 	}
-	std::cout << "Your animals were healed!" << std::endl;
+	return std::string("Your animals were healed!\n");
 
 }

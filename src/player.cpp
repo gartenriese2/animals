@@ -17,7 +17,7 @@ Player::~Player() {
 
 }
 
-void Player::print() const {
+void Player::printArea() const {
 
 	const twoDimArr base = m_area.getBase();
 
@@ -69,15 +69,21 @@ void Player::setPosition(unsigned int x, unsigned int y) {
 		switch (base[y][x]) {
 			case AreaType::GRASS:
 				grassAction();
+				m_output = "\n";
 				break;
 			case AreaType::PORTAL:
 				enterArea(m_area.getAreaFromPortalPos(m_position).getName());
+				m_output = "\n";
 				break;
 			case AreaType::HEALING:
-				m_party.heal();
+				m_output = m_party.heal();
+				break;
 			default:
+				m_output = "\n";
 				break;
 		}
+	} else {
+		m_output = "\n";
 	}
 
 }

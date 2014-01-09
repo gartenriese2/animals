@@ -12,7 +12,8 @@ class Player {
 		Player(Area &);
 		~Player();
 
-		void print() const;
+		void printArea() const;
+		void printOutput() const { std::cout << m_output << std::endl; }
 
 		void move(ArrowKey);
 
@@ -24,6 +25,8 @@ class Player {
 
 		Area m_area;
 		Position m_position;
+
+		std::string m_output;
 
 		void setPosition(unsigned int x, unsigned int y);
 		void enterArea(const std::string &);

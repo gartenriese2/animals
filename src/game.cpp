@@ -20,10 +20,30 @@ void Game::intro() {
 
 void Game::loop() {
 
-	m_world.getPlayer().print();
+	printScreen();
 	while(1) {
-		m_world.getPlayer().move(m_io.getArrowKey());
-		m_world.getPlayer().print();
+		ArrowKey key = m_io.getArrowKey();
+		clearScreen(Area::getHeight());
+		m_world.getPlayer().move(key);
+		printScreen();
 	}
+
+}
+
+void Game::clearScreen(unsigned int lines) {
+
+	// jump over output line
+	std::cout << "\033[1A";
+
+	for (int i = 0; i <= lines; ++i) {
+		std::cout << "\033[1A" << "\r\033[K";
+	}
+
+}
+
+void Game::printScreen() {
+
+	m_world.getPlayer().printArea();
+	m_world.getPlayer().printOutput();
 
 }
