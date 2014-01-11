@@ -134,9 +134,8 @@ void Animal::modifyAttack(float f) {
 	float f2 = f * static_cast<float>(getActualAttack());
 	int n = f < 1.f ? floor(f2) : ceil(f2);
 	if (n == 0) n = 1;
-	if (n != getActualAttack()) std::cout << "DEBUG: Atk modified! " << getActualAttack() << "->" << n << std::endl;
 	m_stats.setActualAttack(n);
-std::cout << "modify atk" << f << std::endl;
+
 }
 
 void Animal::modifyDefense(float f) {
@@ -144,7 +143,6 @@ void Animal::modifyDefense(float f) {
 	float f2 = f * static_cast<float>(getActualDefense());
 	int n = f < 1.f ? floor(f2) : ceil(f2);
 	if (n == 0) n = 1;
-	if (n != getActualDefense()) std::cout << "DEBUG: Def modified! " << getActualDefense() << "->" << n << std::endl;
 	m_stats.setActualDefense(n);
 
 }
@@ -154,7 +152,6 @@ void Animal::modifySpeed(float f) {
 	float f2 = f * static_cast<float>(getActualSpeed());
 	int n = f < 1.f ? floor(f2) : ceil(f2);
 	if (n == 0) n = 1;
-	if (n != getActualSpeed()) std::cout << "DEBUG: Spd modified! " << getActualSpeed() << "->" << n << std::endl;
 	m_stats.setActualSpeed(n);
 
 }
@@ -164,7 +161,6 @@ void Animal::modifyHealth(float f) {
 	f *= static_cast<float>(getMaxHealth());
 	int n = ceil(f);
 	n = std::min(getActualHealth() + n, getMaxHealth());
-	if (n != getActualHealth()) std::cout << "DEBUG: HP modified! " << getActualHealth() << "->" << n << std::endl;
 	m_stats.setActualHealth(n);
 
 }
@@ -270,7 +266,7 @@ void Animal::useAttack(std::shared_ptr<Attack> atk, Animal & foe) {
 			if (m_log) std::cout << "Critical Hit!" << std::endl;
 		}
 
-		if (m_log && foeDmg != 0) std::cout << "DEBUG: " << foeDmg << "dmg" << std::endl;
+		// if (m_log && foeDmg != 0) std::cout << "DEBUG: " << foeDmg << "dmg" << std::endl;
 
 		foe.changeHealth(-foeDmg);
 		if (effValue != 0.f || atk->getType().getBaseTypes()[0] == BaseType::None) {

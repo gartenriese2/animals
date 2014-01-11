@@ -19,7 +19,7 @@ Player::~Player() {
 
 void Player::printArea() const {
 
-	const twoDimArr base = m_area.getBase();
+	const twoDimArray base = m_area.getBase();
 
 	for (unsigned int i = 0; i < base.size(); ++i) {
 
@@ -62,7 +62,7 @@ void Player::move(ArrowKey key) {
 
 void Player::setPosition(unsigned int x, unsigned int y) {
 
-	const twoDimArr base = m_area.getBase();
+	const twoDimArray base = m_area.getBase();
 
 	if (x < base[0].size() && y < base.size() && base[y][x] != AreaType::BORDER) {
 		m_position.set(x, y);

@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+static AreaDatabaseReader m_reader;
+
 Area::Area()
   : m_name("default")
 {
@@ -21,7 +23,7 @@ Area::Area()
 
 }
 
-Area::Area(const std::string & name, const twoDimArr & base, const portalMap & portals)
+Area::Area(const std::string & name, const twoDimArray & base, const portalMap & portals)
   : m_name(name),
   	m_base(base),
   	m_portals(portals)
@@ -57,15 +59,29 @@ const Area & Area::getAreaFromPortalPos(const Position & pos) {
 
 }
 
+twoDimArray Area::convertStringToTwoDimArr(const std::string & str) const {
+
+	twoDimArray arr;
+	for (unsigned int i = 0; i < k_height; ++i) {
+		for (int j = 0; j < k_width && str[i * k_width + j] != '\n'; ++j) {
+			arr[i][j] = str[i * k_width + j];
+		}
+	}
+	return arr;
+
+}
+
 
 Area & Area::getArea(const std::string & s) {
 
-	if (Area::getAreas().count(s) == 0) {
-		std::cout << "no such area: " << s << std::endl;
-		abort();
-	}
+	// if (Area::getAreas().count(s) == 0) {
+	// 	std::cout << "no such area: " << s << std::endl;
+	// 	abort();
+	// }
 
-	return getAreas().at(s);
+	// return getAreas().at(s);
+
+	m_reader.getBaseFromEntry(s);
 
 }
 
@@ -86,7 +102,7 @@ std::map<std::string, Area> & Area::getAreas() {
 				{"+     ###+"},
 				{"++++++++++"}
 				}},
-				{{Position(8,5), "Test2"}})			
+				{{Position(8,5), "Test2"}})
 		},
 		{	"Test2",
 			Area("Test2",
@@ -103,7 +119,7 @@ std::map<std::string, Area> & Area::getAreas() {
 				{"+++++++++"}
 				}},
 				{{Position(1,5), "Test"},
-				 {Position(7,5), "Beach1"}})		
+				 {Position(7,5), "Beach1"}})
 		},
 		{	"Beach1",
 			Area("Beach1",
@@ -120,7 +136,7 @@ std::map<std::string, Area> & Area::getAreas() {
 				{"+++++++++++++"}
 				}},
 				{{Position(1,5), "Test2"},
-				 {Position(11,5), "Water1"}})		
+				 {Position(11,5), "Water1"}})
 		},
 		{	"Water1",
 			Area("Water1",
@@ -136,7 +152,7 @@ std::map<std::string, Area> & Area::getAreas() {
 				{"+~~~~~~~~~~~~~~~~~~~~~~~~~+"},
 				{"+++++++++++++++++++++++++++"}
 				}},
-				{{Position(1,5), "Beach1"}})		
+				{{Position(1,5), "Beach1"}})
 		},
 	};
 

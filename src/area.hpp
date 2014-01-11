@@ -7,12 +7,13 @@
 #include <string>
 
 #include "position.hpp"
+#include "areadatabasereader.hpp"
 
 static constexpr unsigned int k_height = 10;
 static constexpr unsigned int k_width = 50;
 
 using portalMap = std::map<Position, std::string>;
-using twoDimArr = std::array<std::array<char, k_width>, k_height>;
+using twoDimArray = std::array<std::array<char, k_width>, k_height>;
 
 enum AreaType : char { BORDER = '+', GRASS = '#', PORTAL = 'o', HEALING = 'H', WATER = '~' };
 
@@ -21,11 +22,11 @@ class Area {
 	public:
 
 		Area();
-		Area(const std::string &, const twoDimArr &, const portalMap &);
+		Area(const std::string &, const twoDimArray &, const portalMap &);
 		~Area();
 
 		const std::string & getName() const { return m_name; }
-		const twoDimArr & getBase() const { return m_base; }
+		const twoDimArray & getBase() const { return m_base; }
 		const Position & getPortalPos(const std::string &) const;
 		const Area & getAreaFromPortalPos(const Position &);
 
@@ -35,8 +36,10 @@ class Area {
 	private:
 
 		std::string m_name;
-		twoDimArr m_base;
+		twoDimArray m_base;
 		portalMap m_portals;
+
+		twoDimArray convertStringToTwoDimArr(const std::string &) const;
 
 		static std::map<std::string, Area> & getAreas();
 
