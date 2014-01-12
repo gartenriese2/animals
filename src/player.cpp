@@ -7,7 +7,7 @@ extern std::mt19937 generator;
 
 static constexpr float k_grassEncounterProb = 0.15f;
 
-Player::Player(Area & area)
+Player::Player(Area area)
   : m_area(area),
   	m_position(1,1)
 {
@@ -19,23 +19,7 @@ Player::~Player() {
 
 void Player::printArea() const {
 
-	const twoDimArray base = m_area.getBase();
-
-	for (unsigned int i = 0; i < base.size(); ++i) {
-
-		for (unsigned int j = 0; j < base[i].size(); ++j) {
-			
-			if (j == m_position.getX() && i == m_position.getY()) {
-				std::cout << "P";
-			} else {
-				std::cout << base[i][j];
-			}
-			
-		}
-
-		std::cout << std::endl;
-
-	}
+	m_area.print(m_position);
 
 }
 
@@ -92,7 +76,12 @@ void Player::enterArea(const std::string & name) {
 
 	std::string oldName = m_area.getName();
 	m_area = Area::getArea(name);
-	m_position = m_area.getPortalPos(oldName);
+	try {
+		m_position = m_area.getPortalPos(oldName);
+	} catch (char const * c) {
+		std::cout << c << std::endl;
+		m_area = Area::getArea(oldName);
+	}
 
 }
 

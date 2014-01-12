@@ -25,12 +25,14 @@ class Area {
 		Area(const std::string &, const twoDimArray &, const portalMap &);
 		~Area();
 
+		void print(const Position & pos) const;
+
 		const std::string & getName() const { return m_name; }
 		const twoDimArray & getBase() const { return m_base; }
 		const Position & getPortalPos(const std::string &) const;
-		const Area & getAreaFromPortalPos(const Position &);
+		const Area getAreaFromPortalPos(const Position &);
 
-		static Area & getArea(const std::string &);
+		static const Area getArea(const std::string &);
 		static const unsigned int getHeight() { return k_height; }
 
 	private:
@@ -39,9 +41,8 @@ class Area {
 		twoDimArray m_base;
 		portalMap m_portals;
 
-		twoDimArray convertStringToTwoDimArr(const std::string &) const;
-
-		static std::map<std::string, Area> & getAreas();
+		static twoDimArray convertStringToTwoDimArr(const std::string &);
+		static portalMap convertStringToPortalMap(const std::string &);
 
 };
 

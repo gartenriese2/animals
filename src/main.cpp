@@ -31,10 +31,7 @@ int main () {
 	// t.startWithWaterstarter();
 	// t.startRandomBattles(40,50);
 
-	// Game game;
-
-	AreaDatabaseReader reader;
-	std::cout << reader.getBaseFromEntry("Test") << std::endl;
+	Game game;
 	
 	return 0;
 

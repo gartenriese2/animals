@@ -1,0 +1,99 @@
+///////////////////////
+//				     //
+//   AREA DATABASE   //
+//   by gartenriese  //
+//				     //
+///////////////////////
+// 
+// Usage:
+//
+// An area needs a name, several chars to represent its basic layout, and at least one portal (else it cannot be reached by another area).
+//
+// '<' starts a tag, which are:
+// 'n' (Name)
+// 'b' (Base)
+// 'p' (Portals)
+// 'e' (End of database)
+//
+// Tag entries need to be in a new line.
+// Empty lines will not be ommited, so be careful! Use '//', if you just want an empty line for a nicer layout.
+//
+// Name:
+// You should use basic characters, no fancy stuff. I did not test for that. ;-)
+//
+// Base:
+// ' ' : walkable space
+// '+' : border, cannot be crossed
+// 'o' : portal
+// '#' : grass
+//
+// Portals:
+// A portal entry needs to look like this:
+// x,y>name
+// where "x" and "y" are the coordinates of the portal and "name" is the name of the area it leads to.
+// There are no one-way portals, not yet anyways (holes!). Every portal needs its counterpart in the area it leads to.
+//
+///////////////////////
+<n>
+Test
+<b>
+++++++++++
++        +
++        +
++        +
++        +
++       o+
++        +
++     ###+
++     ###+
+++++++++++
+<p>
+8,5>Test2
+<n>
+Test2
+<b>
++++++++++
++   ####+
++   ####+
++   ####+
++       +
++o     o+
++       +
++       +
++      H+
++++++++++
+<p>
+1,5>Test
+7,5>Beach1
+<n>
+Beach1
+<b>
++++++++++++++
++       ~~~~+
++       ~~~~+
++       ~~~~+
++       ~~~~+
++o      ~~~o+
++       ~~~~+
++       ~~~~+
++       ~~~~+
++++++++++++++
+<p>
+1,5>Test2
+11,5>Water1
+<n>
+Water1
+<b>
++++++++++++++++++++++++++++
++~~~~~~~~~~~~~~~~~~~~~~~~~+
++~~~~~~~~~~~~~~~~~~~~~~~~~+
++~~~~~~~~~~~~~~~~~~~~~~~~~+
++~~~~~~~~~~~~~~~~~~~~~~~~~+
++o~~~~~~~~~~~~~~~~~~~~~~~~+
++~~~~~~~~~~~~~~~~~~~~~~~~~+
++~~~~~~~~~~~~~~~~~~~~~~~~~+
++~~~~~~~~~~~~~~~~~~~~~~~~~+
++++++++++++++++++++++++++++
+<p>
+1,5>Beach1
+<e>

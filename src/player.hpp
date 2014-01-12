@@ -9,7 +9,7 @@ class Player {
 
 	public:
 
-		Player(Area &);
+		Player(Area);
 		~Player();
 
 		void printArea() const;
