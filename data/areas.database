@@ -13,6 +13,7 @@
 // 'n' (Name)
 // 'b' (Base)
 // 'p' (Portals)
+// 'l' (Likelyhoods of animals appearing)
 // 'e' (End of database)
 //
 // Tag entries need to be in a new line.
@@ -26,12 +27,19 @@
 // '+' : border, cannot be crossed
 // 'o' : portal
 // '#' : grass
+// 'H' : healing spot
 //
 // Portals:
 // A portal entry needs to look like this:
 // x,y>name
 // where "x" and "y" are the coordinates of the portal and "name" is the name of the area it leads to.
+// 0,0 is the upper left corner.
 // There are no one-way portals, not yet anyways (holes!). Every portal needs its counterpart in the area it leads to.
+//
+// Likelyhoods:
+// A likelyhood entry needs to look like this:
+// name>a-b>probability
+// where "name" is the name of the animal, "a" and "b" are the levels where the animals level is between, and "probabilty" is the probability [0,1] of this animal appearing. 
 //
 ///////////////////////
 <n>
@@ -96,4 +104,93 @@ Water1
 +++++++++++++++++++++++++++
 <p>
 1,5>Beach1
+//
+// real game:
+//
+<n>
+Home
+<b>
+
+
+
+
+
+
+
+                +++++++++++
+                +         +
+                +         +
+                +   +o+   +
+                +++++++++++
+<p>
+21,10>Hometown
+<n>
+Hometown
+<b>
++++++++++++++++++++++++++++++++++++++++++++++
++                                           +
++        ^                                  +
++       ^^^                                 +
++      ^^^^^                                +
++      +++++                                +
++      ++o++                                +
++                                           +
++                                           +
++                                           +
++                                          o+
++                                           +
++                                           +
++                                           +
++                                           +
++                                           +
++                                           +
++                                           +
++                                           +
++++++++++++++++++++++++++++++++++++++++++++++
+<p>
+9,6>Home
+43,10>Route1a
+<n>
+Route1a
+<b>
+++++++++++++++
++            +
++o           +
++            +++++++++++++++++
++++++++      +    #######    +
+      +      +   #########   +
+      +      +  ###########  +
+      +      +       +       +
+      +              +       +
+      +              +   o   +
+      ++++++++++++++++++++++++
+<p>
+1,2>Hometown
+25,9>Route1b
+<l>
+Mousey>2-3>0.65
+Arachnom>2-3>0.35
+<n>
+Route1b
+<b>
++++++++++
++   o   +
++       +
++       ++++++++++++++++++++++++++++++++
++                                      +
++                                     o+
++                                      +
++#######++++++++++++++++++++++++++++++++
++#######+
++#######+
++#######+
++   o   +
++++++++++
+<p>
+4,1>Route1a
+38,5>Route1c
+4,11>FirstTown
+<l>
+Mousey>2-4>0.55
+Arachnom>2-3>0.45
 <e>

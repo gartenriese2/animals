@@ -3,7 +3,7 @@
 #include <iostream>
 
 World::World()
-  : m_player(Area::getArea("Test"))
+  : m_player(Area::getArea("Home"))
 {
 }
 

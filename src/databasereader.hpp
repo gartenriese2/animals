@@ -3,7 +3,7 @@
 
 #include <fstream>
 
-enum Tag : char { END = 'e', NAME = 'n', BASE = 'b', PORTALTAG = 'p' };
+enum Tag : char { END = 'e', NAME = 'n', BASE = 'b', PORTALTAG = 'p', LIKELYHOODS = 'l' };
 
 class DatabaseReader {
 
@@ -23,6 +23,7 @@ class DatabaseReader {
 		Tag getNextTag();
 		const std::string getNextWord();
 		const std::string getNextContent();
+		const std::string getTagContentFromEntry(const Tag &, const std::string &);
 
 };
 

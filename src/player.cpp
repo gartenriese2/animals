@@ -9,7 +9,7 @@ static constexpr float k_grassEncounterProb = 0.15f;
 
 Player::Player(Area area)
   : m_area(area),
-  	m_position(1,1)
+  	m_position(18,9)
 {
 }
 
@@ -90,7 +90,8 @@ void Player::grassAction() {
 	std::uniform_real_distribution<float> dist(0.f, 1.f);
 	if (dist(generator) < k_grassEncounterProb) {
 		Tournament t;
-		t.startSingleRandomBattle(m_party.getFrontAnimal());
+		Animal a = m_area.getWildAnimal();
+		t.startSingleBattle(m_party.getFrontAnimal(), a);
 	}
 
 }

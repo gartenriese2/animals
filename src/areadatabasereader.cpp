@@ -26,23 +26,90 @@ const std::string AreaDatabaseReader::nextEntry() {
 
 }
 
-const std::string AreaDatabaseReader::getBaseFromEntry(const std::string & str) {
+const twoDimArray AreaDatabaseReader::getBaseFromEntry(const std::string & str) {
 
-	m_file.seekg(0);
-	while (nextEntry() != str);
-	while (getNextTag() != Tag::BASE);
-	
-	return getNextContent();
+	return convertStringToTwoDimArr(getTagContentFromEntry(Tag::BASE, str));
 
 }
 
-const std::string AreaDatabaseReader::getPortalsFromEntry(const std::string & str) {
+const portalMap AreaDatabaseReader::getPortalMapFromEntry(const std::string & str) {
+	
+	return convertStringToPortalMap(getTagContentFromEntry(Tag::PORTALTAG, str));
 
-	m_file.seekg(0);
+}
+
+const likelyhoodTuples AreaDatabaseReader::getLikelyhoodsFromEntry(const std::string & str) {
+
+	return convertStringToLikelyhoodTuples(getTagContentFromEntry(Tag::LIKELYHOODS, str));
+
+}
+
+const portalMap AreaDatabaseReader::convertStringToPortalMap(const std::string & str) {
+
+	portalMap map;
 	
-	while (nextEntry() != str);
-	while (getNextTag() != Tag::PORTALTAG);
+	unsigned int count = 0;
 	
-	return getNextContent();
+	while (count < str.size()) {
+	
+		std::string x;
+		std::string y;
+		std::string to;
+		
+		while (str[count++] != ',') x += str[count - 1];
+		while (str[count++] != '>') y += str[count - 1];
+		while (str[count++] != '\n') to += str[count - 1];
+		Position p(std::stoi(x), std::stoi(y));
+		map.emplace(p,to);
+
+	}
+
+	return map;
+
+}
+
+const twoDimArray AreaDatabaseReader::convertStringToTwoDimArr(const std::string & str) {
+
+	twoDimArray arr;
+
+	bool eol = false;
+	unsigned int count = 0;
+	for (unsigned int i = 0; i < k_height; ++i) {
+		for (unsigned int j = 0; j < k_width; ++j) {
+			arr[i][j] = eol ? ' ' : str[count++];
+			if (str[count - 1] == '\n' || count > str.size()) {
+				eol = true;
+				arr[i][j] = ' ';
+			}
+		}
+		eol = false;
+	}
+	
+	return arr;
+}
+
+const likelyhoodTuples AreaDatabaseReader::convertStringToLikelyhoodTuples(const std::string & str) {
+
+	likelyhoodTuples tup;
+
+	unsigned int count = 0;
+	
+	while (count < str.size()) {
+	
+		std::string name;
+		std::string a;
+		std::string b;
+		std::string prob;
+		
+		while (str[count++] != '>') name += str[count - 1];
+		while (str[count++] != '-') a += str[count - 1];
+		while (str[count++] != '>') b += str[count - 1];
+		while (str[count++] != '\n') prob += str[count - 1];
+		
+		tup.emplace_back(std::make_tuple(name, std::stoi(a), std::stoi(b), std::stof(prob)));
+
+	}
+
+	return tup;
 
 }

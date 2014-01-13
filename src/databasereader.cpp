@@ -14,7 +14,7 @@ void DatabaseReader::goToNextLine() {
 	char c;
 	do {
 		while (m_file.good() && (c = m_file.get()) != '\n') {}
-	} while (c == '\\');
+	} while (c == '/');
 }
 
 Tag DatabaseReader::getNextTag() {
@@ -32,6 +32,9 @@ Tag DatabaseReader::getNextTag() {
 		case 'p':
 			goToNextLine();
 			return Tag::PORTALTAG;
+		case 'l':
+			goToNextLine();
+			return Tag::LIKELYHOODS;
 		case 'e':
 			throw "End of database!";
 		default:
@@ -59,5 +62,16 @@ const std::string DatabaseReader::getNextContent() {
 	}
 	
 	return base;
+
+}
+
+const std::string DatabaseReader::getTagContentFromEntry(const Tag & tag, const std::string & str) {
+
+	m_file.seekg(0);
+
+	while (nextEntry() != str);
+	while (getNextTag() != tag);
+
+	return getNextContent();
 
 }

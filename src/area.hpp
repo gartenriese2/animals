@@ -8,12 +8,8 @@
 
 #include "position.hpp"
 #include "areadatabasereader.hpp"
-
-static constexpr unsigned int k_height = 10;
-static constexpr unsigned int k_width = 50;
-
-using portalMap = std::map<Position, std::string>;
-using twoDimArray = std::array<std::array<char, k_width>, k_height>;
+#include "typedefs.hpp"
+#include "animal.hpp"
 
 enum AreaType : char { BORDER = '+', GRASS = '#', PORTAL = 'o', HEALING = 'H', WATER = '~' };
 
@@ -22,7 +18,7 @@ class Area {
 	public:
 
 		Area();
-		Area(const std::string &, const twoDimArray &, const portalMap &);
+		Area(const std::string &, const twoDimArray &, const portalMap &, const likelyhoodTuples &);
 		~Area();
 
 		void print(const Position & pos) const;
@@ -32,6 +28,8 @@ class Area {
 		const Position & getPortalPos(const std::string &) const;
 		const Area getAreaFromPortalPos(const Position &);
 
+		Animal getWildAnimal() const;
+
 		static const Area getArea(const std::string &);
 		static const unsigned int getHeight() { return k_height; }
 
@@ -40,9 +38,7 @@ class Area {
 		std::string m_name;
 		twoDimArray m_base;
 		portalMap m_portals;
-
-		static twoDimArray convertStringToTwoDimArr(const std::string &);
-		static portalMap convertStringToPortalMap(const std::string &);
+		likelyhoodTuples m_likelyhoods;
 
 };
 
