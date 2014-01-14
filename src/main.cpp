@@ -7,7 +7,7 @@
 
 #include "game.hpp"
 
-#include "areadatabasereader.hpp"
+#include "console.hpp"
 
 std::mt19937 generator;
 
@@ -32,7 +32,7 @@ int main () {
 	// t.startRandomBattles(40,50);
 
 	Game game;
-	
+
 	return 0;
 
 }

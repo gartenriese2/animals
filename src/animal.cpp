@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <random>
 
+#include "console.hpp"
+
 extern std::mt19937 generator;
 
 static constexpr unsigned int k_healthBars = 50;
@@ -201,13 +203,13 @@ void Animal::levelUp() {
 
 	++m_level;
 
-	if (m_log) std::cout << getName() << " reached level " << getLevel() << "!" << std::endl;
+	if (m_log) Console::addText(getName() + " reached level " + std::to_string(getLevel()) + "!");
 	if (m_evolve.first == m_level) {
 		std::string oldName = getName();
 		Animal evolvement(getAnimal(m_evolve.second));
 		evolvement.raiseLevels(m_level);
 		evolveInto(evolvement);
-		if (m_log) std::cout << oldName << " evolved into " << getName() << "!" << std::endl;
+		if (m_log) Console::addText(oldName + " evolved into " + getName() + "!");
 	}
 
 	m_stats.setHealth(m_stats.getHealth() + round(m_stats.getHealthMultiplier() * sqrt(getLevel())));
@@ -229,7 +231,7 @@ bool Animal::checkForNewMoves() {
 	if (p.first == p.second) return false;
 	for (auto i = p.first; i != p.second; ++i) {
 		m_moves.emplace_back(i->second);
-		if (m_log) std::cout << getName() << " learned " << i->second->getName() << std::endl;
+		if (m_log) Console::addText(getName() + " learned " + i->second->getName() + ".");
 	}
 	return true;
 
@@ -251,7 +253,7 @@ void Animal::useAttack(std::shared_ptr<Attack> atk, Animal & foe) {
 
 	if (dist(generator) > atk->getProbability()) {
 
-		if (m_log) std::cout << "Attack missed!" << std::endl;
+		if (m_log) Console::addText("Attack missed!");
 
 	} else {
 
@@ -263,7 +265,7 @@ void Animal::useAttack(std::shared_ptr<Attack> atk, Animal & foe) {
 
 		if (dist(generator) < k_criticalHit && foeDmg != 0) {
 			foeDmg *= 2;
-			if (m_log) std::cout << "Critical Hit!" << std::endl;
+			if (m_log) Console::addText("Critical Hit!");
 		}
 
 		// if (m_log && foeDmg != 0) std::cout << "DEBUG: " << foeDmg << "dmg" << std::endl;
@@ -430,7 +432,7 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 	
 	static std::map<std::string, Animal> s_animals {
 		// Fire
-		AnimalEntry("Firestarter", Animal("Firestarter",
+		AnimalEntry("Firax", Animal("Firax",
 										Type(BaseType::Fire),
 										AnimalStats(12, 6, 5, 5,
 											0.9f, 0.72f, 0.7f, 0.7f, 1.0f),
@@ -440,9 +442,9 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 											AttackSetEntry(7, Attack::getAttack("Fire Spark"))
 										}),
 										1,
-										{15, "FirestarterEvolved"}
+										{15, "Firaxas"}
 										)),
-		AnimalEntry("FirestarterEvolved", Animal("FirestarterEvolved",
+		AnimalEntry("Firaxas", Animal("Firaxas",
 										Type(BaseType::Fire),
 										AnimalStats(12, 6, 5, 5,
 											0.93f, 0.76f, 0.72f, 0.73f, 1.0f),
@@ -453,9 +455,9 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 											AttackSetEntry(16, Attack::getAttack("Fire Blast"))
 										}),
 										1,
-										{30, "FirestarterFinal"}
+										{30, "Firaxor"}
 										)),
-		AnimalEntry("FirestarterFinal", Animal("FirestarterFinal",
+		AnimalEntry("Firaxor", Animal("Firaxor",
 										Type(BaseType::Fire),
 										AnimalStats(12, 6, 5, 5,
 											0.96f, 0.8f, 0.74f, 0.76f, 1.0f),
@@ -493,12 +495,13 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 										})
 										)),
 		// Water
-		AnimalEntry("Waterstarter", Animal("Waterstarter",
+		AnimalEntry("Aquax", Animal("Aquax",
 										Type(BaseType::Water),
 										AnimalStats(12, 5, 6, 5,
 											0.9f, 0.7f, 0.72f, 0.7f, 1.0f),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Tackle")),
+											AttackSetEntry(5, Attack::getAttack("Intimidate")),
 											AttackSetEntry(7, Attack::getAttack("Water Splash")),
 											AttackSetEntry(16, Attack::getAttack("Water Blast"))
 										})

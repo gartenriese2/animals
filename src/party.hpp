@@ -16,6 +16,7 @@ class Party {
 		void addAnimal(const std::string &);
 		Animal & getFrontAnimal();
 
+		bool isHealthy() const;
 		const std::string heal();
 
 	private:

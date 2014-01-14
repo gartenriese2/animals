@@ -5,6 +5,7 @@ class Position {
 
 	public:
 
+		Position() {}
 		Position(unsigned int x, unsigned int y) : m_x(x), m_y(y) {};
 
 		void set(unsigned int x, unsigned int y) { m_x = x; m_y = y; }

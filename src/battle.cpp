@@ -1,6 +1,7 @@
 #include "battle.hpp"
 
 #include "io.hpp"
+#include "console.hpp"
 
 static IO s_io;
 
@@ -9,11 +10,11 @@ static constexpr unsigned int k_maxlvldiff = 50;
 Battle::Battle(Animal & a1, Animal & a2)
   : m_animal1(a1), m_animal2(a2)
 {
-	std::cout << "------------------------" << std::endl;
-	std::cout << m_animal1.getName() << " vs. " << m_animal2.getName() << std::endl;
-	std::cout << "------------------------" << std::endl;
-	m_animal1.printInfo();
-	m_animal2.printInfo();
+	// std::cout << "------------------------" << std::endl;
+	// std::cout << m_animal1.getName() << " vs. " << m_animal2.getName() << std::endl;
+	// std::cout << "------------------------" << std::endl;
+	// m_animal1.printInfo();
+	// m_animal2.printInfo();
 }
 
 Battle::~Battle() {
@@ -27,8 +28,17 @@ void Battle::addExp(Animal & winner, const Animal & loser) const {
 					/ static_cast<float>(k_maxlvldiff);
 	if (lvlDiff < 0.f) lvlDiff = 0.f;
 	unsigned int xpGain = static_cast<unsigned int>(static_cast<float>(loserStats) * lvlDiff);
-	std::cout << winner.getName() << " gains " << xpGain << " experience points." << std::endl;
+	Console::addText(winner.getName() + " gains " + std::to_string(xpGain) + " experience points.");
+	Console::printText();
 	winner.gainExp(xpGain);
+
+	while (!Console::textEmpty()) {
+		ArrowKey key = IO::getKey();
+		if (key == ArrowKey::ENTER) {
+			Console::advanceText();
+			Console::printText();
+		}
+	}
 
 }
 
@@ -88,58 +98,66 @@ void Battle::startAIvsAIRandom(const bool log) {
 
 void Battle::startUservsAIRandom() {
 
-	std::cout << "You use " << m_animal1.getName() << std::endl;
+	Console::addText("You use " + m_animal1.getName() + ".");
+	Console::printText();
+	while (!Console::textEmpty()) {
+		ArrowKey key = IO::getKey();
+		if (key == ArrowKey::ENTER) {
+			Console::advanceText();
+			Console::printText();
+		}
+	}
 
 	Fight f(m_animal1, m_animal2, true);
 
-	unsigned int roundCount = 1;
 	while(m_animal1.getActualHealth() != 0 && m_animal2.getActualHealth() != 0) {
-		
-		std::cout << std::endl << std::endl;
-		std::cout << "############" << std::endl;
-		std::cout << "# Round " << ((roundCount < 10) ? "0" : "") << roundCount << " #" << std::endl;
-		std::cout << "############" << std::endl;
 
 		f.printStatus();
-		std::cout << std::endl;
 
 		std::shared_ptr<Attack> atk;
-		// while (!(atk = s_io.chooseAttack(m_animal1.getAttacks())));
 		atk = s_io.chooseAttackWithArrowKeys(m_animal1.getAttacks());
 		
 		if (m_animal1.getActualSpeed() >= m_animal2.getActualSpeed()) {
 			f.oneAttacks(atk);
 			if (m_animal2.getActualHealth() == 0) {
-				std::cout << std::endl << m_animal2.getName() << " fainted!" << std::endl << std::endl;
+				Console::addText(m_animal2.getName() + " fainted!");
 				break;
 			}
 			f.twoAttacksRandom();
 			if (m_animal1.getActualHealth() == 0) {
-				std::cout << std::endl << m_animal1.getName() << " fainted!" << std::endl << std::endl;
+				Console::addText(m_animal1.getName() + " fainted!");
 				break;
 			}
 		} else {
 			f.twoAttacksRandom();
 			if (m_animal1.getActualHealth() == 0) {
-				std::cout << std::endl << m_animal1.getName() << " fainted!" << std::endl << std::endl;
+				Console::addText(m_animal1.getName() + " fainted!");
 				break;
 			}
 			f.oneAttacks(atk);
 			if (m_animal2.getActualHealth() == 0) {
-				std::cout << std::endl << m_animal2.getName() << " fainted!" << std::endl << std::endl;
+				Console::addText(m_animal2.getName() + " fainted!");
 				break;
 			}
 		}
-
-		++roundCount;
 		
 	}
-	
+
 	if (m_animal1.getActualHealth() > m_animal2.getActualHealth()) {
-		std::cout << "You won!" << std::endl;
+		Console::addText("You won!");
+		Console::printText();
 		addExp(m_animal1, m_animal2);
 	} else {
-		std::cout << "You lost!" << std::endl;
+		Console::addText("You lost!");
+		Console::printText();
+	}
+
+	while (!Console::textEmpty()) {
+		ArrowKey key = IO::getKey();
+		if (key == ArrowKey::ENTER) {
+			Console::advanceText();
+			Console::printText();
+		}
 	}
 
 }
@@ -164,8 +182,8 @@ void Battle::startUservsUser() {
 
 		std::shared_ptr<Attack> atk1;
 		std::shared_ptr<Attack> atk2;
-		while (!(atk1 = s_io.chooseAttack(m_animal1.getAttacks())));
-		while (!(atk2 = s_io.chooseAttack(m_animal2.getAttacks())));
+		atk1 = s_io.chooseAttackWithArrowKeys(m_animal1.getAttacks());
+		atk2 = s_io.chooseAttackWithArrowKeys(m_animal2.getAttacks());
 		if (m_animal1.getActualSpeed() >= m_animal2.getActualSpeed()) {
 			f.oneAttacks(atk1);
 			if (m_animal2.getActualHealth() == 0) {
@@ -195,10 +213,20 @@ void Battle::startUservsUser() {
 	}
 	
 	if (m_animal1.getActualHealth() > m_animal2.getActualHealth()) {
-		std::cout << "Player 1 won!" << std::endl;
+		Console::addText("Player 1 won!");
+		Console::printText();
 		addExp(m_animal1, m_animal2);
 	} else {
-		std::cout << "Player 2 won!" << std::endl;
+		Console::addText("Player 2 won!");
+		Console::printText();
+	}
+
+	while (!Console::textEmpty()) {
+		ArrowKey key = IO::getKey();
+		if (key == ArrowKey::ENTER) {
+			Console::advanceText();
+			Console::printText();
+		}
 	}
 
 }

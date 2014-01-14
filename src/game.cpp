@@ -1,5 +1,7 @@
 #include "game.hpp"
 
+#include "console.hpp"
+
 Game::Game() {
 	intro();
 	loop();
@@ -11,40 +13,39 @@ Game::~Game() {
 
 void Game::intro() {
 
-	std::cout << "Welcome to the world of Animals! ;-)" << std::endl;
-	std::cout << "Do you want to play with the fire animal or the water animal?" << std::endl;
+	Console::clearArea();
+	Console::addText("Welcome to the world of Animals! ;-)");
+	Console::addText("Do you want to play with the fire animal or the water animal?");
+	Console::printText();
 	m_world.getPlayer().getParty().addAnimal(m_io.chooseStarter());
 	m_world.getPlayer().getParty().getFrontAnimal().raiseLevels(4);	
+
+	Console::setAreaBase(m_world.getPlayer().getArea().getBase());
+	Console::setPosition(m_world.getPlayer().getPosition());
+
+	while (!Console::textEmpty()) {
+		ArrowKey key = m_io.getArrowKey();
+		if (key == ArrowKey::ENTER) {
+			Console::advanceText();
+			Console::printText();
+		}
+	}
+
+	Console::print();
 
 }
 
 void Game::loop() {
 
-	printScreen();
-	std::cout << "\n";
 	while(1) {
 		ArrowKey key = m_io.getArrowKey();
-		clearScreen(Area::getHeight());
-		m_world.getPlayer().move(key);
-		printScreen();
+		if (key == ArrowKey::ENTER) {
+			Console::advanceText();
+			Console::printText();
+		} else {
+			m_world.getPlayer().move(key);
+		}
+		Console::print();
 	}
-
-}
-
-void Game::clearScreen(unsigned int lines) {
-
-	// jump over output line
-	std::cout << "\033[1A";
-
-	for (int i = 0; i <= lines; ++i) {
-		std::cout << "\033[1A" << "\r\033[K";
-	}
-
-}
-
-void Game::printScreen() {
-
-	m_world.getPlayer().printArea();
-	m_world.getPlayer().printOutput();
 
 }

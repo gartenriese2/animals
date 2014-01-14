@@ -3,13 +3,22 @@
 #include <termios.h>
 #include <unistd.h>
 
+#include "console.hpp"
+
 IO::IO() {
 }
 
 IO::~IO() {
 }
 
+IO & IO::instance() {
+	static IO io;
+	return io;
+}
+
 void IO::printAttacks(const std::vector<std::shared_ptr<Attack>> & attacks) {
+
+	std::cout << "\033[" << 4 + attacks.size() << "A";
 
 	std::cout << "Possible Attacks: " << std::endl;
 
@@ -17,30 +26,26 @@ void IO::printAttacks(const std::vector<std::shared_ptr<Attack>> & attacks) {
 		std::cout << "---- " << i->getName() << std::endl;
 	}
 
-}
-
-const std::shared_ptr<Attack> IO::chooseAttack(const std::vector<std::shared_ptr<Attack>> & attacks) {
-
-	printAttacks(attacks);
-
-	std::cout << "Please enter the attack you choose: ";
-	std::string str;
-	std::getline(std::cin, str);
-
-	for (const auto i : attacks) {
-		if (i->getName() == str) return i;
-	}
-
-	return std::shared_ptr<Attack>();
+	std::cout << "\033[3B";
 
 }
 
 const std::shared_ptr<Attack> IO::chooseAttackWithArrowKeys(const std::vector<std::shared_ptr<Attack>> & attacks) {
 
-	printAttacks(attacks);
+	// printAttacks(attacks);
+
+	while (!Console::textEmpty()) {
+		ArrowKey key = getArrowKey();
+		if (key == ArrowKey::ENTER) {
+			Console::advanceText();
+			Console::printText();
+		}
+	}
+	Console::addText("Please choose an attack with the arrow keys and press enter:");
 
 	int choice = 0;
-	std::cout << "Please choose an attack with the arrow keys and press enter: " << attacks[choice]->getName();
+	Console::setInputText(attacks[choice]->getName());
+	Console::printAllText();
 	
 	ArrowKey k;
 	while ((k = getArrowKey()) != ArrowKey::ENTER) {
@@ -50,19 +55,26 @@ const std::shared_ptr<Attack> IO::chooseAttackWithArrowKeys(const std::vector<st
 		if (k == ArrowKey::UP) {
 			choice = (choice == 0 ? attacks.size() - 1 : choice - 1);
 		}
-		std::cout << "\r\033[K" << "Please choose an attack with the arrow keys and press enter: " << attacks[choice]->getName();
+		Console::setInputText(attacks[choice]->getName());
+		Console::printInputText();
 	}
 
-	std::cout << std::endl;
+	Console::setInputText("");
+	Console::advanceText();
+	Console::printAllText();
+
 	return attacks[choice];
 
 }
 
 const std::string IO::chooseStarter() const {
 
-	std::vector<std::string> v { "Firestarter", "Waterstarter" };
+	std::vector<std::string> v { "Firax", "Aquax" };
 
 	int choice = 0;
+	Console::setInputText("I choose " + v[choice]);
+	Console::printInputText();
+	
 	ArrowKey k;
 	while ((k = getArrowKey()) != ArrowKey::ENTER) {
 		if (k == ArrowKey::DOWN) {
@@ -71,10 +83,16 @@ const std::string IO::chooseStarter() const {
 		if (k == ArrowKey::UP) {
 			choice = (choice == 0 ? v.size() - 1 : choice - 1);
 		}
-		std::cout << "\r\033[K" << "I choose " << v[choice];
+		Console::setInputText("I choose " + v[choice]);
+		Console::printInputText();
 	}
 
-	std::cout << std::endl;
+	Console::setInputText("");
+	Console::printInputText();
+	Console::addText("You chose " + v[choice] + ", the " + ((v[choice] == "Firax") ? "Fire" : "Water") + " animal!");
+	Console::advanceText();
+	Console::printText();
+
 	return v[choice];
 
 }
@@ -116,4 +134,8 @@ ArrowKey IO::getArrowKey() const {
 	tcsetattr( STDIN_FILENO, TCSANOW, &oldt);
 	return k;
 
+}
+
+ArrowKey IO::getKey() {
+	return instance().getArrowKey();
 }

@@ -39,3 +39,13 @@ const std::string Party::heal(){
 	return std::string("Your animals were healed!\n");
 
 }
+
+bool Party::isHealthy() const {
+
+	for (const auto & i : m_animals) {
+		if (i.getActualHealth() > 0) return true;
+	}
+
+	return false;
+
+}

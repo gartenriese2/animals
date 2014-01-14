@@ -15,15 +15,18 @@ class IO {
 		IO();
 		~IO();
 
+		static ArrowKey getKey();
+
 		ArrowKey getArrowKey() const;
 
-		const std::shared_ptr<Attack> chooseAttack(const std::vector<std::shared_ptr<Attack>> &);
 		const std::shared_ptr<Attack> chooseAttackWithArrowKeys(const std::vector<std::shared_ptr<Attack>> &);
 		const std::string chooseStarter() const;
 
 	private:
 
 		void printAttacks(const std::vector<std::shared_ptr<Attack>> &);
+
+		static IO & instance();
 
 };
 

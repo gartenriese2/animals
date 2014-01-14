@@ -1,9 +1,7 @@
 #include "world.hpp"
 
-#include <iostream>
-
 World::World()
-  : m_player(Area::getArea("Home"))
+  : m_player(std::make_tuple("Home",Position(18,9)))
 {
 }
 
