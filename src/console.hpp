@@ -35,6 +35,7 @@ class Console {
 		void printInputTextLines();
 		void printWorldLines();
 		void printEmptyWorld();
+		void printBorders();
 
 		void moveCursorToBottom();
 		void moveCursorToTextOutput();

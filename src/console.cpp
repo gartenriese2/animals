@@ -11,6 +11,7 @@ void Console::print() {
 	// std::cout << "\033[1A"; // input line
 
 	// instance().printWorldLines();
+	instance().printBorders();
 	
 	// std::cout << "\033[" << k_outputLines << "A";
 	// std::cout << "\r\033[K";
@@ -84,6 +85,24 @@ void Console::printTextLines() {
 
 }
 
+void Console::printBorders() {
+
+	moveCursorToLowerBorder();
+	std::cout << "\r\033[K";
+	for (unsigned int i = 0; i < k_worldX; ++i) {
+		std::cout << "=";
+	}
+
+	moveCursorToUpperBorder();
+	std::cout << "\r\033[K";
+	for (unsigned int i = 0; i < k_worldX; ++i) {
+		std::cout << "=";
+	}
+
+	moveCursorToBottom();
+
+}
+
 void Console::printInputTextLines() {
 
 	std::cout << "\r\033[K";
@@ -110,11 +129,7 @@ void Console::printEmptyWorld() {
 
 void Console::printWorldLines() {
 
-	std::cout << "\033[" << k_outputLines << "A";
-	std::cout << "\033[1A"; // border
-	for (unsigned int i = 0; i < k_worldY; ++i) {
-		std::cout << "\033[1A" << "\r\033[K";
-	}
+	moveCursorToTopOfArea();
 
 	int fromY = static_cast<int>(m_pos.getY()) - static_cast<int>(k_worldY) / 2;
 	int toY = fromY + static_cast<int>(k_worldY);
@@ -140,14 +155,15 @@ void Console::printWorldLines() {
 		std::cout << std::endl;
 		
 	}
-	std::cout << "\033[1B"; // border
-	std::cout << "\033[" << k_outputLines << "B";
+	
+	moveCursorToBottom();
 
 }
 
 void Console::moveCursorToBottom() {
 
 	std::cout << "\033[100B";
+	std::cout << "\r";
 
 }
 
