@@ -16,6 +16,7 @@ class IO {
 		~IO();
 
 		static ArrowKey getKey();
+		static void emptyOutput();
 
 		ArrowKey getArrowKey() const;
 

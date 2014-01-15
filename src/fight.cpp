@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <math.h>
+#include <chrono>
+#include <thread>
 
 #include "console.hpp"
 
@@ -30,13 +32,104 @@ void Fight::printStatus() const {
 
 }
 
+void Fight::refreshAnimal1HealthOutput(unsigned int oldHealth, unsigned int newHealth) const {
+	if (oldHealth != newHealth) {
+
+		std::cout << "\r\033[7A";
+		unsigned int maxHealth = m_animal1.getMaxHealth();
+		float oldRatio = static_cast<float>(oldHealth) / static_cast<float>(maxHealth);
+		float newRatio = static_cast<float>(newHealth) / static_cast<float>(maxHealth);
+		if (oldRatio < newRatio) {
+			for (float old = oldRatio; old < newRatio; old += 0.02f) {
+
+				std::cout << "\r\033[K";
+				unsigned int bars = round(old * 50);
+				std::cout << "Health: [";
+				for (unsigned int i = 0; i < 50; ++i) {
+					if (i < bars) std::cout << "|";
+					else std::cout << ".";
+				}
+				std::cout << "]" << std::flush;
+				std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+			}
+		} else {
+			for (float old = oldRatio; old > newRatio; old -= 0.02f) {
+
+				std::cout << "\r\033[K";
+				unsigned int bars = round(old * 50);
+				std::cout << "Health: [";
+				for (unsigned int i = 0; i < 50; ++i) {
+					if (i < bars) std::cout << "|";
+					else std::cout << ".";
+				}
+				std::cout << "]" << std::flush;
+				std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+			}
+		}
+		
+		std::cout << "\033[7B";
+
+	}
+}
+
+void Fight::refreshAnimal2HealthOutput(unsigned int oldHealth, unsigned int newHealth) const {
+	if (oldHealth != newHealth) {
+//DEB("oh: " + std::to_string(oldHealth) + " mh: " + std::to_string(mmaxHealth));
+		std::cout << "\033[5A";
+		unsigned int maxHealth = m_animal2.getMaxHealth();
+		float oldRatio = static_cast<float>(oldHealth) / static_cast<float>(maxHealth);
+		float newRatio = static_cast<float>(newHealth) / static_cast<float>(maxHealth);
+		if (oldRatio < newRatio) {
+			for (float old = oldRatio; old < newRatio; old += 0.02f) {
+
+				std::cout << "\r\033[K";
+				unsigned int bars = round(old * 50);
+				std::cout << "Health: [";
+				for (unsigned int i = 0; i < 50; ++i) {
+					if (i < bars) std::cout << "|";
+					else std::cout << ".";
+				}
+				std::cout << "]" << std::flush;
+				std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+			}
+		} else {
+			for (float old = oldRatio; old > newRatio; old -= 0.02f) {
+//DEB(std::to_string(old));
+				std::cout << "\r\033[K";
+				unsigned int bars = round(old * 50);
+				std::cout << "Health: [";
+				for (unsigned int i = 0; i < 50; ++i) {
+					if (i < bars) std::cout << "|";
+					else std::cout << ".";
+				}
+				std::cout << "]" << std::flush;
+				std::this_thread::sleep_for(std::chrono::milliseconds(100));
+				
+			}
+		}
+		
+		std::cout << "\033[5B";
+
+	}
+}
+
 void Fight::oneAttacks(const std::shared_ptr<Attack> atk) {
 
 	Console::addText(m_animal1.getName() + " uses " + atk->getName() + ".");
+	DEB("oneAttacks");
+	Console::printText();
 
-
+	unsigned int oldHP1 = m_animal1.getActualHealth();
+	unsigned int oldHP2 = m_animal2.getActualHealth();
 	m_animal1.useAttack(atk, m_animal2);
-	printStatus();
+	unsigned int newHP1 = m_animal1.getActualHealth();
+	unsigned int newHP2 = m_animal2.getActualHealth();
+	refreshAnimal1HealthOutput(oldHP1, newHP1);
+	refreshAnimal2HealthOutput(oldHP2, newHP2);
+	//printStatus();
 
 	if (atk->getType().getBaseTypes().at(0) != BaseType::None) {
 		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal2.getType());
@@ -51,9 +144,14 @@ void Fight::oneAttacksRandom() {
 
 	Console::addText(m_animal1.getName() + " uses " + atk->getName() + ".");
 	
-
+	unsigned int oldHP1 = m_animal1.getActualHealth();
+	unsigned int oldHP2 = m_animal2.getActualHealth();
 	m_animal1.useAttack(atk, m_animal2);
-	printStatus();
+	unsigned int newHP1 = m_animal1.getActualHealth();
+	unsigned int newHP2 = m_animal2.getActualHealth();
+	refreshAnimal1HealthOutput(oldHP1, newHP1);
+	refreshAnimal2HealthOutput(oldHP2, newHP2);
+	//printStatus();
 	
 	if (atk->getType().getBaseTypes().at(0) != BaseType::None) {
 		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal2.getType());
@@ -66,9 +164,14 @@ void Fight::twoAttacks(const std::shared_ptr<Attack> atk) {
 
 	Console::addText(m_animal2.getName() + " uses " + atk->getName() + ".");
 	
-
+	unsigned int oldHP1 = m_animal1.getActualHealth();
+	unsigned int oldHP2 = m_animal2.getActualHealth();
 	m_animal2.useAttack(atk, m_animal1);
-	printStatus();
+	unsigned int newHP1 = m_animal1.getActualHealth();
+	unsigned int newHP2 = m_animal2.getActualHealth();
+	refreshAnimal1HealthOutput(oldHP1, newHP1);
+	refreshAnimal2HealthOutput(oldHP2, newHP2);
+	//printStatus();
 
 	if (atk->getType().getBaseTypes().at(0) != BaseType::None) {
 		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal1.getType());
@@ -82,10 +185,16 @@ void Fight::twoAttacksRandom() {
 	const std::shared_ptr<Attack> atk = m_animal2.getRandomAttack();
 	
 	Console::addText(m_animal2.getName() + " uses " + atk->getName() + ".");
-
+	Console::printText();
 	
+	unsigned int oldHP1 = m_animal1.getActualHealth();
+	unsigned int oldHP2 = m_animal2.getActualHealth();
 	m_animal2.useAttack(atk, m_animal1);
-	printStatus();
+	unsigned int newHP1 = m_animal1.getActualHealth();
+	unsigned int newHP2 = m_animal2.getActualHealth();
+	refreshAnimal1HealthOutput(oldHP1, newHP1);
+	refreshAnimal2HealthOutput(oldHP2, newHP2);
+	//printStatus();
 
 	if (atk->getType().getBaseTypes().at(0) != BaseType::None) {
 		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal1.getType());

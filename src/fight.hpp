@@ -20,6 +20,8 @@ class Fight {
 	private:
 
 		void printAttack(const std::string &, const std::string &, const EffectiveType &) const;
+		void refreshAnimal1HealthOutput(unsigned int, unsigned int) const;
+		void refreshAnimal2HealthOutput(unsigned int, unsigned int) const;
 
 		Animal & m_animal1;
 		Animal & m_animal2;

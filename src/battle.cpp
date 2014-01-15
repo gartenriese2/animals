@@ -100,13 +100,7 @@ void Battle::startUservsAIRandom() {
 
 	Console::addText("You use " + m_animal1.getName() + ".");
 	Console::printText();
-	while (!Console::textEmpty()) {
-		ArrowKey key = IO::getKey();
-		if (key == ArrowKey::ENTER) {
-			Console::advanceText();
-			Console::printText();
-		}
-	}
+	IO::emptyOutput();
 
 	Fight f(m_animal1, m_animal2, true);
 
@@ -123,6 +117,8 @@ void Battle::startUservsAIRandom() {
 				Console::addText(m_animal2.getName() + " fainted!");
 				break;
 			}
+			IO::emptyOutput();
+			f.printStatus();
 			f.twoAttacksRandom();
 			if (m_animal1.getActualHealth() == 0) {
 				Console::addText(m_animal1.getName() + " fainted!");
@@ -134,6 +130,8 @@ void Battle::startUservsAIRandom() {
 				Console::addText(m_animal1.getName() + " fainted!");
 				break;
 			}
+			IO::emptyOutput();
+			f.printStatus();
 			f.oneAttacks(atk);
 			if (m_animal2.getActualHealth() == 0) {
 				Console::addText(m_animal2.getName() + " fainted!");
@@ -152,13 +150,7 @@ void Battle::startUservsAIRandom() {
 		Console::printText();
 	}
 
-	while (!Console::textEmpty()) {
-		ArrowKey key = IO::getKey();
-		if (key == ArrowKey::ENTER) {
-			Console::advanceText();
-			Console::printText();
-		}
-	}
+	IO::emptyOutput();
 
 }
 

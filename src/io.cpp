@@ -16,6 +16,20 @@ IO & IO::instance() {
 	return io;
 }
 
+void IO::emptyOutput() {
+	DEB("emptyOutput");
+	while (!Console::textEmpty()) {
+		
+		ArrowKey key = getKey();
+		if (key == ArrowKey::ENTER) {
+			Console::advanceText();
+			Console::printText();
+		}
+
+	}
+
+}
+
 void IO::printAttacks(const std::vector<std::shared_ptr<Attack>> & attacks) {
 
 	std::cout << "\033[" << 4 + attacks.size() << "A";
@@ -34,13 +48,7 @@ const std::shared_ptr<Attack> IO::chooseAttackWithArrowKeys(const std::vector<st
 
 	// printAttacks(attacks);
 
-	while (!Console::textEmpty()) {
-		ArrowKey key = getArrowKey();
-		if (key == ArrowKey::ENTER) {
-			Console::advanceText();
-			Console::printText();
-		}
-	}
+	emptyOutput();
 	Console::addText("Please choose an attack with the arrow keys and press enter:");
 
 	int choice = 0;

@@ -6,9 +6,13 @@
 
 #include "typedefs.hpp"
 
+#define DEB(x) Console::debug(x)
+
 class Console {
 
 	public:
+
+		static void debug(const std::string &); 
 
 		static void print();
 
@@ -29,7 +33,7 @@ class Console {
 
 	private:
 
-		Console() {}
+		Console();
 
 		void printTextLines();
 		void printInputTextLines();

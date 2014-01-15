@@ -4,6 +4,8 @@
 #include <math.h>
 #include <algorithm>
 #include <random>
+#include <chrono>
+#include <thread>
 
 #include "console.hpp"
 
@@ -247,13 +249,14 @@ void Animal::evolveInto(const Animal & other) {
 
 }
 
-void Animal::useAttack(std::shared_ptr<Attack> atk, Animal & foe) {
+bool Animal::useAttack(std::shared_ptr<Attack> atk, Animal & foe) {
 
 	std::uniform_real_distribution<float> dist(0.f, 1.f);
 
 	if (dist(generator) > atk->getProbability()) {
 
 		if (m_log) Console::addText("Attack missed!");
+		return false;
 
 	} else {
 
@@ -282,6 +285,8 @@ void Animal::useAttack(std::shared_ptr<Attack> atk, Animal & foe) {
 		modifyDefense(atk->getOwnDefenseModifier());
 		modifySpeed(atk->getOwnSpeedModifier());
 		modifyHealth(atk->getOwnHealthModifier());
+
+		return true;
 
 	}
 

@@ -6,6 +6,15 @@ static constexpr unsigned int k_outputLines = 2;
 static constexpr unsigned int k_worldY = 20;
 static constexpr unsigned int k_worldX = 50;
 
+void Console::debug(const std::string & str) {
+	instance().moveCursorToUpperBorder();
+	
+	std::cout << "\033[1A" << "\r\033[K" << "DEBUG: ";
+	std::cout << str;
+
+	instance().moveCursorToBottom();
+}
+
 void Console::print() {
 
 	instance().printWorldLines();
@@ -31,7 +40,9 @@ void Console::setInputText(const std::string & str) {
 }
 
 void Console::advanceText() {
-	instance().m_outputList.pop_front();
+	if (instance().m_outputList.size() > 0) {
+		instance().m_outputList.pop_front();
+	}
 }
 
 bool Console::textEmpty() {
@@ -52,6 +63,13 @@ void Console::setAreaBase(const twoDimArray & arr) {
 
 void Console::setPosition(const Position & pos) {
 	instance().m_pos = pos;
+}
+
+
+Console::Console() {
+	for (unsigned int i = 0; i < 1 + k_outputLines + 2 + k_worldY; ++i) {
+		std::cout << std::endl;
+	}
 }
 
 void Console::printTextLines() {

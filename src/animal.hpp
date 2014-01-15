@@ -45,7 +45,7 @@ class Animal {
 		const unsigned int getNeededExp() const;
 		void gainExp(unsigned int);
 		void changeHealth(const int h);
-		void useAttack(std::shared_ptr<Attack>, Animal &);
+		bool useAttack(std::shared_ptr<Attack>, Animal &);
 		const std::shared_ptr<Attack> getRandomAttack() const;
 
 		void heal() { m_stats.setActualHealth(getMaxHealth()); }
