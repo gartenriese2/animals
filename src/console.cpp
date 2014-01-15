@@ -7,26 +7,11 @@ static constexpr unsigned int k_worldY = 20;
 static constexpr unsigned int k_worldX = 50;
 
 void Console::print() {
-	
-	// std::cout << "\033[1A"; // input line
 
-	// instance().printWorldLines();
+	instance().printWorldLines();
 	instance().printBorders();
+	instance().printTextLines();
 	
-	// std::cout << "\033[" << k_outputLines << "A";
-	// std::cout << "\r\033[K";
-	// for (unsigned int i = 0; i < k_worldX; ++i) {
-	// 	std::cout << "=";
-	// }
-	// std::cout << "\n";
-	// std::cout << "\033[" << k_outputLines << "B";
-
-	// instance().printTextLines();
-
-	// std::cout << "\033[1B"; // input line
-
-std::cout << "\033[4A";
-instance().moveCursorToBottom();
 }
 
 void Console::printText() {
@@ -113,17 +98,13 @@ void Console::printInputTextLines() {
 
 void Console::printEmptyWorld() {
 
-	std::cout << "\033[" << k_outputLines << "A";
-	std::cout << "\033[1A" << "\r\033[K"; // border
+	printBorders();
+	moveCursorToTopOfArea();
 	for (unsigned int i = 0; i < k_worldY; ++i) {
-		std::cout << "\033[1A" << "\r\033[K";
+		std::cout << "\033[K\n";
 	}
-	std::cout << "\033[" << k_worldY << "B";
-	for (unsigned int i = 0; i < k_worldX; ++i) {
-		std::cout << "=";
-	}
-	std::cout << "\n";
-	std::cout << "\033[" << k_outputLines << "B";
+	moveCursorToBottom();
+
 
 }
 
@@ -138,6 +119,8 @@ void Console::printWorldLines() {
 
 	for (int i = fromY; i < toY; ++i) {
 		
+		std::cout << "\r\033[K";
+
 		if (i >= 0 && i < m_area.size()) {
 					
 			for (int j = fromX; j < toX; ++j) {
@@ -167,7 +150,7 @@ void Console::moveCursorToBottom() {
 
 }
 
-void Console::moveCursorToTextOutput() {
+void Console::moveCursorToBottomOfTextOutput() {
 
 	moveCursorToBottom();
 	std::cout << "\033[1A";
@@ -177,7 +160,7 @@ void Console::moveCursorToTextOutput() {
 void Console::moveCursorToLowerBorder() {
 
 	moveCursorToBottom();
-	moveCursorToTextOutput();
+	moveCursorToBottomOfTextOutput();
 	std::cout << "\033[" << k_outputLines << "A";
 
 }
@@ -194,7 +177,7 @@ void Console::moveCursorToTopOfArea() {
 
 	moveCursorToBottom();
 	moveCursorToBottomOfArea();
-	std::cout << "\033[" << k_worldY << "A";
+	std::cout << "\033[" << k_worldY - 1 << "A";
 
 }
 

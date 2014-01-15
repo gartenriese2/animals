@@ -33,6 +33,11 @@ int main () {
 
 	Game game;
 
+	// std::cout << "\033[t";
+	// std::string str;
+	// std::cin >> str;
+	// std::cout << str << std::endl;
+
 	return 0;
 
 }

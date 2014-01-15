@@ -38,7 +38,7 @@ class Console {
 		void printBorders();
 
 		void moveCursorToBottom();
-		void moveCursorToTextOutput();
+		void moveCursorToBottomOfTextOutput();
 		void moveCursorToLowerBorder();
 		void moveCursorToBottomOfArea();
 		void moveCursorToTopOfArea();
