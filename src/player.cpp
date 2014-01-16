@@ -79,7 +79,7 @@ void Player::enterArea(const std::string & name) {
 	try {
 		m_position = m_area.getPortalPos(oldName);
 	} catch (char const * c) {
-		std::cout << c << std::endl;
+		DEB(c);
 		m_area = Area::getArea(oldName);
 	}
 	Console::setAreaBase(m_area.getBase());

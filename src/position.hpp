@@ -1,6 +1,8 @@
 #ifndef _POSITION_HPP
 #define _POSITION_HPP
 
+#include <string>
+
 class Position {
 
 	public:

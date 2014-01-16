@@ -3,6 +3,8 @@
 #include <iostream>
 #include <random>
 
+#include "console.hpp"
+
 extern std::mt19937 generator;
 static AreaDatabaseReader m_reader;
 static constexpr char k_stopsign = 'x';
@@ -113,7 +115,7 @@ const Area Area::getArea(const std::string & s) {
 		map = m_reader.getPortalMapFromEntry(s);
 		tuples = m_reader.getLikelyhoodsFromEntry(s);
 	} catch (char const * c) {
-		std::cout << c << std::endl;
+		DEB(c);
 	}
 
 	return Area(s, arr, map, tuples);

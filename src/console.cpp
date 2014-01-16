@@ -65,8 +65,14 @@ void Console::setPosition(const Position & pos) {
 	instance().m_pos = pos;
 }
 
+void Console::printMenu() {
+	instance().printMenuInstance();
+}
 
-Console::Console() {
+
+Console::Console()
+  : m_menu({"Animals","Empty","Empty2"})
+{
 	for (unsigned int i = 0; i < 1 + k_outputLines + 2 + k_worldY; ++i) {
 		std::cout << std::endl;
 	}
@@ -157,6 +163,20 @@ void Console::printWorldLines() {
 		
 	}
 	
+	moveCursorToBottom();
+
+}
+
+void Console::printMenuInstance() {
+
+	moveCursorToTopOfArea();
+	
+	for (const auto & s : m_menu.getEntries()) {
+		std::cout << "\033[" << k_worldX + 1 << "G";
+		std::cout << s;
+		std::cout << "\033[1B";
+	}
+
 	moveCursorToBottom();
 
 }

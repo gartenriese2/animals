@@ -5,6 +5,7 @@
 #include <string>
 
 #include "typedefs.hpp"
+#include "menu.hpp"
 
 #define DEB(x) Console::debug(x)
 
@@ -28,6 +29,8 @@ class Console {
 		static void clearArea();
 		static void setAreaBase(const twoDimArray &);
 		static void setPosition(const Position &);
+
+		static void printMenu();
 		
 		~Console() {}
 
@@ -40,6 +43,7 @@ class Console {
 		void printWorldLines();
 		void printEmptyWorld();
 		void printBorders();
+		void printMenuInstance();
 
 		void moveCursorToBottom();
 		void moveCursorToBottomOfTextOutput();
@@ -54,6 +58,8 @@ class Console {
 		std::string m_inputText;
 		twoDimArray m_area;
 		Position m_pos;
+
+		Menu m_menu;
 
 		
 

@@ -43,6 +43,7 @@ void Game::loop() {
 		}
 		
 		Console::print();
+		Console::printMenu();
 	}
 
 }

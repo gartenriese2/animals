@@ -10,8 +10,8 @@
 
 using portalMap = std::map<Position, std::string>;
 
-static constexpr unsigned int k_height = 20;
-static constexpr unsigned int k_width = 50;
+static constexpr unsigned int k_height = 40;
+static constexpr unsigned int k_width = 100;
 using twoDimArray = std::array<std::array<char, k_width>, k_height>;
 
 using likelyhoodTuples = std::vector<std::tuple<std::string, unsigned int, unsigned int, float>>;
