@@ -30,7 +30,11 @@ class Console {
 		static void setAreaBase(const twoDimArray &);
 		static void setPosition(const Position &);
 
+		static void toggleMenu();
 		static void printMenu();
+		static bool activeMenu();
+		static void goMenuUp() { instance().m_menu.activateUpperEntry(); }
+		static void goMenuDown() { instance().m_menu.activateLowerEntry(); }
 		
 		~Console() {}
 

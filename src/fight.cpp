@@ -23,23 +23,18 @@ void Fight::printStatus() const {
 		std::cout << "\033[1A" << "\r\033[K";
 	}
 	
-	std::cout << m_animal1.getName() << ": " << std::endl;
+	std::cout << m_animal1.getName() << " (lvl." << m_animal1.getLevel() << "): " << std::endl;
 	m_animal1.printHealth();
-	std::cout << m_animal2.getName() << ": " << std::endl;
+	std::cout << m_animal2.getName() << " (lvl." << m_animal2.getLevel() << "): " << std::endl;
 	m_animal2.printHealth();
 
 	std::cout << "\033[4B";
 
 }
 
-void Fight::refreshAnimal1HealthOutput(unsigned int oldHealth, unsigned int newHealth) const {
-	if (oldHealth != newHealth) {
+void Fight::refreshHealth(float oldRatio, float newRatio) const {
 
-		std::cout << "\r\033[7A";
-		unsigned int maxHealth = m_animal1.getMaxHealth();
-		float oldRatio = static_cast<float>(oldHealth) / static_cast<float>(maxHealth);
-		float newRatio = static_cast<float>(newHealth) / static_cast<float>(maxHealth);
-		if (oldRatio < newRatio) {
+	if (oldRatio < newRatio) {
 			for (float old = oldRatio; old < newRatio; old += 0.02f) {
 
 				std::cout << "\r\033[K";
@@ -68,6 +63,18 @@ void Fight::refreshAnimal1HealthOutput(unsigned int oldHealth, unsigned int newH
 
 			}
 		}
+
+}
+
+void Fight::refreshAnimal1HealthOutput(unsigned int oldHealth, unsigned int newHealth) const {
+	if (oldHealth != newHealth) {
+
+		std::cout << "\r\033[7A";
+
+		unsigned int maxHealth = m_animal1.getMaxHealth();
+		float oldRatio = static_cast<float>(oldHealth) / static_cast<float>(maxHealth);
+		float newRatio = static_cast<float>(newHealth) / static_cast<float>(maxHealth);
+		refreshHealth(oldRatio, newRatio);
 		
 		std::cout << "\033[7B";
 
@@ -78,39 +85,12 @@ void Fight::refreshAnimal2HealthOutput(unsigned int oldHealth, unsigned int newH
 	if (oldHealth != newHealth) {
 
 		std::cout << "\033[5A";
+
 		unsigned int maxHealth = m_animal2.getMaxHealth();
 		float oldRatio = static_cast<float>(oldHealth) / static_cast<float>(maxHealth);
 		float newRatio = static_cast<float>(newHealth) / static_cast<float>(maxHealth);
-		if (oldRatio < newRatio) {
-			for (float old = oldRatio; old < newRatio; old += 0.02f) {
+		refreshHealth(oldRatio, newRatio);
 
-				std::cout << "\r\033[K";
-				unsigned int bars = round(old * 50);
-				std::cout << "Health: [";
-				for (unsigned int i = 0; i < 50; ++i) {
-					if (i < bars) std::cout << "|";
-					else std::cout << ".";
-				}
-				std::cout << "]" << std::flush;
-				std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
-			}
-		} else {
-			for (float old = oldRatio; old > newRatio; old -= 0.02f) {
-
-				std::cout << "\r\033[K";
-				unsigned int bars = round(old * 50);
-				std::cout << "Health: [";
-				for (unsigned int i = 0; i < 50; ++i) {
-					if (i < bars) std::cout << "|";
-					else std::cout << ".";
-				}
-				std::cout << "]" << std::flush;
-				std::this_thread::sleep_for(std::chrono::milliseconds(100));
-				
-			}
-		}
-		
 		std::cout << "\033[5B";
 
 	}

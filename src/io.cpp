@@ -17,11 +17,11 @@ IO & IO::instance() {
 }
 
 void IO::emptyOutput() {
-	DEB("emptyOutput");
+
 	while (!Console::textEmpty()) {
 		
-		ArrowKey key = getKey();
-		if (key == ArrowKey::ENTER) {
+		Key key = getKey();
+		if (key == Key::ENTER) {
 			Console::advanceText();
 			Console::printText();
 		}
@@ -55,12 +55,12 @@ const std::shared_ptr<Attack> IO::chooseAttackWithArrowKeys(const std::vector<st
 	Console::setInputText(attacks[choice]->getName());
 	Console::printAllText();
 	
-	ArrowKey k;
-	while ((k = getArrowKey()) != ArrowKey::ENTER) {
-		if (k == ArrowKey::DOWN) {
+	Key k;
+	while ((k = getKey()) != Key::ENTER) {
+		if (k == Key::DOWN) {
 			choice = (choice + 1 == attacks.size() ? 0 : choice + 1);
 		}
-		if (k == ArrowKey::UP) {
+		if (k == Key::UP) {
 			choice = (choice == 0 ? attacks.size() - 1 : choice - 1);
 		}
 		Console::setInputText(attacks[choice]->getName());
@@ -83,12 +83,12 @@ const std::string IO::chooseStarter() const {
 	Console::setInputText("I choose " + v[choice]);
 	Console::printInputText();
 	
-	ArrowKey k;
-	while ((k = getArrowKey()) != ArrowKey::ENTER) {
-		if (k == ArrowKey::DOWN) {
+	Key k;
+	while ((k = getKey()) != Key::ENTER) {
+		if (k == Key::DOWN) {
 			choice = (choice + 1 == v.size() ? 0 : choice + 1);
 		}
-		if (k == ArrowKey::UP) {
+		if (k == Key::UP) {
 			choice = (choice == 0 ? v.size() - 1 : choice - 1);
 		}
 		Console::setInputText("I choose " + v[choice]);
@@ -106,7 +106,7 @@ const std::string IO::chooseStarter() const {
 }
 
 
-ArrowKey IO::getArrowKey() const {
+Key IO::getKeyInstance() const {
 	
 	static struct termios oldt, newt;
 	tcgetattr( STDIN_FILENO, &oldt);
@@ -115,28 +115,29 @@ ArrowKey IO::getArrowKey() const {
 	newt.c_lflag &= ~ECHO;
 	tcsetattr( STDIN_FILENO, TCSANOW, &newt);
 
-	ArrowKey k = ArrowKey::NONE;
+	Key k = Key::NONE;
 	int c1 = getchar();
 	if (c1 == 27) {
 		int c2 = getchar();
 		if (c2 == 91) {
 			int c3 = getchar();
 			if (c3 == 65) {
-				k = ArrowKey::UP;
+				k = Key::UP;
 			} else
 			if (c3 == 66) {
-				k = ArrowKey::DOWN;
+				k = Key::DOWN;
 			} else
 			if (c3 == 67) {
-				k = ArrowKey::RIGHT;
+				k = Key::RIGHT;
 			} else
 			if (c3 == 68) {
-				k = ArrowKey::LEFT;
+				k = Key::LEFT;
 			}
 		}
-	} else
-	if (c1 == 10) {
-		k = ArrowKey::ENTER;
+	} else if (c1 == 10) {
+		k = Key::ENTER;
+	} else if (c1 == 'm') {
+		k = Key::MENU;
 	}
 
 	tcsetattr( STDIN_FILENO, TCSANOW, &oldt);
@@ -144,6 +145,6 @@ ArrowKey IO::getArrowKey() const {
 
 }
 
-ArrowKey IO::getKey() {
-	return instance().getArrowKey();
+Key IO::getKey() {
+	return instance().getKeyInstance();
 }

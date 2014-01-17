@@ -33,8 +33,8 @@ void Battle::addExp(Animal & winner, const Animal & loser) const {
 	winner.gainExp(xpGain);
 
 	while (!Console::textEmpty()) {
-		ArrowKey key = IO::getKey();
-		if (key == ArrowKey::ENTER) {
+		Key key = IO::getKey();
+		if (key == Key::ENTER) {
 			Console::advanceText();
 			Console::printText();
 		}
@@ -214,8 +214,8 @@ void Battle::startUservsUser() {
 	}
 
 	while (!Console::textEmpty()) {
-		ArrowKey key = IO::getKey();
-		if (key == ArrowKey::ENTER) {
+		Key key = IO::getKey();
+		if (key == Key::ENTER) {
 			Console::advanceText();
 			Console::printText();
 		}

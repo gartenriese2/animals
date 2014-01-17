@@ -6,7 +6,7 @@
 
 #include "attack.hpp"
 
-enum class ArrowKey : char { NONE, UP, DOWN, LEFT, RIGHT, ENTER };
+enum class Key : char { NONE, UP, DOWN, LEFT, RIGHT, ENTER, MENU };
 
 class IO {
 
@@ -15,10 +15,8 @@ class IO {
 		IO();
 		~IO();
 
-		static ArrowKey getKey();
+		static Key getKey();
 		static void emptyOutput();
-
-		ArrowKey getArrowKey() const;
 
 		const std::shared_ptr<Attack> chooseAttackWithArrowKeys(const std::vector<std::shared_ptr<Attack>> &);
 		const std::string chooseStarter() const;
@@ -26,6 +24,7 @@ class IO {
 	private:
 
 		void printAttacks(const std::vector<std::shared_ptr<Attack>> &);
+		Key getKeyInstance() const;
 
 		static IO & instance();
 

@@ -26,19 +26,19 @@ void Player::printArea() const {
 
 }
 
-void Player::move(ArrowKey key) {
+void Player::move(Key key) {
 
 	switch(key) {
-		case ArrowKey::UP:
+		case Key::UP:
 			setPosition(m_position.x(), m_position.y() - 1);
 			break;
-		case ArrowKey::DOWN:
+		case Key::DOWN:
 			setPosition(m_position.x(), m_position.y() + 1);
 			break;
-		case ArrowKey::LEFT:
+		case Key::LEFT:
 			setPosition(m_position.x() - 1, m_position.y());
 			break;
-		case ArrowKey::RIGHT:
+		case Key::RIGHT:
 			setPosition(m_position.x() + 1, m_position.y());
 			break;
 		default:
@@ -63,7 +63,8 @@ void Player::setPosition(unsigned int x, unsigned int y) {
 				enterArea(m_area.getAreaFromPortalPos(m_position).getName());
 				break;
 			case AreaType::HEALING:
-				m_output = m_party.heal();
+				m_party.heal();
+				m_respawnPos = std::make_tuple(m_area.getName(),m_position);
 				break;
 			default:
 				break;
@@ -95,27 +96,15 @@ void Player::grassAction() {
 		Console::clearArea();
 		Console::addText("You encounterd a wild animal!");
 		Console::printText();
-		while (!Console::textEmpty()) {
-			ArrowKey key = IO::getKey();
-			if (key == ArrowKey::ENTER) {
-				Console::advanceText();
-				Console::printText();
-			}
-		}
+		IO::emptyOutput();
 
 		Animal a = m_area.getWildAnimal();
 		t.startSingleBattle(m_party.getFrontAnimal(), a);
 		if (!m_party.isHealthy()) {
+			Console::clearArea();
 			Console::addText("You hurried back to a safe place to heal your animals!");
-
-			while (!Console::textEmpty()) {
-				ArrowKey key = IO::getKey();
-				if (key == ArrowKey::ENTER) {
-					Console::advanceText();
-					Console::printText();
-				}
-			}
-
+			Console::printText();
+			IO::emptyOutput();
 			respawn();
 		}
 	}

@@ -15,7 +15,7 @@ class Player {
 		void printArea() const;
 		void printOutput() const { std::cout << m_output << std::endl; }
 
-		void move(ArrowKey);
+		void move(Key);
 
 		Party & getParty() { return m_party; }
 		const Area & getArea() { return m_area; }

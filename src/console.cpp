@@ -65,6 +65,18 @@ void Console::setPosition(const Position & pos) {
 	instance().m_pos = pos;
 }
 
+void Console::toggleMenu() {
+	if (instance().m_menu.isActive()) {
+		instance().m_menu.deactivate();
+	} else {
+		instance().m_menu.activate();
+	}
+}
+
+bool Console::activeMenu() {
+	return instance().m_menu.isActive();
+}
+
 void Console::printMenu() {
 	instance().printMenuInstance();
 }
@@ -173,6 +185,9 @@ void Console::printMenuInstance() {
 	
 	for (const auto & s : m_menu.getEntries()) {
 		std::cout << "\033[" << k_worldX + 1 << "G";
+		if (s == m_menu.getActiveEntry()) {
+			std::cout << "-->";
+		}
 		std::cout << s;
 		std::cout << "\033[1B";
 	}

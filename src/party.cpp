@@ -1,6 +1,8 @@
 #include "party.hpp"
 
 #include <iostream>
+#include "console.hpp"
+#include "io.hpp"
 
 static constexpr unsigned int k_maxAnimals = 5;
 
@@ -31,12 +33,14 @@ Animal & Party::getFrontAnimal() {
 	
 }
 
-const std::string Party::heal(){
+void Party::heal(){
 
 	for (auto & i : m_animals) {
 		i.heal();
 	}
-	return std::string("Your animals were healed!\n");
+	Console::addText("Your animals were healed!");
+	Console::printText();
+	IO::emptyOutput();
 
 }
 

@@ -33,17 +33,25 @@ void Game::loop() {
 
 	while(1) {
 		
-		ArrowKey key = m_io.getArrowKey();
+		Key key = IO::getKey();
 
-		if (key == ArrowKey::ENTER) {
+		if (key == Key::ENTER && !Console::activeMenu()) {
 			Console::advanceText();
 			Console::printText();
+		} else if (key == Key::MENU) {
+			Console::toggleMenu();
+		} else if (Console::activeMenu()) {
+			if (key == Key::UP) {
+				Console::goMenuUp();
+			} else if(key == Key::DOWN) {
+				Console::goMenuDown();
+			}
 		} else {
 			m_world.getPlayer().move(key);
 		}
 		
 		Console::print();
-		Console::printMenu();
+		if (Console::activeMenu()) Console::printMenu();
 	}
 
 }
