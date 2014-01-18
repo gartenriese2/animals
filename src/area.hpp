@@ -11,7 +11,7 @@
 #include "typedefs.hpp"
 #include "animal.hpp"
 
-enum AreaType : char { BORDER = '+', GRASS = '#', PORTAL = 'o', HEALING = 'H', WATER = '~' };
+enum AreaType : char { BORDER = '+', GRASS = '#', PORTAL = 'o', HEALING = 'H', WATER = '~', NPC = 'N' };
 
 class Area {
 	

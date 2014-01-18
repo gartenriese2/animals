@@ -16,6 +16,7 @@ class Player {
 		void printOutput() const { std::cout << m_output << std::endl; }
 
 		void move(Key);
+		void interact();
 
 		Party & getParty() { return m_party; }
 		const Area & getArea() { return m_area; }
@@ -28,7 +29,7 @@ class Player {
 		std::tuple<std::string,Position> m_respawnPos;
 		Area m_area;
 		Position m_position;
-		
+		Position m_view;
 
 		std::string m_output;
 

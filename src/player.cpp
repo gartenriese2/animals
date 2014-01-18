@@ -12,7 +12,11 @@ static constexpr float k_grassEncounterProb = 0.15f;
 Player::Player(const std::tuple<std::string,Position> & spawn)
   : m_respawnPos(spawn)
 {
-	respawn();
+	m_area = Area::getArea(std::get<0>(m_respawnPos));
+	Console::setAreaBase(m_area.getBase());
+	m_position = std::get<1>(m_respawnPos);
+	Console::setPosition(m_position);
+	m_view = Position(0,1);
 }
 
 Player::~Player() {
@@ -21,8 +25,7 @@ Player::~Player() {
 
 void Player::printArea() const {
 
-	// m_area.print(m_position);
-	Console::print();
+	Console::printArea();
 
 }
 
@@ -46,6 +49,15 @@ void Player::move(Key key) {
 	}
 
 	Console::setPosition(m_position);
+
+}
+
+void Player::interact() {
+
+	char c = m_area.getBase()[m_position.getX() + m_view.getX()][m_position.getY() + m_view.getY()];
+	if (c == AreaType::NPC) {
+		
+	}
 
 }
 
@@ -117,6 +129,7 @@ void Player::respawn() {
 	Console::setAreaBase(m_area.getBase());
 	m_position = std::get<1>(m_respawnPos);
 	Console::setPosition(m_position);
+	m_view = Position(0,1);
 	m_party.heal();
 
 }

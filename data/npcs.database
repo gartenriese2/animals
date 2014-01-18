@@ -1,0 +1,46 @@
+///////////////////////
+//				     //
+//   NPC DATABASE   //
+//   by gartenriese  //
+//				     //
+///////////////////////
+// 
+// Usage:
+//
+// A NPC needs a name, an area where he resides, a position in this area, and optionally animals for his party.
+//
+// '<' starts a tag, which are:
+// 'n' (Name)
+// 'a' (Area)
+// 'p' (Party)
+// 'e' (End of database)
+//
+// Tag entries need to be in a new line.
+// Empty lines will not be ommited, so be careful! Use '//', if you just want an empty line for a nicer layout.
+//
+// Name:
+// You should use basic characters, no fancy stuff. I did not test for that. ;-)
+//
+// Area:
+// name>x,y where name is the name of the area, and x and y are the coordinates
+//
+// Party:
+// there can be several animals in a party, each animal in a seperate line
+// name>lvl where name is the name of the animal and lvl is the level of the animal
+//
+///////////////////////
+<n>
+Marc
+<a>
+Route2a>15,8
+<p>
+Mousey>5
+Mousey>7
+<n>
+Andy
+<a>
+Route2a>24,4
+<p>
+Arachnom>5
+Arachnom>6
+<e>
