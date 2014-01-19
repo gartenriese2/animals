@@ -141,3 +141,12 @@ void Tournament::startWithWaterstarter() {
 	std::cout << "You won " << victories << " times!" << std::endl;
 
 }
+
+void Tournament::startTrainerBattles(Party & ownParty, Party & opponentParty) {
+
+	while(ownParty.isHealthy() && opponentParty.isHealthy()) {
+		Battle b(ownParty.getFirstHealthyAnimal(), opponentParty.getFirstHealthyAnimal());
+		b.startUservsAIRandom();
+	}
+
+}

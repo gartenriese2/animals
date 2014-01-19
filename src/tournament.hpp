@@ -2,6 +2,7 @@
 #define _TOURNAMENT_HPP
 
 #include "battle.hpp"
+#include "party.hpp"
 
 class Tournament {
 
@@ -19,6 +20,8 @@ class Tournament {
 
         void startWithFirestarter();
         void startWithWaterstarter();
+
+        void startTrainerBattles(Party &, Party &);
 
 	private:
 

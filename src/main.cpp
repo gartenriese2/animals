@@ -7,8 +7,6 @@
 
 #include "game.hpp"
 
-#include "console.hpp"
-
 std::mt19937 generator;
 
 int main () {
@@ -32,11 +30,6 @@ int main () {
 	// t.startRandomBattles(40,50);
 
 	Game game;
-
-	// std::cout << "\033[t";
-	// std::string str;
-	// std::cin >> str;
-	// std::cout << str << std::endl;
 
 	return 0;
 

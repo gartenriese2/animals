@@ -33,6 +33,22 @@ Animal & Party::getFrontAnimal() {
 	
 }
 
+Animal & Party::getFirstHealthyAnimal() {
+
+	if (getSize() == 0) {
+		std::cout << "You don't have any animals!" << std::endl;
+		abort();
+	}
+
+	for (auto & i : m_animals) {
+		if (i.getActualHealth() > 0) return i;
+	}
+
+	DEB("No healthy animals!");
+	throw "";
+
+}
+
 void Party::heal(){
 
 	for (auto & i : m_animals) {

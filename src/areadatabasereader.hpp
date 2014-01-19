@@ -14,17 +14,18 @@ class AreaDatabaseReader : public DatabaseReader {
 		const twoDimArray getBaseFromEntry(const std::string &);
 		const portalMap getPortalMapFromEntry(const std::string &);
         const likelyhoodTuples getLikelyhoodsFromEntry(const std::string &);
+        const portalMap getNPCSFromEntry(const std::string &);
 
 	private:
 
 		const std::string k_filename = "data/areas.database";
 
         void openFile();
-        const std::string nextEntry();
 
         const portalMap convertStringToPortalMap(const std::string &);
         const twoDimArray convertStringToTwoDimArr(const std::string &);
         const likelyhoodTuples convertStringToLikelyhoodTuples(const std::string &);
+        const portalMap convertStringToNPCMap(const std::string &);
 
 };
 

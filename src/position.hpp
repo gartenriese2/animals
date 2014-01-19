@@ -8,15 +8,15 @@ class Position {
 	public:
 
 		Position() {}
-		Position(unsigned int x, unsigned int y) : m_x(x), m_y(y) {};
+		Position(int x, int y) : m_x(x), m_y(y) {};
 
-		void set(unsigned int x, unsigned int y) { m_x = x; m_y = y; }
+		void set(int x, int y) { m_x = x; m_y = y; }
 
-		const unsigned int getX() const { return m_x; }
-		const unsigned int getY() const { return m_y; }
+		const int getX() const { return m_x; }
+		const int getY() const { return m_y; }
 
-		unsigned int & x() { return m_x; }
-		unsigned int & y() { return m_y; }
+		int & x() { return m_x; }
+		int & y() { return m_y; }
 
 		bool operator==(const Position & other) const {
 			return (m_x == other.getX() && m_y == other.getY());
@@ -34,8 +34,8 @@ class Position {
 
 	private:
 
-		unsigned m_x;
-		unsigned m_y;
+		int m_x;
+		int m_y;
 
 };
 

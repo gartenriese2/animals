@@ -34,15 +34,19 @@ void Player::move(Key key) {
 	switch(key) {
 		case Key::UP:
 			setPosition(m_position.x(), m_position.y() - 1);
+			m_view = Position(0,-1);
 			break;
 		case Key::DOWN:
 			setPosition(m_position.x(), m_position.y() + 1);
+			m_view = Position(0,+1);
 			break;
 		case Key::LEFT:
 			setPosition(m_position.x() - 1, m_position.y());
+			m_view = Position(-1,0);
 			break;
 		case Key::RIGHT:
 			setPosition(m_position.x() + 1, m_position.y());
+			m_view = Position(1,0);
 			break;
 		default:
 			break;
@@ -54,9 +58,26 @@ void Player::move(Key key) {
 
 void Player::interact() {
 
-	char c = m_area.getBase()[m_position.getX() + m_view.getX()][m_position.getY() + m_view.getY()];
+	char c = m_area.getBase()[m_position.getY() + m_view.getY()][m_position.getX() + m_view.getX()];
+	
 	if (c == AreaType::NPC) {
 		
+		try {
+			
+			NPChar npc = m_area.getNPC(Position(m_position.getX() + m_view.getX(),m_position.getY() + m_view.getY()));
+			npc.action(m_party);
+			if (!m_party.isHealthy()) {
+				Console::clearArea();
+				Console::addText("You hurried back to a safe place to heal your animals!");
+				Console::printText();
+				IO::emptyOutput();
+				respawn();
+			}
+
+		} catch(char const * c) {
+			DEB(c);
+		}
+
 	}
 
 }
@@ -65,7 +86,9 @@ void Player::setPosition(unsigned int x, unsigned int y) {
 
 	const twoDimArray base = m_area.getBase();
 
-	if (x < base[0].size() && y < base.size() && base[y][x] != AreaType::BORDER) {
+	if (x < base[0].size() && y < base.size()
+		&& base[y][x] != AreaType::BORDER
+		&& base[y][x] != AreaType::NPC) {
 		m_position.set(x, y);
 		switch (base[y][x]) {
 			case AreaType::GRASS:

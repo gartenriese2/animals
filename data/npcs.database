@@ -7,12 +7,13 @@
 // 
 // Usage:
 //
-// A NPC needs a name, an area where he resides, a position in this area, and optionally animals for his party.
+// A NPC needs a name, an area where he resides, a position in this area, and optionally animals for his party and a text to say.
 //
 // '<' starts a tag, which are:
 // 'n' (Name)
-// 'a' (Area)
+// 'l' (Location)
 // 'p' (Party)
+// 't' (Text)
 // 'e' (End of database)
 //
 // Tag entries need to be in a new line.
@@ -21,24 +22,48 @@
 // Name:
 // You should use basic characters, no fancy stuff. I did not test for that. ;-)
 //
-// Area:
-// name>x,y where name is the name of the area, and x and y are the coordinates
+// Location:
+// area>x,y where area is the name of the area, and x and y are the coordinates
 //
 // Party:
 // there can be several animals in a party, each animal in a seperate line
 // name>lvl where name is the name of the animal and lvl is the level of the animal
+// 
+// Text:
+// each line will be output on the console when interacting
 //
 ///////////////////////
 <n>
+Tester
+<l>
+Home>9,1
+<t>
+You are testing the battle system!
+<p>
+Arachnom>1
+// Home
+<n>
+Mom
+<l>
+Home>9,3
+<t>
+Hi!
+How are you?
+...
+Ok, bye then!
+// Route 2
+<n>
 Marc
-<a>
+<l>
 Route2a>15,8
 <p>
 Mousey>5
 Mousey>7
+<t>
+I am going to crush you!
 <n>
 Andy
-<a>
+<l>
 Route2a>24,4
 <p>
 Arachnom>5

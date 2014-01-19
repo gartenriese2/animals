@@ -133,6 +133,15 @@ void Animal::changeHealth(const int h) {
 
 }
 
+void Animal::heal() { 
+
+	m_stats.setActualHealth(getMaxHealth());
+	m_stats.setActualAttack(getMaxAttack());
+	m_stats.setActualDefense(getMaxDefense());
+	m_stats.setActualSpeed(getMaxSpeed());
+
+}
+
 void Animal::modifyAttack(float f) {
 
 	float f2 = f * static_cast<float>(getActualAttack());

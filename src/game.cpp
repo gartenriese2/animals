@@ -35,9 +35,11 @@ void Game::loop() {
 		
 		Key key = IO::getKey();
 
-		if (key == Key::ENTER && !Console::activeMenu()) {
+		if (key == Key::ENTER && !Console::activeMenu() && !Console::textEmpty()) {
 			Console::advanceText();
 			Console::printText();
+		} else if (key == Key::ENTER && !Console::activeMenu()) {
+			m_world.getPlayer().interact();
 		} else if (key == Key::MENU) {
 			Console::toggleMenu();
 		} else if (Console::activeMenu()) {

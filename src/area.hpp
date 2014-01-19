@@ -10,6 +10,7 @@
 #include "areadatabasereader.hpp"
 #include "typedefs.hpp"
 #include "animal.hpp"
+#include "npchar.hpp"
 
 enum AreaType : char { BORDER = '+', GRASS = '#', PORTAL = 'o', HEALING = 'H', WATER = '~', NPC = 'N' };
 
@@ -18,7 +19,8 @@ class Area {
 	public:
 
 		Area();
-		Area(const std::string &, const twoDimArray &, const portalMap &, const likelyhoodTuples &);
+		Area(const std::string &, const twoDimArray &, const portalMap &,
+			const likelyhoodTuples &, const portalMap &);
 		~Area();
 
 		void print(const Position & pos) const;
@@ -27,6 +29,7 @@ class Area {
 		const twoDimArray & getBase() const { return m_base; }
 		const Position & getPortalPos(const std::string &) const;
 		const Area getAreaFromPortalPos(const Position &);
+		const NPChar getNPC(const Position &);
 
 		Animal getWildAnimal() const;
 
@@ -39,6 +42,7 @@ class Area {
 		twoDimArray m_base;
 		portalMap m_portals;
 		likelyhoodTuples m_likelyhoods;
+		portalMap m_npcs;
 
 };
 

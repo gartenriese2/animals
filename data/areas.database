@@ -14,6 +14,7 @@
 // 'b' (Base)
 // 'p' (Portals)
 // 'l' (Likelyhoods of animals appearing)
+// 'c' (Character, or NPC)
 // 'e' (End of database)
 //
 // Tag entries need to be in a new line.
@@ -28,6 +29,7 @@
 // 'o' : portal
 // '#' : grass
 // 'H' : healing spot
+// 'N' : NPC
 //
 // Portals:
 // A portal entry needs to look like this:
@@ -40,6 +42,10 @@
 // A likelyhood entry needs to look like this:
 // name>a-b>probability
 // where "name" is the name of the animal, "a" and "b" are the levels where the animals level is between, and "probabilty" is the probability [0,1] of this animal appearing. 
+//
+// NPCs:
+// x,y>name where x and y are the coordinates of the NPC and name is the name of the NPC.
+// needs an entry in the npc database
 //
 ///////////////////////
 <n>
@@ -111,12 +117,15 @@ Water1
 Home
 <b>
 +++++++++++
++        N+
 +         +
-+         +
-+   +o+   +
++   +o+  N+
 +++++++++++
 <p>
 5,3>Hometown
+<c>
+9,3>Mom
+9,1>Tester
 <n>
 Hometown
 <b>
@@ -268,11 +277,11 @@ Route2a
 +             #########        #########    +
 +o            #########           ###      o+
 +             #########        #########    +
-++++++       +++++++++++      +++++++++++++++
+++++++       +++++++++++N     +++++++++++++++
      +       +++++++++++      +
      +                        +
      +                        +
-     +                        +
+     +         N              +
      ++++++++++++++++++++++++++
 <p>
 1,2>FirstTown
@@ -281,4 +290,7 @@ Route2a
 Arachnom>4-7>0.4
 Duckweed>3-6>0.3
 Nightfairy>5-7>0.3
+<c>
+15,8>Marc
+24,4>Andy
 <e>

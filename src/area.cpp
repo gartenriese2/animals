@@ -29,11 +29,12 @@ Area::Area()
 }
 
 Area::Area(const std::string & name, const twoDimArray & base, const portalMap & portals,
-	const likelyhoodTuples & tuples)
+	const likelyhoodTuples & tuples, const portalMap & npcs)
   : m_name(name),
   	m_base(base),
   	m_portals(portals),
-  	m_likelyhoods(tuples)
+  	m_likelyhoods(tuples),
+  	m_npcs(npcs)
 {
 }
 
@@ -75,7 +76,7 @@ const Area Area::getAreaFromPortalPos(const Position & pos) {
 		}
 	}
 
-	std::cout << "no portal at this position! " << pos << std::endl;
+	DEB("no portal at this position! (" + std::to_string(pos.getX()) + "|" + std::to_string(pos.getY()) + ")" );
 	return * this;
 
 }
@@ -104,20 +105,36 @@ Animal Area::getWildAnimal() const {
 
 }
 
+const NPChar Area::getNPC(const Position & pos) {
+
+	for (const auto & i : m_npcs) {
+		if (pos == i.first) {
+			return NPChar::getNPC(i.second);
+		}
+	}
+
+	DEB("no npc at this position! (" + std::to_string(pos.getX()) + "|" + std::to_string(pos.getY()) + ")" );
+	abort();
+
+}
+
 
 const Area Area::getArea(const std::string & s) {
 
 	twoDimArray arr;
 	portalMap map;
 	likelyhoodTuples tuples;
+	portalMap npcs;
+
 	try {
 		arr = m_reader.getBaseFromEntry(s);
 		map = m_reader.getPortalMapFromEntry(s);
 		tuples = m_reader.getLikelyhoodsFromEntry(s);
+		npcs = m_reader.getNPCSFromEntry(s);
 	} catch (char const * c) {
 		DEB(c);
 	}
 
-	return Area(s, arr, map, tuples);
+	return Area(s, arr, map, tuples, npcs);
 
 }

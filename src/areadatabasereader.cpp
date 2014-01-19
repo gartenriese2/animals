@@ -13,34 +13,33 @@ void AreaDatabaseReader::openFile() {
 
 	m_file.open(k_filename);
 	if (!m_file.good()) {
-		std::cout << "Bad file!" << std::endl;
+		std::cout << "Bad Area database!" << std::endl;
 		abort();
 	}
 
 }
 
-const std::string AreaDatabaseReader::nextEntry() {
-
-	while (getNextTag() != Tag::NAME);
-	return getNextWord();
-
-}
-
 const twoDimArray AreaDatabaseReader::getBaseFromEntry(const std::string & str) {
 
-	return convertStringToTwoDimArr(getTagContentFromEntry(Tag::BASE, str));
+	return convertStringToTwoDimArr(getTagContentFromEntry('b', str));
 
 }
 
 const portalMap AreaDatabaseReader::getPortalMapFromEntry(const std::string & str) {
 	
-	return convertStringToPortalMap(getTagContentFromEntry(Tag::PORTALTAG, str));
+	return convertStringToPortalMap(getTagContentFromEntry('p', str));
 
 }
 
 const likelyhoodTuples AreaDatabaseReader::getLikelyhoodsFromEntry(const std::string & str) {
 
-	return convertStringToLikelyhoodTuples(getTagContentFromEntry(Tag::LIKELYHOODS, str));
+	return convertStringToLikelyhoodTuples(getTagContentFromEntry('l', str));
+
+}
+
+const portalMap AreaDatabaseReader::getNPCSFromEntry(const std::string & str) {
+
+	return convertStringToNPCMap(getTagContentFromEntry('c', str));
 
 }
 
@@ -111,5 +110,29 @@ const likelyhoodTuples AreaDatabaseReader::convertStringToLikelyhoodTuples(const
 	}
 
 	return tup;
+
+}
+
+const portalMap AreaDatabaseReader::convertStringToNPCMap(const std::string & str) {
+
+	portalMap map;
+	
+	unsigned int count = 0;
+	
+	while (count < str.size()) {
+	
+		std::string x;
+		std::string y;
+		std::string name;
+		
+		while (str[count++] != ',') x += str[count - 1];
+		while (str[count++] != '>') y += str[count - 1];
+		while (str[count++] != '\n') name += str[count - 1];
+		Position p(std::stoi(x), std::stoi(y));
+		map.emplace(p,name);
+
+	}
+
+	return map;
 
 }

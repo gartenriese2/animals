@@ -3,8 +3,6 @@
 
 #include <fstream>
 
-enum Tag : char { END = 'e', NAME = 'n', BASE = 'b', PORTALTAG = 'p', LIKELYHOODS = 'l' };
-
 class DatabaseReader {
 
 	public:
@@ -13,17 +11,17 @@ class DatabaseReader {
 		virtual ~DatabaseReader();
 
 		virtual void openFile() = 0;
-		virtual const std::string nextEntry() = 0;
 
 	protected:
 
 		std::ifstream m_file;
 
 		void goToNextLine();
-		Tag getNextTag();
+		const char getNextTag();
+		const std::string nextEntry();
 		const std::string getNextWord();
 		const std::string getNextContent();
-		const std::string getTagContentFromEntry(const Tag &, const std::string &);
+		const std::string getTagContentFromEntry(const char &, const std::string &);
 
 };
 

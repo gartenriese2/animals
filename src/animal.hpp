@@ -48,7 +48,7 @@ class Animal {
 		bool useAttack(std::shared_ptr<Attack>, Animal &);
 		const std::shared_ptr<Attack> getRandomAttack() const;
 
-		void heal() { m_stats.setActualHealth(getMaxHealth()); }
+		void heal();
 		void modifyAttack(float);
 		void modifyDefense(float);
 		void modifySpeed(float);
