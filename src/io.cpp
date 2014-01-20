@@ -54,7 +54,7 @@ const std::shared_ptr<Attack> IO::chooseAttackWithArrowKeys(const std::vector<st
 	int choice = 0;
 	Console::setInputText(attacks[choice]->getName());
 	Console::printAllText();
-	
+
 	Key k;
 	while ((k = getKey()) != Key::ENTER) {
 		if (k == Key::DOWN) {
@@ -107,40 +107,33 @@ const std::string IO::chooseStarter() const {
 
 
 Key IO::getKeyInstance() const {
-	
-	static struct termios oldt, newt;
-	tcgetattr( STDIN_FILENO, &oldt);
-	newt = oldt;
-	newt.c_lflag &= ~(ICANON);
-	newt.c_lflag &= ~ECHO;
-	tcsetattr( STDIN_FILENO, TCSANOW, &newt);
 
 	Key k = Key::NONE;
-	int c1 = getchar();
-	if (c1 == 27) {
-		int c2 = getchar();
-		if (c2 == 91) {
-			int c3 = getchar();
-			if (c3 == 65) {
-				k = Key::UP;
-			} else
-			if (c3 == 66) {
-				k = Key::DOWN;
-			} else
-			if (c3 == 67) {
-				k = Key::RIGHT;
-			} else
-			if (c3 == 68) {
-				k = Key::LEFT;
-			}
-		}
-	} else if (c1 == 10) {
-		k = Key::ENTER;
-	} else if (c1 == 'm') {
-		k = Key::MENU;
-	}
+	
+	int c = getch();
+	switch (c) {
+		case KEY_LEFT:
+			k = Key::LEFT;
+			break;
+		case KEY_RIGHT:
+			k = Key::RIGHT;
+			break;
+		case KEY_UP:
+			k = Key::UP;
+			break;
+		case KEY_DOWN:
+			k = Key::DOWN;
+			break;
+		case KEY_ENTER:
+			k = Key::ENTER;
+			break;
+		case 'm':
+			k = Key::MENU;
+			break;
+		default:
+			break;
+	};
 
-	tcsetattr( STDIN_FILENO, TCSANOW, &oldt);
 	return k;
 
 }

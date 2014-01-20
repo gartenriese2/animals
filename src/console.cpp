@@ -12,7 +12,6 @@ void Console::debug(const std::string & str) {
 	std::cout << "\033[1A" << "\r\033[K" << "DEBUG: ";
 	std::cout << str;
 
-	instance().moveCursorToBottom();
 }
 
 void Console::print() {
@@ -20,15 +19,18 @@ void Console::print() {
 	instance().printWorldLines();
 	instance().printBorders();
 	instance().printTextLines();
+	refresh();
 	
 }
 
 void Console::printText() {
 	instance().printTextLines();
+	refresh();
 }
 
 void Console::printInputText() {
 	instance().printInputTextLines();
+	refresh();
 }
 
 void Console::addText(const std::string & str) {
@@ -51,10 +53,12 @@ bool Console::textEmpty() {
 
 void Console::printArea() {
 	instance().printWorldLines();
+	refresh();
 }
 
 void Console::clearArea() {
 	instance().printEmptyWorld();
+	refresh();
 }
 
 void Console::setAreaBase(const twoDimArray & arr) {
@@ -120,8 +124,6 @@ void Console::printBorders() {
 		std::cout << "=";
 	}
 
-	moveCursorToBottom();
-
 }
 
 void Console::printInputTextLines() {
@@ -139,7 +141,6 @@ void Console::printEmptyWorld() {
 	for (unsigned int i = 0; i < k_worldY; ++i) {
 		std::cout << "\033[K\n";
 	}
-	moveCursorToBottom();
 
 
 }
@@ -174,8 +175,6 @@ void Console::printWorldLines() {
 		std::cout << std::endl;
 		
 	}
-	
-	moveCursorToBottom();
 
 }
 
@@ -192,52 +191,42 @@ void Console::printMenuInstance() {
 		std::cout << "\033[1B";
 	}
 
-	moveCursorToBottom();
-
 }
 
-void Console::moveCursorToBottom() {
+void Console::moveCursorToNthRow(unsigned int rows) {
 
-	std::cout << "\033[100B";
-	std::cout << "\r";
+	int row, col;
+	getmaxyx(stdscr, row, col);
+	move(row - 1 - rows, 0);
 
 }
 
 void Console::moveCursorToBottomOfTextOutput() {
 
-	moveCursorToBottom();
-	std::cout << "\033[1A";
+	moveCursorToNthRow(1);
 
 }
 
 void Console::moveCursorToLowerBorder() {
 
-	moveCursorToBottom();
-	moveCursorToBottomOfTextOutput();
-	std::cout << "\033[" << k_outputLines << "A";
+	moveCursorToNthRow(1 + k_outputLines);
 
 }
 
 void Console::moveCursorToBottomOfArea() {
 
-	moveCursorToBottom();
-	moveCursorToLowerBorder();
-	std::cout << "\033[1A";
+	moveCursorToNthRow(2 + k_outputLines);
 
 }
 
 void Console::moveCursorToTopOfArea() {
 
-	moveCursorToBottom();
-	moveCursorToBottomOfArea();
-	std::cout << "\033[" << k_worldY - 1 << "A";
+	moveCursorToNthRow(2 + k_outputLines + k_worldY);
 
 }
 
 void Console::moveCursorToUpperBorder() {
 
-	moveCursorToBottom();
-	moveCursorToTopOfArea();
-	std::cout << "\033[1A";
+	moveCursorToNthRow(3 + k_outputLines + k_worldY);
 
 }

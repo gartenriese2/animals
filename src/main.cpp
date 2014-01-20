@@ -15,6 +15,11 @@ int main () {
 	std::mt19937 mt(rd());
 	generator = mt;
 
+	//static struct termios t;
+	//tcgetattr( STDIN_FILENO, &t);
+	//t.c_lflag &= ECHO;
+	//tcsetattr( STDIN_FILENO, TCSANOW, &t);
+
 	// Animal::printAnimalsSortByAllStats(50);
 	// std::cout << std::endl;
 	// Animal::printAnimalsSortByHealth(50);
@@ -29,7 +34,19 @@ int main () {
 	// t.startWithWaterstarter();
 	// t.startRandomBattles(40,50);
 
-	Game game;
+	
+
+	
+	//Game game;
+	
+	initscr();
+	int row, col;
+	getmaxyx(stdscr, row, col);
+	move(row-1, 0);
+	printw("Hallo");
+	refresh();
+	getch();
+	endwin();
 
 	return 0;
 

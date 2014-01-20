@@ -25,7 +25,7 @@ const char DatabaseReader::getNextTag() {
 	
 	c = m_file.get();
 	goToNextLine();
-	
+//debugOutput(c);
 	if (c == 'n' || c == 'b' || c == 'p' || c == 'l' || c == 'c' || c == 't' || c == 'e') return c;
 	throw "Unknown tag!";
 
@@ -33,7 +33,9 @@ const char DatabaseReader::getNextTag() {
 
 const std::string DatabaseReader::nextEntry() {
 
-	while (getNextTag() != 'n');
+	char c;
+	while ((c = getNextTag()) != 'n' && c != 'e');
+	if (c == 'e') return "";
 	return getNextWord();
 
 }

@@ -3,8 +3,16 @@
 #include "console.hpp"
 
 Game::Game() {
+	
+	// init ncurses
+	initscr();
+
 	intro();
 	loop();
+
+	// end ncurses
+	endwin();
+
 }
 
 Game::~Game() {

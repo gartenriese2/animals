@@ -99,7 +99,6 @@ void Fight::refreshAnimal2HealthOutput(unsigned int oldHealth, unsigned int newH
 void Fight::oneAttacks(const std::shared_ptr<Attack> atk) {
 
 	Console::addText(m_animal1.getName() + " uses " + atk->getName() + ".");
-	DEB("oneAttacks");
 	Console::printText();
 
 	unsigned int oldHP1 = m_animal1.getActualHealth();

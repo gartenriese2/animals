@@ -3,6 +3,7 @@
 
 #include <deque>
 #include <string>
+#include <ncurses.h>
 
 #include "typedefs.hpp"
 #include "menu.hpp"
@@ -35,6 +36,8 @@ class Console {
 		static bool activeMenu();
 		static void goMenuUp() { instance().m_menu.activateUpperEntry(); }
 		static void goMenuDown() { instance().m_menu.activateLowerEntry(); }
+
+		static void moveCursorToNthRow(unsigned int);
 		
 		~Console() {}
 
@@ -49,7 +52,6 @@ class Console {
 		void printBorders();
 		void printMenuInstance();
 
-		void moveCursorToBottom();
 		void moveCursorToBottomOfTextOutput();
 		void moveCursorToLowerBorder();
 		void moveCursorToBottomOfArea();

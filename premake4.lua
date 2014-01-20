@@ -26,6 +26,7 @@ project "main"
 
     flags {"Symbols"}
     buildoptions {"-std=c++11", "-Wall", "-pedantic"}
+    links {"ncurses"}
 
     if (use_clang) then
         buildoptions {"-stdlib=libc++"}
