@@ -12,9 +12,6 @@ class Player {
 		Player(const std::tuple<std::string,Position> &);
 		~Player();
 
-		void printArea() const;
-		void printOutput() const { std::cout << m_output << std::endl; }
-
 		void move(Key);
 		void interact();
 
@@ -28,10 +25,9 @@ class Player {
 
 		std::tuple<std::string,Position> m_respawnPos;
 		Area m_area;
+		twoDimArray m_areaBase;
 		Position m_position;
 		Position m_view;
-
-		std::string m_output;
 
 		void setPosition(unsigned int x, unsigned int y);
 		void enterArea(const std::string &);

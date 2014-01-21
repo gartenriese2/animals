@@ -98,8 +98,8 @@ void Fight::refreshAnimal2HealthOutput(unsigned int oldHealth, unsigned int newH
 
 void Fight::oneAttacks(const std::shared_ptr<Attack> atk) {
 
-	Console::addText(m_animal1.getName() + " uses " + atk->getName() + ".");
-	Console::printText();
+	// Console::addText(m_animal1.getName() + " uses " + atk->getName() + ".");
+	// Console::printText();
 
 	unsigned int oldHP1 = m_animal1.getActualHealth();
 	unsigned int oldHP2 = m_animal2.getActualHealth();
@@ -121,7 +121,7 @@ void Fight::oneAttacksRandom() {
 
 	const std::shared_ptr<Attack> atk = m_animal1.getRandomAttack();
 
-	Console::addText(m_animal1.getName() + " uses " + atk->getName() + ".");
+	// Console::addText(m_animal1.getName() + " uses " + atk->getName() + ".");
 	
 	unsigned int oldHP1 = m_animal1.getActualHealth();
 	unsigned int oldHP2 = m_animal2.getActualHealth();
@@ -141,7 +141,7 @@ void Fight::oneAttacksRandom() {
 
 void Fight::twoAttacks(const std::shared_ptr<Attack> atk) {
 
-	Console::addText(m_animal2.getName() + " uses " + atk->getName() + ".");
+	// Console::addText(m_animal2.getName() + " uses " + atk->getName() + ".");
 	
 	unsigned int oldHP1 = m_animal1.getActualHealth();
 	unsigned int oldHP2 = m_animal2.getActualHealth();
@@ -163,8 +163,8 @@ void Fight::twoAttacksRandom() {
 
 	const std::shared_ptr<Attack> atk = m_animal2.getRandomAttack();
 	
-	Console::addText(m_animal2.getName() + " uses " + atk->getName() + ".");
-	Console::printText();
+	// Console::addText(m_animal2.getName() + " uses " + atk->getName() + ".");
+	// Console::printText();
 	
 	unsigned int oldHP1 = m_animal1.getActualHealth();
 	unsigned int oldHP2 = m_animal2.getActualHealth();
@@ -185,9 +185,9 @@ void Fight::twoAttacksRandom() {
 void Fight::printAttack(const std::string & animalName, const std::string & atkName, const EffectiveType & eff) const {
 
 	if (eff != EffectiveType::Neutral && eff != EffectiveType::Zero) {
-		Console::addText("It is " + Database::getStringFromEffectivenessType(eff) + "!");
+		// Console::addText("It is " + Database::getStringFromEffectivenessType(eff) + "!");
 	} else if (eff == EffectiveType::Zero) {
-		Console::addText("It has no effect!");
+		// Console::addText("It has no effect!");
 	}
 
 }

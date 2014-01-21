@@ -1,7 +1,7 @@
 #include "party.hpp"
 
 #include <iostream>
-#include "console.hpp"
+#include "areaconsole.hpp"
 #include "io.hpp"
 
 static constexpr unsigned int k_maxAnimals = 5;
@@ -54,9 +54,9 @@ void Party::heal(){
 	for (auto & i : m_animals) {
 		i.heal();
 	}
-	Console::addText("Your animals were healed!");
-	Console::printText();
-	IO::emptyOutput();
+	AreaConsole::addText("Your animals were healed!");
+	AreaConsole::print();
+	AreaConsole::emptyText();
 
 }
 

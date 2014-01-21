@@ -214,13 +214,13 @@ void Animal::levelUp() {
 
 	++m_level;
 
-	if (m_log) Console::addText(getName() + " reached level " + std::to_string(getLevel()) + "!");
+	// if (m_log) Console::addText(getName() + " reached level " + std::to_string(getLevel()) + "!");
 	if (m_evolve.first == m_level) {
 		std::string oldName = getName();
 		Animal evolvement(getAnimal(m_evolve.second));
 		evolvement.raiseLevels(m_level);
 		evolveInto(evolvement);
-		if (m_log) Console::addText(oldName + " evolved into " + getName() + "!");
+		// if (m_log) Console::addText(oldName + " evolved into " + getName() + "!");
 	}
 
 	m_stats.setHealth(m_stats.getHealth() + round(m_stats.getHealthMultiplier() * sqrt(getLevel())));
@@ -242,7 +242,7 @@ bool Animal::checkForNewMoves() {
 	if (p.first == p.second) return false;
 	for (auto i = p.first; i != p.second; ++i) {
 		m_moves.emplace_back(i->second);
-		if (m_log) Console::addText(getName() + " learned " + i->second->getName() + ".");
+		// if (m_log) Console::addText(getName() + " learned " + i->second->getName() + ".");
 	}
 	return true;
 
@@ -264,7 +264,7 @@ bool Animal::useAttack(std::shared_ptr<Attack> atk, Animal & foe) {
 
 	if (dist(generator) > atk->getProbability()) {
 
-		if (m_log) Console::addText("Attack missed!");
+		// if (m_log) Console::addText("Attack missed!");
 		return false;
 
 	} else {
@@ -277,7 +277,7 @@ bool Animal::useAttack(std::shared_ptr<Attack> atk, Animal & foe) {
 
 		if (dist(generator) < k_criticalHit && foeDmg != 0) {
 			foeDmg *= 2;
-			if (m_log) Console::addText("Critical Hit!");
+			// if (m_log) Console::addText("Critical Hit!");
 		}
 
 		// if (m_log && foeDmg != 0) std::cout << "DEBUG: " << foeDmg << "dmg" << std::endl;

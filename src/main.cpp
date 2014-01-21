@@ -35,18 +35,19 @@ int main () {
 	// t.startRandomBattles(40,50);
 
 	
-
+// setlocale(LC_ALL,"");
+// initscr();
+// addstr("\u01C1");
+// getch();
+// endwin();
 	
-	//Game game;
+	Game game;
 	
-	initscr();
-	int row, col;
-	getmaxyx(stdscr, row, col);
-	move(row-1, 0);
-	printw("Hallo");
-	refresh();
-	getch();
-	endwin();
+	// initscr();
+	// printw("Hallo");
+	// refresh();
+	// getch();
+	// endwin();
 
 	return 0;
 

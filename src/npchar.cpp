@@ -1,7 +1,7 @@
 #include "npchar.hpp"
 
 #include "npcdatabasereader.hpp"
-#include "console.hpp"
+#include "areaconsole.hpp"
 #include "party.hpp"
 #include "io.hpp"
 #include "tournament.hpp"
@@ -32,18 +32,18 @@ void NPChar::action(Party & party) {
 		}
 		++count;
 		
-		Console::addText(m_name + ": " + tmp);
+		AreaConsole::addText(m_name + ": " + tmp);
 		
 	}
 
-	Console::printText();
-	IO::emptyOutput();
+	AreaConsole::print();
+	AreaConsole::emptyText();
 	
 	if (wantsToBattle()) {
-		Console::addText(m_name + " wants to battle!");
-		Console::printText();
-		IO::emptyOutput();
-		Console::clearArea();
+		AreaConsole::addText(m_name + " wants to battle!");
+		AreaConsole::print();
+		AreaConsole::emptyText();
+		// AreaConsole::clearArea();
 		Tournament t;
 		t.startTrainerBattles(party, m_party);
 	}

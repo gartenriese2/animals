@@ -28,17 +28,17 @@ void Battle::addExp(Animal & winner, const Animal & loser) const {
 					/ static_cast<float>(k_maxlvldiff);
 	if (lvlDiff < 0.f) lvlDiff = 0.f;
 	unsigned int xpGain = static_cast<unsigned int>(static_cast<float>(loserStats) * lvlDiff);
-	Console::addText(winner.getName() + " gains " + std::to_string(xpGain) + " experience points.");
-	Console::printText();
+	// Console::addText(winner.getName() + " gains " + std::to_string(xpGain) + " experience points.");
+	// Console::printText();
 	winner.gainExp(xpGain);
 
-	while (!Console::textEmpty()) {
-		Key key = IO::getKey();
-		if (key == Key::ENTER) {
-			Console::advanceText();
-			Console::printText();
-		}
-	}
+	// while (!Console::textEmpty()) {
+	// 	Key key = IO::getKey();
+	// 	if (key == Key::ENTER) {
+	// 		Console::advanceText();
+	// 		Console::printText();
+	// 	}
+	// }
 
 }
 
@@ -98,9 +98,9 @@ void Battle::startAIvsAIRandom(const bool log) {
 
 void Battle::startUservsAIRandom() {
 
-	Console::addText("You use " + m_animal1.getName() + ".");
-	Console::printText();
-	IO::emptyOutput();
+	// Console::addText("You use " + m_animal1.getName() + ".");
+	// Console::printText();
+	// IO::emptyOutput();
 
 	Fight f(m_animal1, m_animal2, true);
 
@@ -114,27 +114,27 @@ void Battle::startUservsAIRandom() {
 		if (m_animal1.getActualSpeed() >= m_animal2.getActualSpeed()) {
 			f.oneAttacks(atk);
 			if (m_animal2.getActualHealth() == 0) {
-				Console::addText(m_animal2.getName() + " fainted!");
+				// Console::addText(m_animal2.getName() + " fainted!");
 				break;
 			}
-			IO::emptyOutput();
+			// IO::emptyOutput();
 			f.printStatus();
 			f.twoAttacksRandom();
 			if (m_animal1.getActualHealth() == 0) {
-				Console::addText(m_animal1.getName() + " fainted!");
+				// Console::addText(m_animal1.getName() + " fainted!");
 				break;
 			}
 		} else {
 			f.twoAttacksRandom();
 			if (m_animal1.getActualHealth() == 0) {
-				Console::addText(m_animal1.getName() + " fainted!");
+				// Console::addText(m_animal1.getName() + " fainted!");
 				break;
 			}
-			IO::emptyOutput();
+			// IO::emptyOutput();
 			f.printStatus();
 			f.oneAttacks(atk);
 			if (m_animal2.getActualHealth() == 0) {
-				Console::addText(m_animal2.getName() + " fainted!");
+				// Console::addText(m_animal2.getName() + " fainted!");
 				break;
 			}
 		}
@@ -142,15 +142,15 @@ void Battle::startUservsAIRandom() {
 	}
 
 	if (m_animal1.getActualHealth() > m_animal2.getActualHealth()) {
-		Console::addText("You won!");
-		Console::printText();
+		// Console::addText("You won!");
+		// Console::printText();
 		addExp(m_animal1, m_animal2);
 	} else {
-		Console::addText("You lost!");
-		Console::printText();
+		// Console::addText("You lost!");
+		// Console::printText();
 	}
 
-	IO::emptyOutput();
+	// IO::emptyOutput();
 
 }
 
@@ -205,20 +205,20 @@ void Battle::startUservsUser() {
 	}
 	
 	if (m_animal1.getActualHealth() > m_animal2.getActualHealth()) {
-		Console::addText("Player 1 won!");
-		Console::printText();
+		// Console::addText("Player 1 won!");
+		// Console::printText();
 		addExp(m_animal1, m_animal2);
 	} else {
-		Console::addText("Player 2 won!");
-		Console::printText();
+		// Console::addText("Player 2 won!");
+		// Console::printText();
 	}
 
-	while (!Console::textEmpty()) {
-		Key key = IO::getKey();
-		if (key == Key::ENTER) {
-			Console::advanceText();
-			Console::printText();
-		}
-	}
+	// while (!Console::textEmpty()) {
+	// 	Key key = IO::getKey();
+	// 	if (key == Key::ENTER) {
+	// 		Console::advanceText();
+	// 		Console::printText();
+	// 	}
+	// }
 
 }

@@ -2,8 +2,7 @@
 
 #include <random>
 #include "tournament.hpp"
-#include "console.hpp"
-#include "io.hpp"
+#include "areaconsole.hpp"
 
 extern std::mt19937 generator;
 
@@ -12,21 +11,18 @@ static constexpr float k_grassEncounterProb = 0.15f;
 Player::Player(const std::tuple<std::string,Position> & spawn)
   : m_respawnPos(spawn)
 {
+
 	m_area = Area::getArea(std::get<0>(m_respawnPos));
-	Console::setAreaBase(m_area.getBase());
+	m_areaBase = m_area.getBase();
 	m_position = std::get<1>(m_respawnPos);
-	Console::setPosition(m_position);
 	m_view = Position(0,1);
+
+	AreaConsole::setAreaBase(std::make_shared<twoDimArray>(m_areaBase));
+	AreaConsole::setPosition(std::make_shared<Position>(m_position));
+
 }
 
 Player::~Player() {
-
-}
-
-void Player::printArea() const {
-
-	Console::printArea();
-
 }
 
 void Player::move(Key key) {
@@ -52,8 +48,6 @@ void Player::move(Key key) {
 			break;
 	}
 
-	Console::setPosition(m_position);
-
 }
 
 void Player::interact() {
@@ -67,10 +61,10 @@ void Player::interact() {
 			NPChar npc = m_area.getNPC(Position(m_position.getX() + m_view.getX(),m_position.getY() + m_view.getY()));
 			npc.action(m_party);
 			if (!m_party.isHealthy()) {
-				Console::clearArea();
-				Console::addText("You hurried back to a safe place to heal your animals!");
-				Console::printText();
-				IO::emptyOutput();
+				// Console::clearArea();
+				AreaConsole::addText("You hurried back to a safe place to heal your animals!");
+				AreaConsole::print();
+				AreaConsole::emptyText();
 				respawn();
 			}
 
@@ -110,16 +104,21 @@ void Player::setPosition(unsigned int x, unsigned int y) {
 
 void Player::enterArea(const std::string & name) {
 
-	std::string oldName = m_area.getName();
+	std::string oldAreaName = m_area.getName();
 	m_area = Area::getArea(name);
+
 	try {
-		m_position = m_area.getPortalPos(oldName);
+
+		m_position = m_area.getPortalPos(oldAreaName);
+
 	} catch (char const * c) {
+
 		DEB(c);
-		m_area = Area::getArea(oldName);
+		m_area = Area::getArea(oldAreaName);
+
 	}
-	Console::setAreaBase(m_area.getBase());
-	Console::setPosition(m_position);
+	
+	m_areaBase = m_area.getBase();
 
 }
 
@@ -128,18 +127,18 @@ void Player::grassAction() {
 	std::uniform_real_distribution<float> dist(0.f, 1.f);
 	if (dist(generator) < k_grassEncounterProb) {
 		Tournament t;
-		Console::clearArea();
-		Console::addText("You encounterd a wild animal!");
-		Console::printText();
-		IO::emptyOutput();
+		// Console::clearArea();
+		AreaConsole::addText("You encounterd a wild animal!");
+		AreaConsole::print();
+		AreaConsole::emptyText();
 
 		Animal a = m_area.getWildAnimal();
 		t.startSingleBattle(m_party.getFrontAnimal(), a);
 		if (!m_party.isHealthy()) {
-			Console::clearArea();
-			Console::addText("You hurried back to a safe place to heal your animals!");
-			Console::printText();
-			IO::emptyOutput();
+			// AreaConsole::clearArea();
+			AreaConsole::addText("You hurried back to a safe place to heal your animals!");
+			AreaConsole::print();
+			AreaConsole::emptyText();
 			respawn();
 		}
 	}
@@ -148,11 +147,11 @@ void Player::grassAction() {
 
 void Player::respawn() {
 
-	m_area = Area::getArea(std::get<0>(m_respawnPos));
-	Console::setAreaBase(m_area.getBase());
-	m_position = std::get<1>(m_respawnPos);
-	Console::setPosition(m_position);
-	m_view = Position(0,1);
 	m_party.heal();
+
+	m_area = Area::getArea(std::get<0>(m_respawnPos));
+	m_areaBase = m_area.getBase();
+	m_position = std::get<1>(m_respawnPos);
+	m_view = Position(0,1);
 
 }

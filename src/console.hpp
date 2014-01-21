@@ -3,7 +3,8 @@
 
 #include <deque>
 #include <string>
-#include <ncurses.h>
+#include <ncursesw/ncurses.h>
+#include <locale.h>
 
 #include "typedefs.hpp"
 #include "menu.hpp"
@@ -15,55 +16,43 @@ class Console {
 	public:
 
 		static void debug(const std::string &); 
-
-		static void print();
-
-		static void printText();
-		static void printInputText();
-		static void printAllText() { printText(); printInputText(); }
-		static void addText(const std::string &);
-		static void setInputText(const std::string &);
-		static void advanceText();
-		static bool textEmpty();
-
-		static void printArea();
-		static void clearArea();
-		static void setAreaBase(const twoDimArray &);
-		static void setPosition(const Position &);
-
-		static void toggleMenu();
-		static void printMenu();
-		static bool activeMenu();
-		static void goMenuUp() { instance().m_menu.activateUpperEntry(); }
-		static void goMenuDown() { instance().m_menu.activateLowerEntry(); }
-
-		static void moveCursorToNthRow(unsigned int);
 		
-		~Console() {}
+
+		// static void toggleMenu();
+		// static void printMenu();
+		// static bool activeMenu();
+		// static void goMenuUp() { instance().m_menu.activateUpperEntry(); }
+		// static void goMenuDown() { instance().m_menu.activateLowerEntry(); }
+		
+		Console();
+		~Console();
+
+	protected:
+
+		static void moveCursorToRow(unsigned int = 0);
+		static void moveCursorToCol(unsigned int = 0);
+		static void moveCursorUp(unsigned int = 1);
+		static void moveCursorDown(unsigned int = 1);
+		static void moveCursorRight(unsigned int = 1);
+		static void moveCursorLeft(unsigned int = 1);
+		static void moveCursorToNextLine();
 
 	private:
 
-		Console();
+		
 
-		void printTextLines();
-		void printInputTextLines();
-		void printWorldLines();
-		void printEmptyWorld();
-		void printBorders();
-		void printMenuInstance();
-
-		void moveCursorToBottomOfTextOutput();
-		void moveCursorToLowerBorder();
-		void moveCursorToBottomOfArea();
-		void moveCursorToTopOfArea();
-		void moveCursorToUpperBorder();
+		// void printTextLines();
+		// void printInputTextLines();
+		// void printWorldLines();
+		// void printEmptyWorld();
+		// void printBorders();
+		// void printMenuInstance();
 
 		static Console & instance() { static Console c; return c; }
 
-		std::deque<std::string> m_outputList;
+		
 		std::string m_inputText;
-		twoDimArray m_area;
-		Position m_pos;
+		
 
 		Menu m_menu;
 
