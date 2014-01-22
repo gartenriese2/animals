@@ -2,9 +2,7 @@
 
 #include "io.hpp"
 
-static constexpr unsigned int k_outputRows = 2;
-static constexpr unsigned int k_areaRows = 20;
-static constexpr unsigned int k_areaColumns = 50;
+static constexpr unsigned int k_textHeight = 2;
 
 //
 // STATIC
@@ -15,7 +13,8 @@ void AreaConsole::print() {
 	instance().printBorders();
 	instance().printArea();
 	instance().printText();
-	refresh();
+
+	wrefresh(win());
 
 }
 
@@ -28,7 +27,12 @@ void AreaConsole::setPosition(std::shared_ptr<Position> ptr) {
 }
 
 void AreaConsole::addText(const std::string & str) {
-	instance().m_text.emplace_back(str);
+	
+	std::vector<std::string> vec = Console::splitString(str);
+	for (const auto i : vec) {
+		instance().m_text.emplace_back(i);
+	}
+
 }
 
 void AreaConsole::advanceText() {
@@ -42,10 +46,10 @@ void AreaConsole::emptyText() {
 	while (!textEmpty()) {
 		
 		Key key = IO::getKey();
+
 		if (key == Key::ENTER) {
 			advanceText();
 			print();
-			refresh();
 		}
 
 	}
@@ -56,40 +60,23 @@ void AreaConsole::emptyText() {
 // MEMBER
 //
 
+AreaConsole::AreaConsole() {
+
+	m_areaHeight = getConsoleHeight() - 3 - k_textHeight;
+	m_areaWidth = getConsoleWidth() - 2;
+
+}
+
 void AreaConsole::printBorders() const {
 
-	std::string border;
-	for (unsigned int i = 0; i < k_areaColumns; ++i) {
-		border += "\u2550";
-	}
-
+	Console::printBorders();
 	moveCursorToLowerBorder();
 
-	addstr("\u2521");
-	printw(border.c_str());
-	addstr("\u2529");
-
-	moveCursorToUpperBorder();
-
-	addstr("\u250F");
-	printw(border.c_str());
-	addstr("\u2513");
-
-	for (unsigned int i = 0; i < k_areaRows; ++i) {
-		moveCursorDown();
-		moveCursorToCol(k_areaColumns + 1);
-		addstr("\u2503");
-		
+	waddstr(win(), "\u251C");
+	for (unsigned int i = 0; i < Console::getConsoleWidth() - 2; ++i) {
+		waddstr(win(), "\u2500");
 	}
-
-	moveCursorToUpperBorder();
-
-	for (unsigned int i = 0; i < k_areaRows; ++i) {
-		moveCursorDown();
-		moveCursorToCol();
-		addstr("\u2503");
-		
-	}
+	waddstr(win(), "\u2524");
 
 }
 
@@ -97,10 +84,10 @@ void AreaConsole::printArea() const {
 
 	moveCursorToTopOfArea();
 
-	int fromY = static_cast<int>(m_pos->getY()) - static_cast<int>(k_areaRows) / 2;
-	int toY = fromY + static_cast<int>(k_areaRows);
-	int fromX = static_cast<int>(m_pos->getX()) - static_cast<int>(k_areaColumns) / 2;
-	int toX = fromX + static_cast<int>(k_areaColumns);
+	int fromY = static_cast<int>(m_pos->getY()) - static_cast<int>(m_areaHeight) / 2;
+	int toY = fromY + static_cast<int>(m_areaHeight);
+	int fromX = static_cast<int>(m_pos->getX()) - static_cast<int>(m_areaWidth) / 2;
+	int toX = fromX + static_cast<int>(m_areaWidth);
 
 	for (int i = fromY; i < toY; ++i) {
 
@@ -122,8 +109,9 @@ void AreaConsole::printArea() const {
 
 		}
 
+		clearLine();
 		moveCursorToCol(1);
-		printw(line.c_str());
+		wprintw(win(), line.c_str());
 
 		moveCursorToNextLine();
 		
@@ -133,38 +121,39 @@ void AreaConsole::printArea() const {
 
 void AreaConsole::printText() const {
 
-	moveCursorToTopOfTextOutput();
-
-	unsigned int count = 0;
-	for (int i = k_outputRows - 1; i >= 0; --i) {
-
-		if (count < m_text.size()) {
-			moveCursorToCol(1);
-			printw(m_text[count++].c_str());
-		}
+	for (unsigned int i = 0; i < k_textHeight; ++i) {
 		
-		moveCursorToNextLine();
+		moveCursorToTopOfTextOutput();
+		moveCursorDown(i);
+		moveCursorRight();
+
+		clearLine();
+
+		if (m_text.size() > i) {
+			moveCursorRight((getConsoleWidth() - 2 - m_text[i].size()) / 2);
+			wprintw(win(),m_text[i].c_str());
+		}
 
 	}
 
 }
 
 void AreaConsole::moveCursorToTopOfTextOutput() const {
-	moveCursorToRow(k_outputRows - 1);
+	moveCursorToRow(k_textHeight);
 	moveCursorToCol();
 }
 
 void AreaConsole::moveCursorToLowerBorder() const {
-	moveCursorToRow(k_outputRows);
+	moveCursorToRow(k_textHeight + 1);
 	moveCursorToCol();
 }
 
 void AreaConsole::moveCursorToTopOfArea() const {
-	moveCursorToRow(k_outputRows + k_areaRows);
+	moveCursorToRow(k_textHeight + m_areaHeight + 1);
 	moveCursorToCol();
 }
 
 void AreaConsole::moveCursorToUpperBorder() const {
-	moveCursorToRow(k_outputRows + k_areaRows + 1);
+	moveCursorToRow(k_textHeight + m_areaHeight + 2);
 	moveCursorToCol();
 }

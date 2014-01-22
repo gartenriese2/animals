@@ -25,7 +25,7 @@ class AreaConsole : public Console {
 
 	private:
 
-		AreaConsole() {}
+		AreaConsole();
 
 		void printBorders() const;
 		void printArea() const;
@@ -42,6 +42,9 @@ class AreaConsole : public Console {
 		std::shared_ptr<twoDimArray> m_area;
 		std::shared_ptr<Position> m_pos;
 		std::deque<std::string> m_text;
+
+		unsigned int m_areaWidth;
+		unsigned int m_areaHeight;
 
 };
 

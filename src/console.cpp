@@ -15,11 +15,11 @@ static constexpr unsigned int k_minConsoleHeight = 20;
 
 void Console::debug(const std::string & str) {
 	
-	moveCursorTo(1,1);
-	clearLine();
 	std::string s =  "DEBUG: " + str;
-	wprintw(win(), s.c_str());
-	wrefresh(win());
+	wmove(stdscr,0,0);
+	wclrtoeol(stdscr);
+	wprintw(stdscr, s.c_str());
+	wrefresh(stdscr);
 
 }
 

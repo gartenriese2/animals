@@ -6,7 +6,7 @@
 Game::Game() {
 
 	intro();
-	// loop();
+	loop();
 
 }
 
@@ -28,7 +28,7 @@ void Game::intro() {
 	TextConsole::print();
 	TextConsole::emptyText();
 
-	// AreaConsole::print();
+	AreaConsole::print();
 
 }
 
@@ -38,25 +38,17 @@ void Game::loop() {
 		
 		Key key = IO::getKey();
 
-		if (key == Key::ENTER && /*!Console::activeMenu() &&*/ !AreaConsole::textEmpty()) {
+		if (key == Key::ENTER && !AreaConsole::textEmpty()) {
 			AreaConsole::advanceText();
 			AreaConsole::print();
-		} else if (key == Key::ENTER /*&& !Console::activeMenu()*/) {
+		} else if (key == Key::ENTER) {
 			m_world.getPlayer().interact();
-		} else if (key == Key::MENU) {
-			// Console::toggleMenu();
-		// } else if (Console::activeMenu()) {
-			// if (key == Key::UP) {
-			// 	Console::goMenuUp();
-			// } else if(key == Key::DOWN) {
-			// 	Console::goMenuDown();
-			// }
 		} else {
 			m_world.getPlayer().move(key);
 		}
 		
 		AreaConsole::print();
-		// if (Console::activeMenu()) Console::printMenu();
+		
 	}
 
 }

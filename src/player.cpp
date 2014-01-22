@@ -13,12 +13,12 @@ Player::Player(const std::tuple<std::string,Position> & spawn)
 {
 
 	m_area = Area::getArea(std::get<0>(m_respawnPos));
-	m_areaBase = m_area.getBase();
-	m_position = std::get<1>(m_respawnPos);
+	m_areaBase = std::make_shared<twoDimArray>(m_area.getBase());
+	m_position = std::make_shared<Position>(std::get<1>(m_respawnPos));
 	m_view = Position(0,1);
 
-	AreaConsole::setAreaBase(std::make_shared<twoDimArray>(m_areaBase));
-	AreaConsole::setPosition(std::make_shared<Position>(m_position));
+	AreaConsole::setAreaBase(m_areaBase);
+	AreaConsole::setPosition(m_position);
 
 }
 
@@ -29,20 +29,24 @@ void Player::move(Key key) {
 
 	switch(key) {
 		case Key::UP:
-			setPosition(m_position.x(), m_position.y() - 1);
+			setPosition(m_position->x(), m_position->y() - 1);
 			m_view = Position(0,-1);
+			// DEB("up");
 			break;
 		case Key::DOWN:
-			setPosition(m_position.x(), m_position.y() + 1);
+			setPosition(m_position->x(), m_position->y() + 1);
 			m_view = Position(0,+1);
+			// DEB("down");
 			break;
 		case Key::LEFT:
-			setPosition(m_position.x() - 1, m_position.y());
+			setPosition(m_position->x() - 1, m_position->y());
 			m_view = Position(-1,0);
+			// DEB("left");
 			break;
 		case Key::RIGHT:
-			setPosition(m_position.x() + 1, m_position.y());
+			setPosition(m_position->x() + 1, m_position->y());
 			m_view = Position(1,0);
+			// DEB("right");
 			break;
 		default:
 			break;
@@ -52,13 +56,13 @@ void Player::move(Key key) {
 
 void Player::interact() {
 
-	char c = m_area.getBase()[m_position.getY() + m_view.getY()][m_position.getX() + m_view.getX()];
+	char c = m_area.getBase()[m_position->getY() + m_view.getY()][m_position->getX() + m_view.getX()];
 	
 	if (c == AreaType::NPC) {
 		
 		try {
 			
-			NPChar npc = m_area.getNPC(Position(m_position.getX() + m_view.getX(),m_position.getY() + m_view.getY()));
+			NPChar npc = m_area.getNPC(Position(m_position->getX() + m_view.getX(),m_position->getY() + m_view.getY()));
 			npc.action(m_party);
 			if (!m_party.isHealthy()) {
 				// Console::clearArea();
@@ -83,22 +87,23 @@ void Player::setPosition(unsigned int x, unsigned int y) {
 	if (x < base[0].size() && y < base.size()
 		&& base[y][x] != AreaType::BORDER
 		&& base[y][x] != AreaType::NPC) {
-		m_position.set(x, y);
+		m_position->set(x, y);
 		switch (base[y][x]) {
 			case AreaType::GRASS:
 				grassAction();
 				break;
 			case AreaType::PORTAL:
-				enterArea(m_area.getAreaFromPortalPos(m_position).getName());
+				enterArea(m_area.getAreaFromPortalPos(* m_position).getName());
 				break;
 			case AreaType::HEALING:
 				m_party.heal();
-				m_respawnPos = std::make_tuple(m_area.getName(),m_position);
+				m_respawnPos = std::make_tuple(m_area.getName(), * m_position);
 				break;
 			default:
 				break;
 		}
 	}
+	DEB("pos: " + std::to_string(m_position->getX()) + "|" + std::to_string(m_position->getY()));
 
 }
 
@@ -109,7 +114,7 @@ void Player::enterArea(const std::string & name) {
 
 	try {
 
-		m_position = m_area.getPortalPos(oldAreaName);
+		* m_position = m_area.getPortalPos(oldAreaName);
 
 	} catch (char const * c) {
 
@@ -118,7 +123,7 @@ void Player::enterArea(const std::string & name) {
 
 	}
 	
-	m_areaBase = m_area.getBase();
+	* m_areaBase = m_area.getBase();
 
 }
 
@@ -150,8 +155,8 @@ void Player::respawn() {
 	m_party.heal();
 
 	m_area = Area::getArea(std::get<0>(m_respawnPos));
-	m_areaBase = m_area.getBase();
-	m_position = std::get<1>(m_respawnPos);
+	* m_areaBase = m_area.getBase();
+	* m_position = std::get<1>(m_respawnPos);
 	m_view = Position(0,1);
 
 }

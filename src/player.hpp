@@ -1,6 +1,8 @@
 #ifndef _PLAYER_HPP
 #define _PLAYER_HPP
 
+#include <memory>
+
 #include "party.hpp"
 #include "area.hpp"
 #include "io.hpp"
@@ -17,7 +19,7 @@ class Player {
 
 		Party & getParty() { return m_party; }
 		const Area & getArea() { return m_area; }
-		const Position & getPosition() { return m_position; }
+		const Position & getPosition() { return * m_position; }
 
 	private:
 
@@ -25,8 +27,8 @@ class Player {
 
 		std::tuple<std::string,Position> m_respawnPos;
 		Area m_area;
-		twoDimArray m_areaBase;
-		Position m_position;
+		std::shared_ptr<twoDimArray> m_areaBase;
+		std::shared_ptr<Position> m_position;
 		Position m_view;
 
 		void setPosition(unsigned int x, unsigned int y);
