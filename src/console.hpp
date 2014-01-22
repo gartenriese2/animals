@@ -1,13 +1,9 @@
 #ifndef _CONSOLE_HPP
 #define _CONSOLE_HPP
 
-#include <deque>
-#include <string>
 #include <ncursesw/ncurses.h>
 #include <locale.h>
-
-#include "typedefs.hpp"
-#include "menu.hpp"
+#include <string>
 
 #define DEB(x) Console::debug(x)
 
@@ -17,17 +13,13 @@ class Console {
 
 		static void debug(const std::string &); 
 		
-
-		// static void toggleMenu();
-		// static void printMenu();
-		// static bool activeMenu();
-		// static void goMenuUp() { instance().m_menu.activateUpperEntry(); }
-		// static void goMenuDown() { instance().m_menu.activateLowerEntry(); }
-		
 		Console();
 		~Console();
 
 	protected:
+
+		static unsigned int getConsoleHeight();
+		static unsigned int getConsoleWidth();
 
 		static void moveCursorToRow(unsigned int = 0);
 		static void moveCursorToCol(unsigned int = 0);
@@ -37,26 +29,11 @@ class Console {
 		static void moveCursorLeft(unsigned int = 1);
 		static void moveCursorToNextLine();
 
+		virtual void printBorders() const;
+
 	private:
 
-		
-
-		// void printTextLines();
-		// void printInputTextLines();
-		// void printWorldLines();
-		// void printEmptyWorld();
-		// void printBorders();
-		// void printMenuInstance();
-
-		static Console & instance() { static Console c; return c; }
-
-		
-		std::string m_inputText;
-		
-
-		Menu m_menu;
-
-		
+		static Console & instance() { static Console c; return c; }		
 
 };
 
