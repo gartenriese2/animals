@@ -16,20 +16,6 @@ IO & IO::instance() {
 	return io;
 }
 
-// void IO::emptyOutput() {
-
-// 	while (!Console::textEmpty()) {
-		
-// 		Key key = getKey();
-// 		if (key == Key::ENTER) {
-// 			Console::advanceText();
-// 			AreaConsole::print();
-// 		}
-
-// 	}
-
-// }
-
 void IO::printAttacks(const std::vector<std::shared_ptr<Attack>> & attacks) {
 
 	std::cout << "\033[" << 4 + attacks.size() << "A";
@@ -77,35 +63,57 @@ const std::shared_ptr<Attack> IO::chooseAttackWithArrowKeys(const std::vector<st
 
 const std::string IO::chooseStarter() const {
 
-	std::vector<std::string> v { "Firax", "Aquax" };
+	std::vector<std::string> starter { "Firax", "Aquax" };
 
 	std::string question("Which animal do you choose as your starter animal?");
-	unsigned int pos = instance().m_textWidth;
-	while (pos < str.size()) {
-		instance().m_text.emplace_back(str.substr(pos - instance().m_textWidth, instance().m_textWidth));
-		pos += instance().m_textWidth;
+	std::vector<std::string> questionVec = Console::splitString(question);
+
+	for (unsigned int i = 0; i < questionVec.size(); ++i) {
+		
+		Console::moveCursorTo(Console::getConsoleHeight() / 2 - 3 + i, (Console::getConsoleWidth() - questionVec[i].size()) / 2);
+		waddstr(Console::win(), questionVec[i].c_str());
+
 	}
-	Console::moveCursorTo(Console::getConsoleHeight() / 2 - 3, (Console::getConsoleWidth() - question.size()) / 2);
-	waddstr(Console::win(), question.c_str());
+
+	Console::moveCursorDown(2);
+	Console::moveCursorToCol(Console::getConsoleWidth() / 2 - starter[0].size() - 5);
+	unsigned int col0 = getcurx(Console::win()) - 1;
+	waddstr(Console::win(), starter[0].c_str());
+	Console::moveCursorRight(10);
+	unsigned int col1 = getcurx(Console::win()) - 1;
+	waddstr(Console::win(), starter[1].c_str());
+
+	Console::moveCursorToCol(col0);
+	wprintw(Console::win(), ">");
+
 	wrefresh(Console::win());
-wgetch(Console::win());
+
 	int choice = 0;
-	// Console::setInputText("I choose " + v[choice]);
-	AreaConsole::print();
 	
 	Key k;
 	while ((k = getKey()) != Key::ENTER) {
-		if (k == Key::DOWN) {
-			choice = (choice + 1 == v.size() ? 0 : choice + 1);
+		
+		if (k == Key::RIGHT && choice != 1) {
+			choice = 1;
+			Console::moveCursorToCol(col1);
+			wprintw(Console::win(), ">");
+			Console::moveCursorToCol(col0);
+			wprintw(Console::win(), " ");
+			wrefresh(Console::win());
 		}
-		if (k == Key::UP) {
-			choice = (choice == 0 ? v.size() - 1 : choice - 1);
+		if (k == Key::LEFT && choice != 0) {
+			choice = 0;
+			Console::moveCursorToCol(col0);
+			wprintw(Console::win(), ">");
+			Console::moveCursorToCol(col1);
+			wprintw(Console::win(), " ");
+			wrefresh(Console::win());
 		}
-		// Console::setInputText("I choose " + v[choice]);
-		AreaConsole::print();
+		
+		
 	}
 
-	return v[choice];
+	return starter[choice];
 
 }
 

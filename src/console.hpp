@@ -2,8 +2,8 @@
 #define _CONSOLE_HPP
 
 #include <ncursesw/ncurses.h>
-#include <locale.h>
 #include <string>
+#include <vector>
 
 #include "io.hpp"
 
@@ -36,6 +36,7 @@ class Console {
 		static void moveCursorToNextLine();
 
 		static void clearLine();
+		static const std::vector<std::string> splitString(const std::string &);
 
 		static void printBorders();
 

@@ -21,12 +21,12 @@ void Game::intro() {
 	TextConsole::emptyText();
 
 	m_world.getPlayer().getParty().addAnimal(m_io.chooseStarter());
-	// m_world.getPlayer().getParty().getFrontAnimal().raiseLevels(4);	
+	m_world.getPlayer().getParty().getFrontAnimal().raiseLevels(4);
 
-	// Console::setAreaBase(m_world.getPlayer().getArea().getBase());
-	// Console::setPosition(m_world.getPlayer().getPosition());
-
-	
+	TextConsole::addText("You choose " + m_world.getPlayer().getParty().getFrontAnimal().getName() + ", the "
+		+ m_world.getPlayer().getParty().getFrontAnimal().getType().getString() + " animal.");
+	TextConsole::print();
+	TextConsole::emptyText();
 
 	// AreaConsole::print();
 

@@ -14,6 +14,7 @@ class Type {
 		Type() { m_types.emplace_back(BaseType::None); }
 		~Type();
 
+		const std::string getString() const;
 		const std::vector<BaseType> & getBaseTypes() const;
 
 		const float getEffectValueAgainst(const Type &) const;
@@ -24,7 +25,6 @@ class Type {
 
 	private:
 
-		const std::string getString() const;
 		friend std::ostream & operator<<(std::ostream &, Type);
 
 		std::vector<BaseType> m_types;

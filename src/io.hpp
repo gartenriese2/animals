@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <vector>
+#include <memory>
+#include <string>
 
 #include "attack.hpp"
 
@@ -16,7 +18,6 @@ class IO {
 		~IO();
 
 		static Key getKey();
-		static void emptyOutput();
 
 		const std::shared_ptr<Attack> chooseAttackWithArrowKeys(const std::vector<std::shared_ptr<Attack>> &);
 		const std::string chooseStarter() const;

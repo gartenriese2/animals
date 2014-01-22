@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <locale.h>
 
 static constexpr unsigned int k_maxConsoleWidth = 100;
 static constexpr unsigned int k_maxConsoleHeight = 30;
@@ -140,11 +141,16 @@ void Console::printBorders() {
 
 const std::vector<std::string> Console::splitString(const std::string & str) {
 
-	unsigned int pos = instance().m_textWidth;
+	std::vector<std::string> v;
+	unsigned int width = getConsoleWidth() - 2;
+	unsigned int pos = width;
 	while (pos < str.size()) {
-		instance().m_text.emplace_back(str.substr(pos - instance().m_textWidth, instance().m_textWidth));
-		pos += instance().m_textWidth;
+		v.emplace_back(str.substr(pos - width, width));
+		pos += width;
 	}
+	v.emplace_back(str.substr(pos - width));
+
+	return v;
 
 }
 
