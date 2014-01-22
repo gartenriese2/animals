@@ -8,9 +8,9 @@
 
 void TextConsole::print() {
 
-	instance().printBorders();
 	instance().printText();
-	refresh();
+	printBorders();
+	wrefresh(win());
 
 }
 
@@ -34,12 +34,12 @@ void TextConsole::advanceText() {
 void TextConsole::emptyText() {
 
 	while (!textEmpty()) {
-		
+
 		Key key = IO::getKey();
+		
 		if (key == Key::ENTER) {
 			advanceText();
 			print();
-			refresh();
 		}
 
 	}
@@ -51,8 +51,10 @@ void TextConsole::emptyText() {
 //
 
 TextConsole::TextConsole() {
+
 	m_textHeight = 5;
 	m_textWidth = getConsoleWidth() - 10;
+
 }
 
 void TextConsole::printText() const {
@@ -61,9 +63,13 @@ void TextConsole::printText() const {
 		
 		moveCursorToTopOfTextOutput();
 		moveCursorDown(i);
-		moveCursorRight((m_textWidth - m_text[i].size()) / 2);
 
-		printw(m_text[i].c_str());
+		clearLine();
+
+		if (m_text.size() > i) {
+			moveCursorRight((m_textWidth - m_text[i].size()) / 2);
+			wprintw(win(),m_text[i].c_str());
+		}
 
 	}
 

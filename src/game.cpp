@@ -16,16 +16,17 @@ Game::~Game() {
 
 void Game::intro() {
 
-	TextConsole::addText("Welcome to the world of Animals! ;-) this is a really long line line line line jojojoj das isses ja ne richtig lange zeile");
-	TextConsole::addText("Do you want to play with the fire animal or the water animal?");
+	TextConsole::addText("Welcome to the world of Animals! ;-)");
 	TextConsole::print();
-	// m_world.getPlayer().getParty().addAnimal(m_io.chooseStarter());
+	TextConsole::emptyText();
+
+	m_world.getPlayer().getParty().addAnimal(m_io.chooseStarter());
 	// m_world.getPlayer().getParty().getFrontAnimal().raiseLevels(4);	
 
 	// Console::setAreaBase(m_world.getPlayer().getArea().getBase());
 	// Console::setPosition(m_world.getPlayer().getPosition());
 
-	// AreaConsole::emptyText();
+	
 
 	// AreaConsole::print();
 

@@ -79,6 +79,16 @@ const std::string IO::chooseStarter() const {
 
 	std::vector<std::string> v { "Firax", "Aquax" };
 
+	std::string question("Which animal do you choose as your starter animal?");
+	unsigned int pos = instance().m_textWidth;
+	while (pos < str.size()) {
+		instance().m_text.emplace_back(str.substr(pos - instance().m_textWidth, instance().m_textWidth));
+		pos += instance().m_textWidth;
+	}
+	Console::moveCursorTo(Console::getConsoleHeight() / 2 - 3, (Console::getConsoleWidth() - question.size()) / 2);
+	waddstr(Console::win(), question.c_str());
+	wrefresh(Console::win());
+wgetch(Console::win());
 	int choice = 0;
 	// Console::setInputText("I choose " + v[choice]);
 	AreaConsole::print();
@@ -95,12 +105,6 @@ const std::string IO::chooseStarter() const {
 		AreaConsole::print();
 	}
 
-	// Console::setInputText("");
-	AreaConsole::print();
-	AreaConsole::addText("You chose " + v[choice] + ", the " + ((v[choice] == "Firax") ? "Fire" : "Water") + " animal!");
-	AreaConsole::advanceText();
-	AreaConsole::print();
-
 	return v[choice];
 
 }
@@ -109,8 +113,8 @@ const std::string IO::chooseStarter() const {
 Key IO::getKeyInstance() const {
 
 	Key k = Key::NONE;
-	
-	int c = getch();
+
+	int c = wgetch(Console::win());
 	switch (c) {
 		case KEY_LEFT:
 			k = Key::LEFT;
@@ -124,7 +128,7 @@ Key IO::getKeyInstance() const {
 		case KEY_DOWN:
 			k = Key::DOWN;
 			break;
-		case KEY_ENTER:
+		case '\n':
 			k = Key::ENTER;
 			break;
 		case 'm':
