@@ -1,7 +1,7 @@
 #include "battle.hpp"
 
 #include "io.hpp"
-#include "console.hpp"
+#include "battleconsole.hpp"
 
 static IO s_io;
 
@@ -98,8 +98,8 @@ void Battle::startAIvsAIRandom(const bool log) {
 
 void Battle::startUservsAIRandom() {
 
-	// Console::addText("You use " + m_animal1.getName() + ".");
-	// Console::printText();
+	BattleConsole::addText("You use " + m_animal1.getName() + ".");
+	BattleConsole::print();
 	// IO::emptyOutput();
 
 	Fight f(m_animal1, m_animal2, true);

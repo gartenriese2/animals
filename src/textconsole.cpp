@@ -16,12 +16,11 @@ void TextConsole::print() {
 
 void TextConsole::addText(const std::string & str) {
 	
-	unsigned int pos = instance().m_textWidth;
-	while (pos < str.size()) {
-		instance().m_text.emplace_back(str.substr(pos - instance().m_textWidth, instance().m_textWidth));
-		pos += instance().m_textWidth;
+	std::vector<std::string> vec = Console::splitString(str, instance().m_textWidth);
+
+	for (const auto i : vec) {
+		instance().m_text.emplace_back(i);
 	}
-	instance().m_text.emplace_back(str.substr(pos - instance().m_textWidth));
 
 }
 

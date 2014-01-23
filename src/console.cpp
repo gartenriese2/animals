@@ -139,10 +139,10 @@ void Console::printBorders() {
 
 }
 
-const std::vector<std::string> Console::splitString(const std::string & str) {
+const std::vector<std::string> Console::splitString(const std::string & str, const unsigned int w) {
 
 	std::vector<std::string> v;
-	unsigned int width = getConsoleWidth() - 2;
+	unsigned int width = (w == 0 ? getConsoleWidth() - 2 : w);
 	unsigned int pos = width;
 	while (pos < str.size()) {
 		v.emplace_back(str.substr(pos - width, width));

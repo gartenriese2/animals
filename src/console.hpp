@@ -36,7 +36,7 @@ class Console {
 		static void moveCursorToNextLine();
 
 		static void clearLine();
-		static const std::vector<std::string> splitString(const std::string &);
+		static const std::vector<std::string> splitString(const std::string &, const unsigned int = 0);
 
 		static void printBorders();
 
