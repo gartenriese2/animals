@@ -8,9 +8,12 @@
 
 void TextConsole::print() {
 
+	Console::clear();
+
 	instance().printText();
-	printBorders();
-	wrefresh(win());
+	Console::printBorders();
+	
+	Console::refresh();
 
 }
 
@@ -52,7 +55,7 @@ void TextConsole::emptyText() {
 TextConsole::TextConsole() {
 
 	m_textHeight = 5;
-	m_textWidth = getConsoleWidth() - 10;
+	m_textWidth = Console::getWidth() - 10;
 
 }
 
@@ -61,13 +64,13 @@ void TextConsole::printText() const {
 	for (unsigned int i = 0; i < m_textHeight; ++i) {
 		
 		moveCursorToTopOfTextOutput();
-		moveCursorDown(i);
+		Console::moveCursorDown(i);
 
-		clearLine();
+		Console::clearLine();
 
 		if (m_text.size() > i) {
-			moveCursorRight((m_textWidth - m_text[i].size()) / 2);
-			wprintw(win(),m_text[i].c_str());
+			Console::moveCursorRight((m_textWidth - m_text[i].size()) / 2);
+			wprintw(Console::win(), m_text[i].c_str());
 		}
 
 	}
@@ -75,6 +78,6 @@ void TextConsole::printText() const {
 }
 
 void TextConsole::moveCursorToTopOfTextOutput() const {
-	moveCursorToRow((getConsoleHeight() + m_textHeight) / 2);
-	moveCursorToCol((getConsoleWidth() - m_textWidth) / 2);
+	Console::moveCursorToRow((Console::getHeight() + m_textHeight) / 2);
+	Console::moveCursorToCol((Console::getWidth() - m_textWidth) / 2);
 }

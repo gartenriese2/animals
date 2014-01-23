@@ -6,7 +6,7 @@
 
 #include "console.hpp"
 
-class TextConsole : public Console {
+class TextConsole {
 
 	public:
 

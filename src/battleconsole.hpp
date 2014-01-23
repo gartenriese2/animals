@@ -3,14 +3,16 @@
 
 #include <string>
 #include <deque>
+#include <vector>
 
 #include "console.hpp"
 
-class BattleConsole : public Console {
+class BattleConsole {
 
 	public:
 
 		static void print();
+		static void printAttacks(const std::vector<std::string> &, unsigned int = 0);
 
 		static void addText(const std::string &);
 		static void advanceText();

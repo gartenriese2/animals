@@ -10,9 +10,7 @@ class Battle {
 		Battle(Animal &, Animal &);
 		~Battle();
 
-		void startAIvsAIRandom(const bool);
 		void startUservsAIRandom();
-		void startUservsUser();
 
 		void addExp(Animal &, const Animal &) const;
 

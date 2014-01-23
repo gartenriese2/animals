@@ -31,16 +31,20 @@ void IO::printAttacks(const std::vector<std::shared_ptr<Attack>> & attacks) {
 
 }
 
-const std::shared_ptr<Attack> IO::chooseAttackWithArrowKeys(const std::vector<std::shared_ptr<Attack>> & attacks) {
+const std::shared_ptr<Attack> IO::chooseAttack(const std::vector<std::shared_ptr<Attack>> & attacks) {
 
-	// printAttacks(attacks);
-
-	// emptyOutput();
 	BattleConsole::addText("Please choose an attack with the arrow keys and press enter:");
-
-	int choice = 0;
-	// Console::setInputText(attacks[choice]->getName());
 	BattleConsole::print();
+
+	std::vector<std::string> vec;
+	for (const auto & i : attacks) {
+		if (vec.size() == 4) break;
+		vec.emplace_back(i->getName());
+	}
+
+	BattleConsole::printAttacks(vec);
+
+	unsigned int choice;
 
 	Key k;
 	while ((k = getKey()) != Key::ENTER) {
@@ -50,8 +54,7 @@ const std::shared_ptr<Attack> IO::chooseAttackWithArrowKeys(const std::vector<st
 		if (k == Key::UP) {
 			choice = (choice == 0 ? attacks.size() - 1 : choice - 1);
 		}
-		// AreaConsole::setInputText(attacks[choice]->getName());
-		AreaConsole::print();
+		
 	}
 
 	// Console::setInputText("");
@@ -71,13 +74,13 @@ const std::string IO::chooseStarter() const {
 
 	for (unsigned int i = 0; i < questionVec.size(); ++i) {
 		
-		Console::moveCursorTo(Console::getConsoleHeight() / 2 - 3 + i, (Console::getConsoleWidth() - questionVec[i].size()) / 2);
+		Console::moveCursorTo(Console::getHeight() / 2 - 3 + i, (Console::getWidth() - questionVec[i].size()) / 2);
 		waddstr(Console::win(), questionVec[i].c_str());
 
 	}
 
 	Console::moveCursorDown(2);
-	Console::moveCursorToCol(Console::getConsoleWidth() / 2 - starter[0].size() - 5);
+	Console::moveCursorToCol(Console::getWidth() / 2 - starter[0].size() - 5);
 	unsigned int col0 = getcurx(Console::win()) - 1;
 	waddstr(Console::win(), starter[0].c_str());
 	Console::moveCursorRight(10);

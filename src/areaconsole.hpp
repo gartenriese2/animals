@@ -9,7 +9,7 @@
 #include "typedefs.hpp"
 #include "position.hpp"
 
-class AreaConsole : public Console {
+class AreaConsole {
 
 	public:
 

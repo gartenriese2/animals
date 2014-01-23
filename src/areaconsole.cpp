@@ -10,11 +10,13 @@ static constexpr unsigned int k_textHeight = 2;
 
 void AreaConsole::print() {
 
+	Console::clear();
+
 	instance().printBorders();
 	instance().printArea();
 	instance().printText();
 
-	wrefresh(win());
+	Console::refresh();
 
 }
 
@@ -62,8 +64,8 @@ void AreaConsole::emptyText() {
 
 AreaConsole::AreaConsole() {
 
-	m_areaHeight = getConsoleHeight() - 3 - k_textHeight;
-	m_areaWidth = getConsoleWidth() - 2;
+	m_areaHeight = Console::getHeight() - 3 - k_textHeight;
+	m_areaWidth = Console::getWidth() - 2;
 
 }
 
@@ -72,11 +74,11 @@ void AreaConsole::printBorders() const {
 	Console::printBorders();
 	moveCursorToLowerBorder();
 
-	waddstr(win(), "\u251C");
-	for (unsigned int i = 0; i < Console::getConsoleWidth() - 2; ++i) {
-		waddstr(win(), "\u2500");
+	waddstr(Console::win(), "\u251C");
+	for (unsigned int i = 0; i < Console::getWidth() - 2; ++i) {
+		waddstr(Console::win(), "\u2500");
 	}
-	waddstr(win(), "\u2524");
+	waddstr(Console::win(), "\u2524");
 
 }
 
@@ -89,31 +91,41 @@ void AreaConsole::printArea() const {
 	int fromX = static_cast<int>(m_pos->getX()) - static_cast<int>(m_areaWidth) / 2;
 	int toX = fromX + static_cast<int>(m_areaWidth);
 
+	
+
 	for (int i = fromY; i < toY; ++i) {
 
-		std::string line;
+		Console::clearLine();
+		Console::moveCursorToCol(1);
 
 		if (i >= 0 && i < m_area->size()) {
 					
 			for (int j = fromX; j < toX; ++j) {
 
 				if (j < 0 || j >= (* m_area)[i].size()) {
-					line += " ";
+					wprintw(Console::win(), " ");
 				} else if (i == m_pos->getY() && j == m_pos->getX()) {
-					line += "P";
+					wprintw(Console::win(), "P");
 				} else {
-					line += (* m_area)[i][j];
+					
+					char c = (* m_area)[i][j];
+					if (c == '#') {
+						init_color(90, 1000, 1000, 0);
+						init_pair(1, 90, -1);
+						wattron(Console::win(), COLOR_PAIR(1));
+					}
+
+					std::string s(1, c);
+					wprintw(Console::win(), s.c_str());
+					wattroff(Console::win(), COLOR_PAIR(1));
+
 				}
 
 			}
 
 		}
 
-		clearLine();
-		moveCursorToCol(1);
-		wprintw(win(), line.c_str());
-
-		moveCursorToNextLine();
+		Console::moveCursorToNextLine();
 		
 	}
 
@@ -124,14 +136,14 @@ void AreaConsole::printText() const {
 	for (unsigned int i = 0; i < k_textHeight; ++i) {
 		
 		moveCursorToTopOfTextOutput();
-		moveCursorDown(i);
-		moveCursorRight();
+		Console::moveCursorDown(i);
+		Console::moveCursorRight();
 
-		clearLine();
+		Console::clearLine();
 
 		if (m_text.size() > i) {
-			moveCursorRight((getConsoleWidth() - 2 - m_text[i].size()) / 2);
-			wprintw(win(),m_text[i].c_str());
+			Console::moveCursorRight((Console::getWidth() - 2 - m_text[i].size()) / 2);
+			wprintw(Console::win(),m_text[i].c_str());
 		}
 
 	}
@@ -139,21 +151,21 @@ void AreaConsole::printText() const {
 }
 
 void AreaConsole::moveCursorToTopOfTextOutput() const {
-	moveCursorToRow(k_textHeight);
-	moveCursorToCol();
+	Console::moveCursorToRow(k_textHeight);
+	Console::moveCursorToCol();
 }
 
 void AreaConsole::moveCursorToLowerBorder() const {
-	moveCursorToRow(k_textHeight + 1);
-	moveCursorToCol();
+	Console::moveCursorToRow(k_textHeight + 1);
+	Console::moveCursorToCol();
 }
 
 void AreaConsole::moveCursorToTopOfArea() const {
-	moveCursorToRow(k_textHeight + m_areaHeight + 1);
-	moveCursorToCol();
+	Console::moveCursorToRow(k_textHeight + m_areaHeight + 1);
+	Console::moveCursorToCol();
 }
 
 void AreaConsole::moveCursorToUpperBorder() const {
-	moveCursorToRow(k_textHeight + m_areaHeight + 2);
-	moveCursorToCol();
+	Console::moveCursorToRow(k_textHeight + m_areaHeight + 2);
+	Console::moveCursorToCol();
 }

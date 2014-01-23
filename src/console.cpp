@@ -23,7 +23,7 @@ void Console::debug(const std::string & str) {
 
 }
 
-unsigned int Console::getConsoleHeight() {
+unsigned int Console::getHeight() {
 	
 	unsigned int x,y;
 	getmaxyx(win(), y, x);
@@ -31,7 +31,7 @@ unsigned int Console::getConsoleHeight() {
 
 }
 
-unsigned int Console::getConsoleWidth() {
+unsigned int Console::getWidth() {
 	
 	unsigned int x,y;
 	getmaxyx(win(), y, x);
@@ -96,6 +96,10 @@ void Console::moveCursorTo(unsigned int y, unsigned int x) {
 
 }
 
+void Console::clear() {
+	werase(win());
+}
+
 void Console::clearLine() {
 
 	unsigned int x,y;
@@ -142,7 +146,7 @@ void Console::printBorders() {
 const std::vector<std::string> Console::splitString(const std::string & str, const unsigned int w) {
 
 	std::vector<std::string> v;
-	unsigned int width = (w == 0 ? getConsoleWidth() - 2 : w);
+	unsigned int width = (w == 0 ? getWidth() - 2 : w);
 	unsigned int pos = width;
 	while (pos < str.size()) {
 		v.emplace_back(str.substr(pos - width, width));
@@ -153,6 +157,21 @@ const std::vector<std::string> Console::splitString(const std::string & str, con
 	return v;
 
 }
+
+// void Console::setColor(float r, float g, float b) {
+// DEB("color: " + std::to_string(can_change_color()));
+// 	init_color(1, r * 1000, r * 1000, r * 1000);
+// 	init_pair(1, 1, -1);
+// 	wcolor_set(win(), 1, nullptr);
+// 	wattron(win(), 1);
+
+// }
+
+// void Console::resetColor() {
+// wcolor_set(win(), -1, nullptr);
+// 	wattroff(win(), 1);
+
+// }
 
 //
 // MEMBER
@@ -166,6 +185,15 @@ Console::Console() {
 	noecho();
 	curs_set(0);
 	cbreak();
+
+	if(has_colors() == FALSE) {
+		endwin();
+		std::cout << "Your terminal does not support color" << std::endl;
+		exit(1);
+	}
+
+	start_color();
+	use_default_colors();
 
 	unsigned int x,y;
 	getmaxyx(stdscr,y,x);
