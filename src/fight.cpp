@@ -106,9 +106,9 @@ void Fight::oneAttacks(const std::shared_ptr<Attack> atk) {
 	m_animal1.useAttack(atk, m_animal2);
 	unsigned int newHP1 = m_animal1.getActualHealth();
 	unsigned int newHP2 = m_animal2.getActualHealth();
-	refreshAnimal1HealthOutput(oldHP1, newHP1);
-	refreshAnimal2HealthOutput(oldHP2, newHP2);
-	printStatus();
+	//refreshAnimal1HealthOutput(oldHP1, newHP1);
+	//refreshAnimal2HealthOutput(oldHP2, newHP2);
+	//printStatus();
 
 	if (atk->getType().getBaseTypes().at(0) != BaseType::None) {
 		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal2.getType());
@@ -128,9 +128,9 @@ void Fight::oneAttacksRandom() {
 	m_animal1.useAttack(atk, m_animal2);
 	unsigned int newHP1 = m_animal1.getActualHealth();
 	unsigned int newHP2 = m_animal2.getActualHealth();
-	refreshAnimal1HealthOutput(oldHP1, newHP1);
-	refreshAnimal2HealthOutput(oldHP2, newHP2);
-	printStatus();
+	//refreshAnimal1HealthOutput(oldHP1, newHP1);
+	//refreshAnimal2HealthOutput(oldHP2, newHP2);
+	//	printStatus();
 	
 	if (atk->getType().getBaseTypes().at(0) != BaseType::None) {
 		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal2.getType());
@@ -148,9 +148,9 @@ void Fight::twoAttacks(const std::shared_ptr<Attack> atk) {
 	m_animal2.useAttack(atk, m_animal1);
 	unsigned int newHP1 = m_animal1.getActualHealth();
 	unsigned int newHP2 = m_animal2.getActualHealth();
-	refreshAnimal1HealthOutput(oldHP1, newHP1);
-	refreshAnimal2HealthOutput(oldHP2, newHP2);
-	printStatus();
+	//refreshAnimal1HealthOutput(oldHP1, newHP1);
+	//refreshAnimal2HealthOutput(oldHP2, newHP2);
+	//printStatus();
 
 	if (atk->getType().getBaseTypes().at(0) != BaseType::None) {
 		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal1.getType());
@@ -171,9 +171,9 @@ void Fight::twoAttacksRandom() {
 	m_animal2.useAttack(atk, m_animal1);
 	unsigned int newHP1 = m_animal1.getActualHealth();
 	unsigned int newHP2 = m_animal2.getActualHealth();
-	refreshAnimal1HealthOutput(oldHP1, newHP1);
-	refreshAnimal2HealthOutput(oldHP2, newHP2);
-	printStatus();
+	//refreshAnimal1HealthOutput(oldHP1, newHP1);
+	//refreshAnimal2HealthOutput(oldHP2, newHP2);
+	//printStatus();
 
 	if (atk->getType().getBaseTypes().at(0) != BaseType::None) {
 		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal1.getType());

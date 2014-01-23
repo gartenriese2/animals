@@ -100,13 +100,13 @@ void Battle::startUservsAIRandom() {
 
 	BattleConsole::addText("You use " + m_animal1.getName() + ".");
 	BattleConsole::print();
-	// IO::emptyOutput();
+	BattleConsole::emptyText();
 
 	Fight f(m_animal1, m_animal2, true);
 
 	while(m_animal1.getActualHealth() != 0 && m_animal2.getActualHealth() != 0) {
 
-		f.printStatus();
+		//f.printStatus();
 
 		std::shared_ptr<Attack> atk;
 		atk = s_io.chooseAttackWithArrowKeys(m_animal1.getAttacks());
@@ -114,27 +114,27 @@ void Battle::startUservsAIRandom() {
 		if (m_animal1.getActualSpeed() >= m_animal2.getActualSpeed()) {
 			f.oneAttacks(atk);
 			if (m_animal2.getActualHealth() == 0) {
-				// Console::addText(m_animal2.getName() + " fainted!");
+				BattleConsole::addText(m_animal2.getName() + " fainted!");
 				break;
 			}
 			// IO::emptyOutput();
-			f.printStatus();
+			//f.printStatus();
 			f.twoAttacksRandom();
 			if (m_animal1.getActualHealth() == 0) {
-				// Console::addText(m_animal1.getName() + " fainted!");
+				BattleConsole::addText(m_animal1.getName() + " fainted!");
 				break;
 			}
 		} else {
 			f.twoAttacksRandom();
 			if (m_animal1.getActualHealth() == 0) {
-				// Console::addText(m_animal1.getName() + " fainted!");
+				BattleConsole::addText(m_animal1.getName() + " fainted!");
 				break;
 			}
 			// IO::emptyOutput();
-			f.printStatus();
+			//f.printStatus();
 			f.oneAttacks(atk);
 			if (m_animal2.getActualHealth() == 0) {
-				// Console::addText(m_animal2.getName() + " fainted!");
+				BattleConsole::addText(m_animal2.getName() + " fainted!");
 				break;
 			}
 		}
@@ -142,15 +142,15 @@ void Battle::startUservsAIRandom() {
 	}
 
 	if (m_animal1.getActualHealth() > m_animal2.getActualHealth()) {
-		// Console::addText("You won!");
-		// Console::printText();
+		BattleConsole::addText("You won!");
+		BattleConsole::print();
 		addExp(m_animal1, m_animal2);
 	} else {
-		// Console::addText("You lost!");
-		// Console::printText();
+		BattleConsole::addText("You lost!");
+		BattleConsole::print();
 	}
 
-	// IO::emptyOutput();
+	BattleConsole::emptyText();
 
 }
 

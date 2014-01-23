@@ -12,7 +12,6 @@ int main () {
 	generator = mt;
 	
 	Game game;
-	while(1);
 	
 	return 0;
 

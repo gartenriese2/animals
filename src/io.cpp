@@ -4,6 +4,7 @@
 #include <unistd.h>
 
 #include "areaconsole.hpp"
+#include "battleconsole.hpp"
 
 IO::IO() {
 }
@@ -35,11 +36,11 @@ const std::shared_ptr<Attack> IO::chooseAttackWithArrowKeys(const std::vector<st
 	// printAttacks(attacks);
 
 	// emptyOutput();
-	AreaConsole::addText("Please choose an attack with the arrow keys and press enter:");
+	BattleConsole::addText("Please choose an attack with the arrow keys and press enter:");
 
 	int choice = 0;
 	// Console::setInputText(attacks[choice]->getName());
-	AreaConsole::print();
+	BattleConsole::print();
 
 	Key k;
 	while ((k = getKey()) != Key::ENTER) {
@@ -54,8 +55,8 @@ const std::shared_ptr<Attack> IO::chooseAttackWithArrowKeys(const std::vector<st
 	}
 
 	// Console::setInputText("");
-	AreaConsole::advanceText();
-	AreaConsole::print();
+	BattleConsole::advanceText();
+	BattleConsole::print();
 
 	return attacks[choice];
 
