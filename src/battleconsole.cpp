@@ -71,7 +71,7 @@ void BattleConsole::clearAttacks() {
 
 }
 
-void BattleConsole::printOwn(const std::string & name, unsigned int level, unsigned int health,
+void BattleConsole::printOwn(const std::string & name, unsigned int level, float health,
 	unsigned int maxHealth, unsigned int XP, unsigned int maxXP) {
 
 	instance().moveCursorToOwnAnimal();
@@ -91,14 +91,14 @@ void BattleConsole::printOwn(const std::string & name, unsigned int level, unsig
 	Console::clearLine();
 
 	line = "HP: [";
-	std::string lineEnd("] " + std::to_string(health) + "/" + std::to_string(maxHealth));
+	std::string lineEnd("] " + std::to_string(static_cast<int>(ceil(health))) + "/" + std::to_string(maxHealth));
 	waddstr(Console::win(), line.c_str());
 
 	int num1 = Console::getWidth() * 2 / 3 - 4 - line.size() - lineEnd.size();
 	int num2 = Console::getMinWidth() - 4 - line.size() - lineEnd.size();
 	instance().m_bars = std::max(num1, num2);
-	unsigned int healthBars = std::ceil(static_cast<float>(health) / static_cast<float>(maxHealth) * static_cast<float>(instance().m_bars));
-
+	unsigned int healthBars = std::ceil(health / static_cast<float>(maxHealth) * static_cast<float>(instance().m_bars));
+DEB(std::to_string(health));
 	if (static_cast<float>(health) / static_cast<float>(maxHealth) < k_criticalHealth) {
 		Console::useColor(instance().m_criticalHealthColor);
 	} else if (static_cast<float>(health) / static_cast<float>(maxHealth) < k_badHealth) {
@@ -159,7 +159,7 @@ void BattleConsole::printOwn(const std::string & name, unsigned int level, unsig
 
 }
 
-void BattleConsole::printFoe(const std::string & name, unsigned int level, unsigned int health, unsigned int maxHealth) {
+void BattleConsole::printFoe(const std::string & name, unsigned int level, float health, unsigned int maxHealth) {
 
 	// first line
 	instance().moveCursorToFoeAnimal();
@@ -177,8 +177,8 @@ void BattleConsole::printFoe(const std::string & name, unsigned int level, unsig
 	line = "HP: [";
 	std::string lineEnd("]");
 
-	unsigned int healthBars = std::ceil(static_cast<float>(health) / static_cast<float>(maxHealth) * static_cast<float>(instance().m_bars));
-DEB(std::to_string(healthBars));
+	unsigned int healthBars = std::ceil(health / static_cast<float>(maxHealth) * static_cast<float>(instance().m_bars));
+DEB(std::to_string(health));
 	Console::moveCursorToCol(Console::getWidth() - line.size() - lineEnd.size() - instance().m_bars - 2);
 	waddstr(Console::win(), line.c_str());
 

@@ -14,13 +14,14 @@ class BattleConsole {
 		static void print();
 		static void printAttacks(const std::vector<std::string> &, unsigned int = 0);
 		static void clearAttacks();
-		static void printOwn(const std::string &, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
-		static void printFoe(const std::string &, unsigned int, unsigned int, unsigned int);
+		static void printOwn(const std::string &, unsigned int, float, unsigned int, unsigned int, unsigned int);
+		static void printFoe(const std::string &, unsigned int, float, unsigned int);
 
 		static void addText(const std::string &);
 		static void advanceText();
 		static void emptyText();
 		static bool textEmpty() { return instance().m_text.empty(); }
+		static unsigned int textLeft() { return instance().m_text.size(); }
 
 	private:
 

@@ -3,6 +3,7 @@
 #include <random>
 #include "tournament.hpp"
 #include "areaconsole.hpp"
+#include "textconsole.hpp"
 
 extern std::mt19937 generator;
 
@@ -65,10 +66,10 @@ void Player::interact() {
 			NPChar npc = m_area.getNPC(Position(m_position->getX() + m_view.getX(),m_position->getY() + m_view.getY()));
 			npc.action(m_party);
 			if (!m_party.isHealthy()) {
-				// Console::clearArea();
-				AreaConsole::addText("You hurried back to a safe place to heal your animals!");
-				AreaConsole::print();
-				AreaConsole::emptyText();
+				Console::clear();
+				TextConsole::addText("You hurried back to a safe place to heal your animals!");
+				TextConsole::print();
+				TextConsole::emptyText();
 				respawn();
 			}
 
@@ -132,7 +133,7 @@ void Player::grassAction() {
 	std::uniform_real_distribution<float> dist(0.f, 1.f);
 	if (dist(generator) < k_grassEncounterProb) {
 		Tournament t;
-		// Console::clearArea();
+
 		AreaConsole::addText("You encounterd a wild animal!");
 		AreaConsole::print();
 		AreaConsole::emptyText();
@@ -140,10 +141,10 @@ void Player::grassAction() {
 		Animal a = m_area.getWildAnimal();
 		t.startSingleBattle(m_party.getFrontAnimal(), a);
 		if (!m_party.isHealthy()) {
-			// AreaConsole::clearArea();
-			AreaConsole::addText("You hurried back to a safe place to heal your animals!");
-			AreaConsole::print();
-			AreaConsole::emptyText();
+			Console::clear();
+			TextConsole::addText("You hurried back to a safe place to heal your animals!");
+			TextConsole::print();
+			TextConsole::emptyText();
 			respawn();
 		}
 	}
@@ -152,11 +153,11 @@ void Player::grassAction() {
 
 void Player::respawn() {
 
-	m_party.heal();
-
 	m_area = Area::getArea(std::get<0>(m_respawnPos));
 	* m_areaBase = m_area.getBase();
 	* m_position = std::get<1>(m_respawnPos);
 	m_view = Position(0,1);
+
+	m_party.heal();
 
 }

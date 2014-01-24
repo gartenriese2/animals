@@ -21,7 +21,7 @@ class Console {
 		static void end(const std::string &);
 
 		static WINDOW * win() { return instance().m_win; }
-		static void refresh() { win(); }
+		static void refresh() { wrefresh(win()); }
 
 		static void clear();
 		

@@ -74,7 +74,7 @@ const std::string IO::chooseStarter() const {
 	Console::moveCursorToCol(col0);
 	wprintw(Console::win(), ">");
 
-	wrefresh(Console::win());
+	Console::refresh();
 
 	int choice = 0;
 	
@@ -87,7 +87,7 @@ const std::string IO::chooseStarter() const {
 			wprintw(Console::win(), ">");
 			Console::moveCursorToCol(col0);
 			wprintw(Console::win(), " ");
-			wrefresh(Console::win());
+			Console::refresh();
 		}
 		if (k == Key::LEFT && choice != 0) {
 			choice = 0;
@@ -95,7 +95,7 @@ const std::string IO::chooseStarter() const {
 			wprintw(Console::win(), ">");
 			Console::moveCursorToCol(col1);
 			wprintw(Console::win(), " ");
-			wrefresh(Console::win());
+			Console::refresh();
 		}
 		
 		
@@ -110,6 +110,7 @@ Key IO::getKeyInstance() const {
 
 	Key k = Key::NONE;
 
+	flushinp();
 	int c = wgetch(Console::win());
 	switch (c) {
 		case KEY_LEFT:

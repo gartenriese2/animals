@@ -10,8 +10,6 @@ class Fight {
 		Fight(Animal &, Animal &, bool);
 		~Fight();
 
-		void printStatus() const;
-
 		void oneAttacks(const std::shared_ptr<Attack>);
 		void oneAttacksRandom();
 		void twoAttacks(const std::shared_ptr<Attack>);
@@ -22,7 +20,6 @@ class Fight {
 		void printAttack(const std::string &, const std::string &, const EffectiveType &) const;
 		void refreshOwnHealth(unsigned int, unsigned int) const;
 		void refreshFoeHealth(unsigned int, unsigned int) const;
-		void refreshHealth(float oldRatio, float newRatio) const;
 
 		Animal & m_animal1;
 		Animal & m_animal2;

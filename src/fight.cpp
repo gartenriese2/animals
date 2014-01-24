@@ -6,6 +6,10 @@
 
 #include "battleconsole.hpp"
 
+static constexpr float k_ratioStep = 0.02f;
+static constexpr unsigned int k_ratioSteps = 400;
+static constexpr unsigned int k_sleep = 2000;
+
 Fight::Fight(Animal & animal1, Animal & animal2, bool logging)
   : m_animal1(animal1), m_animal2(animal2), m_logging(logging)
 {
@@ -18,23 +22,22 @@ void Fight::refreshOwnHealth(unsigned int oldHealth, unsigned int newHealth) con
 	
 	if (oldHealth != newHealth) {
 
-		unsigned int maxHealth = m_animal1.getMaxHealth();
-		float oldRatio = static_cast<float>(oldHealth) / static_cast<float>(maxHealth);
-		float newRatio = static_cast<float>(newHealth) / static_cast<float>(maxHealth);
-		if (oldRatio < newRatio) {
-			for (float old = oldRatio; old < newRatio; old += 0.02f) {
-				std::this_thread::sleep_for(std::chrono::milliseconds(100));
-				BattleConsole::printOwn(m_animal1.getName(), m_animal1.getLevel(),
-					static_cast<unsigned int>(old * static_cast<float>(maxHealth)),
-					m_animal1.getMaxHealth(), m_animal1.getExp(), m_animal1.getNeededExp());
+		for (unsigned int i = 0; i < k_ratioSteps; ++i) {
+			
+			std::this_thread::sleep_for(std::chrono::milliseconds(k_sleep / k_ratioSteps));
+
+			float health;
+			if (oldHealth > newHealth) {
+				health = static_cast<float>(oldHealth) - static_cast<float>(i + 1)
+					/ static_cast<float>(k_ratioSteps) * static_cast<float>(oldHealth - newHealth);
+			} else {
+				health = static_cast<float>(oldHealth) + static_cast<float>(i + 1)
+					/ static_cast<float>(k_ratioSteps) * static_cast<float>(newHealth - oldHealth);
 			}
-		} else {
-			for (float old = oldRatio; old > newRatio; old -= 0.02f) {
-				std::this_thread::sleep_for(std::chrono::milliseconds(100));
-				BattleConsole::printOwn(m_animal1.getName(), m_animal1.getLevel(),
-					static_cast<unsigned int>(old * static_cast<float>(maxHealth)),
-					m_animal1.getMaxHealth(), m_animal1.getExp(), m_animal1.getNeededExp());
-			}
+
+			BattleConsole::printOwn(m_animal1.getName(), m_animal1.getLevel(),
+				health,	m_animal1.getMaxHealth(), m_animal1.getExp(), m_animal1.getNeededExp());
+			
 		}
 		
 	}
@@ -45,23 +48,22 @@ void Fight::refreshFoeHealth(unsigned int oldHealth, unsigned int newHealth) con
 	
 	if (oldHealth != newHealth) {
 
-		unsigned int maxHealth = m_animal2.getMaxHealth();
-		float oldRatio = static_cast<float>(oldHealth) / static_cast<float>(maxHealth);
-		float newRatio = static_cast<float>(newHealth) / static_cast<float>(maxHealth);
-		if (oldRatio < newRatio) {
-			for (float old = oldRatio; old < newRatio; old += 0.02f) {
-				std::this_thread::sleep_for(std::chrono::milliseconds(100));
-				BattleConsole::printFoe(m_animal2.getName(), m_animal2.getLevel(),
-					static_cast<unsigned int>(old * static_cast<float>(maxHealth)),
-					m_animal2.getMaxHealth());
+		for (unsigned int i = 0; i < k_ratioSteps; ++i) {
+			
+			std::this_thread::sleep_for(std::chrono::milliseconds(k_sleep / k_ratioSteps));
+
+			float health;
+			if (oldHealth > newHealth) {
+				health = static_cast<float>(oldHealth) - static_cast<float>(i + 1)
+					/ static_cast<float>(k_ratioSteps) * static_cast<float>(oldHealth - newHealth);
+			} else {
+				health = static_cast<float>(oldHealth) + static_cast<float>(i + 1)
+					/ static_cast<float>(k_ratioSteps) * static_cast<float>(newHealth - oldHealth);
 			}
-		} else {
-			for (float old = oldRatio; old > newRatio; old -= 0.02f) {
-				std::this_thread::sleep_for(std::chrono::milliseconds(100));
-				BattleConsole::printFoe(m_animal2.getName(), m_animal2.getLevel(),
-					static_cast<unsigned int>(old * static_cast<float>(maxHealth)),
-					m_animal2.getMaxHealth());
-			}
+
+			BattleConsole::printFoe(m_animal2.getName(), m_animal2.getLevel(),
+				health,	m_animal2.getMaxHealth());
+			
 		}
 		
 	}
@@ -80,6 +82,9 @@ void Fight::oneAttacks(const std::shared_ptr<Attack> atk) {
 	unsigned int newHP2 = m_animal2.getActualHealth();
 	refreshOwnHealth(oldHP1, newHP1);
 	refreshFoeHealth(oldHP2, newHP2);
+
+	BattleConsole::advanceText();
+	BattleConsole::print();
 
 	if (atk->getType().getBaseTypes().at(0) != BaseType::None && hit) {
 		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal2.getType());
@@ -102,6 +107,9 @@ void Fight::oneAttacksRandom() {
 	unsigned int newHP2 = m_animal2.getActualHealth();
 	refreshOwnHealth(oldHP1, newHP1);
 	refreshFoeHealth(oldHP2, newHP2);
+
+	BattleConsole::advanceText();
+	BattleConsole::print();
 	
 	if (atk->getType().getBaseTypes().at(0) != BaseType::None && hit) {
 		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal2.getType());
@@ -122,6 +130,9 @@ void Fight::twoAttacks(const std::shared_ptr<Attack> atk) {
 	unsigned int newHP2 = m_animal2.getActualHealth();
 	refreshOwnHealth(oldHP1, newHP1);
 	refreshFoeHealth(oldHP2, newHP2);
+
+	BattleConsole::advanceText();
+	BattleConsole::print();
 
 	if (atk->getType().getBaseTypes().at(0) != BaseType::None && hit) {
 		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal1.getType());
@@ -144,6 +155,9 @@ void Fight::twoAttacksRandom() {
 	unsigned int newHP2 = m_animal2.getActualHealth();
 	refreshOwnHealth(oldHP1, newHP1);
 	refreshFoeHealth(oldHP2, newHP2);
+
+	BattleConsole::advanceText();
+	BattleConsole::print();
 
 	if (atk->getType().getBaseTypes().at(0) != BaseType::None && hit) {
 		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal1.getType());
