@@ -2,6 +2,6 @@ animals
 =======
 
 compile: ./buildproject
-execute: ./bin/pm
+execute: ./run
 
 clang++ and libc++ is needed
