@@ -1,6 +1,6 @@
 #include "npcdatabasereader.hpp"
 
-#include <iostream>
+#include "console.hpp"
 
 NPCDatabaseReader::NPCDatabaseReader() {
 	openFile();
@@ -13,8 +13,7 @@ void NPCDatabaseReader::openFile() {
 
 	m_file.open(k_filename);
 	if (!m_file.good()) {
-		std::cout << "Bad NPC database!" << std::endl;
-		abort();
+		EXIT("Bad NPC database!");
 	}
 
 }

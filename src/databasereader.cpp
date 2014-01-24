@@ -1,6 +1,5 @@
 #include "databasereader.hpp"
 
-#include <iostream>
 #include "typedefs.hpp"
 
 DatabaseReader::DatabaseReader() {
@@ -25,7 +24,7 @@ const char DatabaseReader::getNextTag() {
 	
 	c = m_file.get();
 	goToNextLine();
-//debugOutput(c);
+
 	if (c == 'n' || c == 'b' || c == 'p' || c == 'l' || c == 'c' || c == 't' || c == 'e') return c;
 	throw "Unknown tag!";
 

@@ -1,7 +1,6 @@
 #ifndef _IO_HPP
 #define _IO_HPP
 
-#include <iostream>
 #include <vector>
 #include <memory>
 #include <string>

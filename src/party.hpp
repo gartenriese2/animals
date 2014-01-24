@@ -16,7 +16,7 @@ class Party {
 		void addAnimal(const std::string &);
 		Animal & getFrontAnimal();
 		Animal & getFirstHealthyAnimal();
-		Animal & getAnimal(unsigned int num) { if (num > getSize() - 1) abort(); else return m_animals[num]; }
+		Animal & getAnimal(unsigned int num) { if (num > getSize() - 1) return m_animals[getSize() - 1]; else return m_animals[num]; }
 
 		bool isHealthy() const;
 		void heal();

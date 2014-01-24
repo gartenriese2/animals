@@ -61,7 +61,7 @@ const NPChar NPChar::getNPC(const std::string & s) {
 		tuple = m_reader.getLocationFromEntry(s);
 		str = m_reader.getTextFromEntry(s);
 	} catch (char const * c) {
-		DEB(c);
+		EXIT(c);
 		abort();
 	}
 

@@ -1,6 +1,6 @@
 #include "areadatabasereader.hpp"
 
-#include <iostream>
+#include "console.hpp"
 
 AreaDatabaseReader::AreaDatabaseReader() {
 	openFile();
@@ -13,8 +13,7 @@ void AreaDatabaseReader::openFile() {
 
 	m_file.open(k_filename);
 	if (!m_file.good()) {
-		std::cout << "Bad Area database!" << std::endl;
-		abort();
+		EXIT("Bad area database!");
 	}
 
 }

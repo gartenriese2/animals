@@ -1,6 +1,5 @@
 #include "party.hpp"
 
-#include <iostream>
 #include "areaconsole.hpp"
 #include "io.hpp"
 
@@ -17,7 +16,8 @@ void Party::addAnimal(const std::string & name) {
 	if (getSize() < k_maxAnimals) {
 		m_animals.emplace_back(Animal::getAnimal(name));
 	} else {
-		std::cout << "You can't carry more animals!" << std::endl;
+		AreaConsole::addText("You can't carry more animals!");
+		AreaConsole::emptyText();
 	}
 
 }
@@ -25,7 +25,7 @@ void Party::addAnimal(const std::string & name) {
 Animal & Party::getFrontAnimal() {
 	
 	if (getSize() == 0) {
-		std::cout << "You don't have any animals!" << std::endl;
+		EXIT("You don't have any animals!");
 		abort();
 	} else {
 		return m_animals.at(0);
@@ -36,7 +36,7 @@ Animal & Party::getFrontAnimal() {
 Animal & Party::getFirstHealthyAnimal() {
 
 	if (getSize() == 0) {
-		std::cout << "You don't have any animals!" << std::endl;
+		EXIT("You don't have any animals!");
 		abort();
 	}
 

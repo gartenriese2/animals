@@ -8,7 +8,7 @@
 
 #include "position.hpp"
 
-#define debugOutput(X) std::cout << __FILE__ << " " << __FUNCTION__ << " " << __LINE__ << " " << X << std::endl
+#define debugOutput(X) DEB(__FILE__ + " " + __FUNCTION__ + " " + __LINE__ + " " + X)
 
 using portalMap = std::map<Position, std::string>;
 using partyTuples = std::vector<std::tuple<std::string,unsigned int>>;

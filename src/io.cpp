@@ -17,20 +17,6 @@ IO & IO::instance() {
 	return io;
 }
 
-void IO::printAttacks(const std::vector<std::shared_ptr<Attack>> & attacks) {
-
-	std::cout << "\033[" << 4 + attacks.size() << "A";
-
-	std::cout << "Possible Attacks: " << std::endl;
-
-	for (const auto i : attacks) {
-		std::cout << "---- " << i->getName() << std::endl;
-	}
-
-	std::cout << "\033[3B";
-
-}
-
 const std::shared_ptr<Attack> IO::chooseAttack(const std::vector<std::shared_ptr<Attack>> & attacks) {
 
 	BattleConsole::addText("Please choose an attack with the arrow keys and press enter:");
@@ -44,22 +30,20 @@ const std::shared_ptr<Attack> IO::chooseAttack(const std::vector<std::shared_ptr
 
 	BattleConsole::printAttacks(vec);
 
-	unsigned int choice;
-
+	unsigned int choice = 0;
 	Key k;
 	while ((k = getKey()) != Key::ENTER) {
-		if (k == Key::DOWN) {
-			choice = (choice + 1 == attacks.size() ? 0 : choice + 1);
-		}
-		if (k == Key::UP) {
-			choice = (choice == 0 ? attacks.size() - 1 : choice - 1);
-		}
-		
+		if (k == Key::DOWN && choice < 2 && vec.size() > choice + 2) choice += 2;
+		if (k == Key::UP && choice > 1) choice -= 2;
+		if (k == Key::RIGHT && choice % 2 == 0 && vec.size() > choice + 1) ++choice;
+		if (k == Key::LEFT && choice % 2 == 1) --choice;
+
+		BattleConsole::printAttacks(vec, choice);
 	}
 
-	// Console::setInputText("");
 	BattleConsole::advanceText();
 	BattleConsole::print();
+	BattleConsole::clearAttacks();
 
 	return attacks[choice];
 

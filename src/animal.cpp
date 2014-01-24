@@ -54,8 +54,7 @@ Animal::~Animal() {
 const Animal & Animal::getAnimal(const std::string s) {
 
 	if (getAnimals().count(s) == 0) {
-		std::cout << "no such animal: " << s << std::endl;
-		abort();
+		EXIT("no such animal: " + s);
 	}
 
 	return getAnimals().at(s);
@@ -82,33 +81,33 @@ void Animal::printHealth() const {
 	
 	float factor = static_cast<float>(getActualHealth()) / static_cast<float>(getMaxHealth());
 	factor *= k_healthBars;
-	unsigned int bars = round(factor);
-	std::cout << "Health: [";
+	// unsigned int bars = round(factor);
+	// std::cout << "Health: [";
 	for (unsigned int i = 0; i < k_healthBars; ++i) {
-		if (i < bars) std::cout << "|";
-		else std::cout << ".";
+		// if (i < bars) std::cout << "|";
+		// else std::cout << ".";
 	}
-	std::cout << "]" << std::endl;
+	// std::cout << "]" << std::endl;
 
 }
 
 void Animal::printInfo() const {
 
-	std::cout << "----------INFO----------" << std::endl;
-	std::cout << "Name:    " << m_name << std::endl;
-	std::cout << "Type:    " << m_type << std::endl;
-	std::cout << "Level:   " << m_level << std::endl;
-	std::cout << "XP:      " << m_exp << "/" << getNeededExp() << std::endl;
-	std::cout << "Health:  " << getActualHealth() << "/" << getMaxHealth() << std::endl;
-	std::cout << "Attack:  " << getMaxAttack() << std::endl;
-	std::cout << "Defense: " << getMaxDefense() << std::endl;
-	std::cout << "Speed:   " << getMaxSpeed() << std::endl;
-	std::cout << "Moves:" << std::endl;
+	// std::cout << "----------INFO----------" << std::endl;
+	// std::cout << "Name:    " << m_name << std::endl;
+	// std::cout << "Type:    " << m_type << std::endl;
+	// std::cout << "Level:   " << m_level << std::endl;
+	// std::cout << "XP:      " << m_exp << "/" << getNeededExp() << std::endl;
+	// std::cout << "Health:  " << getActualHealth() << "/" << getMaxHealth() << std::endl;
+	// std::cout << "Attack:  " << getMaxAttack() << std::endl;
+	// std::cout << "Defense: " << getMaxDefense() << std::endl;
+	// std::cout << "Speed:   " << getMaxSpeed() << std::endl;
+	// std::cout << "Moves:" << std::endl;
 	for (const auto i : m_moves) {
-		std::cout << "---- " << i->getName() << " (" << i->getFoeDamage() << ") ["
-			<< i->getType() << "]" << std::endl;
+		// std::cout << "---- " << i->getName() << " (" << i->getFoeDamage() << ") ["
+			// << i->getType() << "]" << std::endl;
 	}
-	std::cout << "------------------------" << std::endl;
+	// std::cout << "------------------------" << std::endl;
 
 }
 
@@ -279,8 +278,6 @@ bool Animal::useAttack(std::shared_ptr<Attack> atk, Animal & foe) {
 			foeDmg *= 2;
 			// if (m_log) Console::addText("Critical Hit!");
 		}
-
-		// if (m_log && foeDmg != 0) std::cout << "DEBUG: " << foeDmg << "dmg" << std::endl;
 
 		foe.changeHealth(-foeDmg);
 		if (effValue != 0.f || atk->getType().getBaseTypes()[0] == BaseType::None) {

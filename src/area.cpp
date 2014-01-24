@@ -1,6 +1,5 @@
 #include "area.hpp"
 
-#include <iostream>
 #include <random>
 
 #include "console.hpp"
@@ -39,21 +38,6 @@ Area::Area(const std::string & name, const twoDimArray & base, const portalMap &
 }
 
 Area::~Area() {
-}
-
-void Area::print(const Position & pos) const {
-
-	for (int i = 0; i < m_base.size(); ++i) {
-		for (int j = 0; j < m_base[0].size() && m_base[i][j] != k_stopsign; ++j) {
-			if (j == pos.getX() && i == pos.getY()) {
-				std::cout << "P";
-			} else {
-				std::cout << m_base[i][j];
-			}
-		}
-		std::cout << std::endl;
-	}
-
 }
 
 const Position & Area::getPortalPos(const std::string & name) const {
@@ -113,7 +97,7 @@ const NPChar Area::getNPC(const Position & pos) {
 		}
 	}
 
-	DEB("no npc at this position! (" + std::to_string(pos.getX()) + "|" + std::to_string(pos.getY()) + ")" );
+	EXIT("no npc at this position! (" + std::to_string(pos.getX()) + "|" + std::to_string(pos.getY()) + ")");
 	abort();
 
 }

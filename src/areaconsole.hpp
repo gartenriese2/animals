@@ -45,6 +45,7 @@ class AreaConsole {
 
 		unsigned int m_areaWidth;
 		unsigned int m_areaHeight;
+		unsigned int m_grassColor;
 
 };
 

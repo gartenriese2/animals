@@ -23,6 +23,16 @@ void Console::debug(const std::string & str) {
 
 }
 
+void Console::end(const std::string & str) {
+
+	delwin(win());
+	endwin();
+
+	std::cout << str << std::endl;
+	exit(1);
+
+}
+
 unsigned int Console::getHeight() {
 	
 	unsigned int x,y;
@@ -37,6 +47,10 @@ unsigned int Console::getWidth() {
 	getmaxyx(win(), y, x);
 	return std::min(k_maxConsoleWidth, x);
 
+}
+
+unsigned int Console::getMinWidth() {
+	return k_minConsoleWidth;
 }
 
 void Console::moveCursorToRow(unsigned int rows) {
@@ -158,20 +172,48 @@ const std::vector<std::string> Console::splitString(const std::string & str, con
 
 }
 
-// void Console::setColor(float r, float g, float b) {
-// DEB("color: " + std::to_string(can_change_color()));
-// 	init_color(1, r * 1000, r * 1000, r * 1000);
-// 	init_pair(1, 1, -1);
-// 	wcolor_set(win(), 1, nullptr);
-// 	wattron(win(), 1);
+float clamp(float value) {
+	double temp = value + 1.f - abs(value - 1.f);
+    return (temp + abs(temp)) * 0.25f;
+}
 
-// }
+unsigned int Console::setColor(float r, float g, float b, float r2, float g2, float b2) {
 
-// void Console::resetColor() {
-// wcolor_set(win(), -1, nullptr);
-// 	wattroff(win(), 1);
+	bool bkgd = true;
+	if (r2 == -1.f || g2 == -1.f || b2 == -1.f) {
+		bkgd = false;
+	}
 
-// }
+	clamp(r);
+	clamp(g);
+	clamp(b);
+	clamp(r2);
+	clamp(g2);
+	clamp(b2);
+
+	init_color(instance().colorNum * 2, static_cast<int>(r * 1000.f), static_cast<int>(g * 1000.f), static_cast<int>(b * 1000.f));
+	init_color(instance().colorNum * 2 + 1, static_cast<int>(r2 * 1000.f), static_cast<int>(g2 * 1000.f), static_cast<int>(b2 * 1000.f));
+	if(bkgd) {
+		init_pair(instance().colorNum, instance().colorNum * 2, instance().colorNum * 2 + 1);
+	} else {
+		init_pair(instance().colorNum, instance().colorNum * 2, -1);
+	}
+	
+	return ++instance().colorNum - 1;
+
+}
+
+void Console::useColor(unsigned int pair) {
+
+	wattron(win(), COLOR_PAIR(pair));
+
+}
+
+void Console::unsetColor(unsigned int pair) {
+
+	wattroff(win(), COLOR_PAIR(pair));
+
+}
 
 //
 // MEMBER
@@ -217,6 +259,8 @@ Console::Console() {
 	m_win = newwin(dY, dX, yStart, xStart);
 	keypad(m_win, TRUE);
 	wrefresh(m_win);
+
+	colorNum = 1;
 
 }
 

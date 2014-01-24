@@ -10,11 +10,6 @@ static constexpr unsigned int k_maxlvldiff = 50;
 Battle::Battle(Animal & a1, Animal & a2)
   : m_animal1(a1), m_animal2(a2)
 {
-	// std::cout << "------------------------" << std::endl;
-	// std::cout << m_animal1.getName() << " vs. " << m_animal2.getName() << std::endl;
-	// std::cout << "------------------------" << std::endl;
-	// m_animal1.printInfo();
-	// m_animal2.printInfo();
 }
 
 Battle::~Battle() {
@@ -36,27 +31,43 @@ void Battle::addExp(Animal & winner, const Animal & loser) const {
 
 void Battle::startUservsAIRandom() {
 
+	Console::clear();
 	BattleConsole::addText("You use " + m_animal1.getName() + ".");
 	BattleConsole::print();
 	BattleConsole::emptyText();
+
+	BattleConsole::printOwn(m_animal1.getName(), m_animal1.getLevel(), m_animal1.getActualHealth(),
+		m_animal1.getMaxHealth(), m_animal1.getExp(), m_animal1.getNeededExp());
+	BattleConsole::printFoe(m_animal2.getName(), m_animal2.getLevel(), m_animal2.getActualHealth(),
+		m_animal2.getMaxHealth());
 
 	Fight f(m_animal1, m_animal2, true);
 
 	while(m_animal1.getActualHealth() != 0 && m_animal2.getActualHealth() != 0) {
 
-		//f.printStatus();
+		BattleConsole::printOwn(m_animal1.getName(), m_animal1.getLevel(), m_animal1.getActualHealth(),
+			m_animal1.getMaxHealth(), m_animal1.getExp(), m_animal1.getNeededExp());
+		BattleConsole::printFoe(m_animal2.getName(), m_animal2.getLevel(), m_animal2.getActualHealth(),
+			m_animal2.getMaxHealth());
+
+		BattleConsole::emptyText();
 
 		std::shared_ptr<Attack> atk;
 		atk = s_io.chooseAttack(m_animal1.getAttacks());
 		
 		if (m_animal1.getActualSpeed() >= m_animal2.getActualSpeed()) {
+			
 			f.oneAttacks(atk);
 			if (m_animal2.getActualHealth() == 0) {
 				BattleConsole::addText(m_animal2.getName() + " fainted!");
 				break;
 			}
-			// IO::emptyOutput();
-			//f.printStatus();
+			
+			BattleConsole::printOwn(m_animal1.getName(), m_animal1.getLevel(), m_animal1.getActualHealth(),
+				m_animal1.getMaxHealth(), m_animal1.getExp(), m_animal1.getNeededExp());
+			BattleConsole::printFoe(m_animal2.getName(), m_animal2.getLevel(), m_animal2.getActualHealth(),
+				m_animal2.getMaxHealth());
+
 			f.twoAttacksRandom();
 			if (m_animal1.getActualHealth() == 0) {
 				BattleConsole::addText(m_animal1.getName() + " fainted!");
@@ -68,8 +79,12 @@ void Battle::startUservsAIRandom() {
 				BattleConsole::addText(m_animal1.getName() + " fainted!");
 				break;
 			}
-			// IO::emptyOutput();
-			//f.printStatus();
+			
+			BattleConsole::printOwn(m_animal1.getName(), m_animal1.getLevel(), m_animal1.getActualHealth(),
+				m_animal1.getMaxHealth(), m_animal1.getExp(), m_animal1.getNeededExp());
+			BattleConsole::printFoe(m_animal2.getName(), m_animal2.getLevel(), m_animal2.getActualHealth(),
+				m_animal2.getMaxHealth());
+
 			f.oneAttacks(atk);
 			if (m_animal2.getActualHealth() == 0) {
 				BattleConsole::addText(m_animal2.getName() + " fainted!");

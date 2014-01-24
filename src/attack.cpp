@@ -1,5 +1,7 @@
 #include "attack.hpp"
 
+#include "console.hpp"
+
 const std::map<std::string, Attack> & Attack::getAttacks() {
 	
 	static std::map<std::string, Attack> s_attacks {
@@ -89,7 +91,7 @@ Attack::~Attack() {
 
 const std::shared_ptr<Attack> Attack::getAttack(const std::string s) {
 	if (getAttacks().count(s) == 0) {
-		std::cout << "no such attack: " << s << std::endl;
+		EXIT("no such attack: " + s);
 		abort();
 	}
 	return std::make_shared<Attack>(getAttacks().at(s));

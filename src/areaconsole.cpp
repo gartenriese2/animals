@@ -66,6 +66,7 @@ AreaConsole::AreaConsole() {
 
 	m_areaHeight = Console::getHeight() - 3 - k_textHeight;
 	m_areaWidth = Console::getWidth() - 2;
+	m_grassColor = Console::setColor(0.f, 0.7f, 0.f);
 
 }
 
@@ -109,15 +110,12 @@ void AreaConsole::printArea() const {
 				} else {
 					
 					char c = (* m_area)[i][j];
-					if (c == '#') {
-						init_color(90, 1000, 1000, 0);
-						init_pair(1, 90, -1);
-						wattron(Console::win(), COLOR_PAIR(1));
-					}
+					if (c == '#') Console::useColor(m_grassColor);
 
 					std::string s(1, c);
 					wprintw(Console::win(), s.c_str());
-					wattroff(Console::win(), COLOR_PAIR(1));
+
+					Console::unsetColor(m_grassColor);
 
 				}
 
