@@ -7,16 +7,17 @@
 #include <chrono>
 #include <thread>
 
-#include "console.hpp"
+#include "battleconsole.hpp"
 
 extern std::mt19937 generator;
 
-static constexpr unsigned int k_healthBars = 50;
 static constexpr unsigned int k_baseExpNeeds = 20;
 static constexpr float k_lvlRatio = 30.f;
 static constexpr float k_typeFit = 1.f;
 static constexpr float k_typeNoFit = 0.8f;
 static constexpr float k_criticalHit = 0.1f;
+static constexpr float k_ratioStep = 0.02f;
+static constexpr unsigned int k_sleep = 100;
 
 Animal::Animal(const std::string & name, const Type & type,	const AnimalStats & stats,
 	AttackSet attackSet, const unsigned int level = 1, const std::pair<unsigned int, std::string> evolve = {0,""})
@@ -74,20 +75,6 @@ void Animal::fillActualAttacks() {
 	for (const auto i : m_attackSet.get()) {
 		if (i.first == 1) m_moves.emplace_back(i.second);
 	}
-
-}
-
-void Animal::printHealth() const {
-	
-	float factor = static_cast<float>(getActualHealth()) / static_cast<float>(getMaxHealth());
-	factor *= k_healthBars;
-	// unsigned int bars = round(factor);
-	// std::cout << "Health: [";
-	for (unsigned int i = 0; i < k_healthBars; ++i) {
-		// if (i < bars) std::cout << "|";
-		// else std::cout << ".";
-	}
-	// std::cout << "]" << std::endl;
 
 }
 
@@ -191,14 +178,42 @@ const unsigned int Animal::getNeededExp() const {
 
 }
 
+void Animal::showExpGain(unsigned int from, unsigned int to) const {
+
+	if (from != to) {
+
+		unsigned int maxXP = getNeededExp();
+		float oldRatio = static_cast<float>(from) / static_cast<float>(maxXP);
+		float newRatio = static_cast<float>(to) / static_cast<float>(maxXP);
+		
+		for (float old = oldRatio; old < newRatio; old += k_ratioStep) {
+			std::this_thread::sleep_for(std::chrono::milliseconds(k_sleep));
+			unsigned int xp = static_cast<unsigned int>(old * static_cast<float>(maxXP));
+			BattleConsole::printOwn(getName(), getLevel(),
+				getActualHealth(), getMaxHealth(), xp, getNeededExp());
+		}
+		
+	}
+
+}
+
 void Animal::gainExp(unsigned int xp) {
 
 	if (m_exp + xp >= getNeededExp()) {
+		
+		showExpGain(m_exp, getNeededExp());
+		std::this_thread::sleep_for(std::chrono::milliseconds(k_sleep));
+		BattleConsole::printOwn(getName(), getLevel(),
+				getActualHealth(), getMaxHealth(), getNeededExp(), getNeededExp());
+
 		xp -= (getNeededExp() - m_exp);
 		levelUp();
 		m_exp = 0;
 		gainExp(xp);
 	} else {
+		
+		showExpGain(m_exp, m_exp + xp);
+
 		m_exp += xp;
 	}
 
@@ -213,13 +228,17 @@ void Animal::levelUp() {
 
 	++m_level;
 
-	// if (m_log) Console::addText(getName() + " reached level " + std::to_string(getLevel()) + "!");
+	if (m_log) {
+		BattleConsole::advanceText();
+		BattleConsole::addText(getName() + " reached level " + std::to_string(getLevel()) + "!");
+		BattleConsole::print();
+	}
 	if (m_evolve.first == m_level) {
 		std::string oldName = getName();
 		Animal evolvement(getAnimal(m_evolve.second));
 		evolvement.raiseLevels(m_level);
 		evolveInto(evolvement);
-		// if (m_log) Console::addText(oldName + " evolved into " + getName() + "!");
+		if (m_log) BattleConsole::addText(oldName + " evolved into " + getName() + "!");
 	}
 
 	m_stats.setHealth(m_stats.getHealth() + round(m_stats.getHealthMultiplier() * sqrt(getLevel())));
@@ -233,6 +252,8 @@ void Animal::levelUp() {
 
 	checkForNewMoves();
 
+	BattleConsole::emptyText();
+
 }
 
 bool Animal::checkForNewMoves() {
@@ -241,7 +262,7 @@ bool Animal::checkForNewMoves() {
 	if (p.first == p.second) return false;
 	for (auto i = p.first; i != p.second; ++i) {
 		m_moves.emplace_back(i->second);
-		// if (m_log) Console::addText(getName() + " learned " + i->second->getName() + ".");
+		if (m_log) BattleConsole::addText(getName() + " learned " + i->second->getName() + ".");
 	}
 	return true;
 
@@ -263,7 +284,7 @@ bool Animal::useAttack(std::shared_ptr<Attack> atk, Animal & foe) {
 
 	if (dist(generator) > atk->getProbability()) {
 
-		// if (m_log) Console::addText("Attack missed!");
+		if (m_log) BattleConsole::addText("Attack missed!");
 		return false;
 
 	} else {
@@ -276,7 +297,7 @@ bool Animal::useAttack(std::shared_ptr<Attack> atk, Animal & foe) {
 
 		if (dist(generator) < k_criticalHit && foeDmg != 0) {
 			foeDmg *= 2;
-			// if (m_log) Console::addText("Critical Hit!");
+			if (m_log) BattleConsole::addText("Critical Hit!");
 		}
 
 		foe.changeHealth(-foeDmg);

@@ -80,8 +80,7 @@ Animal Area::getWildAnimal() const {
 		probSum += std::get<3>(m_likelyhoods[i]);
 		if (choice < probSum) break;
 	}
-	DEB(std::to_string(m_likelyhoods.size()) + std::get<0>(m_likelyhoods[i]));
-	wgetch(Console::win());
+	
 	Animal animal = Animal::getAnimal(std::get<0>(m_likelyhoods[i]));
 	std::uniform_int_distribution<int> dist2(std::get<1>(m_likelyhoods[i]), std::get<2>(m_likelyhoods[i]));
 	animal.raiseLevels(dist2(generator) - 1);

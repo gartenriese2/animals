@@ -104,7 +104,7 @@ void Player::setPosition(unsigned int x, unsigned int y) {
 				break;
 		}
 	}
-	DEB("pos: " + std::to_string(m_position->getX()) + "|" + std::to_string(m_position->getY()));
+	// DEB("pos: " + std::to_string(m_position->getX()) + "|" + std::to_string(m_position->getY()));
 
 }
 

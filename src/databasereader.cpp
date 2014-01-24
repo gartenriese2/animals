@@ -1,6 +1,7 @@
 #include "databasereader.hpp"
 
 #include "typedefs.hpp"
+#include "console.hpp"
 
 DatabaseReader::DatabaseReader() {
 
@@ -64,11 +65,14 @@ const std::string DatabaseReader::getTagContentFromEntry(const char & tag, const
 	m_file.seekg(0);
 	std::string s;
 	char c;
-	while ((s = nextEntry()) != str) {}
+	while ((s = nextEntry()) != str) {
+	}
 
 	while ((c = getNextTag()) != tag) {
-		if (c == 'n' || c == 'e') return "";
+		if (c == 'n' || c == 'e') break;
 	}
+	
+	if (c == 'n' || c == 'e') return "";
 	return getNextContent();
 
 }

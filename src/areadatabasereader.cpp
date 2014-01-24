@@ -32,7 +32,8 @@ const portalMap AreaDatabaseReader::getPortalMapFromEntry(const std::string & st
 
 const likelyhoodTuples AreaDatabaseReader::getLikelyhoodsFromEntry(const std::string & str) {
 
-	return convertStringToLikelyhoodTuples(getTagContentFromEntry('l', str));
+	std::string content = getTagContentFromEntry('l', str);
+	return convertStringToLikelyhoodTuples(content);
 
 }
 

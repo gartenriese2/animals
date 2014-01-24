@@ -9,8 +9,6 @@
 static IO s_io;
 
 static constexpr unsigned int k_maxlvldiff = 50;
-static constexpr float k_ratioStep = 0.02f;
-static constexpr unsigned int k_sleep = 100;
 
 Battle::Battle(Animal & a1, Animal & a2)
   : m_animal1(a1), m_animal2(a2)
@@ -33,32 +31,7 @@ void Battle::addExp(Animal & winner, const Animal & loser) const {
 	BattleConsole::addText(winner.getName() + " gains " + std::to_string(xpGain) + " experience points.");
 	BattleConsole::print();
 
-	unsigned int oldXP = winner.getExp();
 	winner.gainExp(xpGain);
-	unsigned int newXP = winner.getExp();
-
-	if (oldXP != newXP) {
-
-		unsigned int maxXP = m_animal1.getNeededExp();
-		float oldRatio = static_cast<float>(oldXP) / static_cast<float>(maxXP);
-		float newRatio = static_cast<float>(newXP) / static_cast<float>(maxXP);
-		if (oldRatio < newRatio) {
-			for (float old = oldRatio; old < newRatio; old += k_ratioStep) {
-				std::this_thread::sleep_for(std::chrono::milliseconds(k_sleep));
-				unsigned int xp = static_cast<unsigned int>(old * static_cast<float>(maxXP));
-				BattleConsole::printOwn(m_animal1.getName(), m_animal1.getLevel(),
-					m_animal1.getActualHealth(), m_animal1.getMaxHealth(), xp, m_animal1.getNeededExp());
-			}
-		} else {
-			for (float old = oldRatio; old > newRatio; old -= k_ratioStep) {
-				std::this_thread::sleep_for(std::chrono::milliseconds(k_sleep));
-				unsigned int xp = static_cast<unsigned int>(old * static_cast<float>(maxXP));
-				BattleConsole::printOwn(m_animal1.getName(), m_animal1.getLevel(),
-					m_animal1.getActualHealth(), m_animal1.getMaxHealth(), xp, m_animal1.getNeededExp());
-			}
-		}
-		
-	}
 
 }
 
@@ -107,7 +80,9 @@ void Battle::startUservsAIRandom() {
 				BattleConsole::addText(m_animal1.getName() + " fainted!");
 				break;
 			}
+
 		} else {
+			
 			f.twoAttacksRandom();
 			if (m_animal1.getActualHealth() == 0) {
 				BattleConsole::addText(m_animal1.getName() + " fainted!");
@@ -125,6 +100,7 @@ void Battle::startUservsAIRandom() {
 				BattleConsole::addText(m_animal2.getName() + " fainted!");
 				break;
 			}
+			
 		}
 		
 	}

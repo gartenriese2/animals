@@ -15,7 +15,6 @@ class Animal {
 
 		void setLog(bool b) { m_log = b; }
 
-		void printHealth() const;
 		void printInfo() const;
 
 		const std::string & getName() const { return m_name; }
@@ -43,6 +42,7 @@ class Animal {
 		
 		const unsigned int getExp() const { return m_exp; }
 		const unsigned int getNeededExp() const;
+		void showExpGain(unsigned int from, unsigned int to) const;
 		void gainExp(unsigned int);
 		void changeHealth(const int h);
 		bool useAttack(std::shared_ptr<Attack>, Animal &);

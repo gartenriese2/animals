@@ -22,9 +22,13 @@ void Fight::refreshOwnHealth(unsigned int oldHealth, unsigned int newHealth) con
 	
 	if (oldHealth != newHealth) {
 
+		unsigned int sleep = k_sleep;
+		if (static_cast<float>(abs(oldHealth - newHealth)) / static_cast<float>(m_animal1.getMaxHealth()) < 0.25f)
+			sleep /= 2;
+
 		for (unsigned int i = 0; i < k_ratioSteps; ++i) {
 			
-			std::this_thread::sleep_for(std::chrono::milliseconds(k_sleep / k_ratioSteps));
+			std::this_thread::sleep_for(std::chrono::milliseconds(sleep / k_ratioSteps));
 
 			float health;
 			if (oldHealth > newHealth) {
@@ -48,9 +52,13 @@ void Fight::refreshFoeHealth(unsigned int oldHealth, unsigned int newHealth) con
 	
 	if (oldHealth != newHealth) {
 
+		unsigned int sleep = k_sleep;
+		if (static_cast<float>(abs(oldHealth - newHealth)) / static_cast<float>(m_animal1.getMaxHealth()) < 0.25f)
+			sleep /= 2;
+
 		for (unsigned int i = 0; i < k_ratioSteps; ++i) {
 			
-			std::this_thread::sleep_for(std::chrono::milliseconds(k_sleep / k_ratioSteps));
+			std::this_thread::sleep_for(std::chrono::milliseconds(sleep / k_ratioSteps));
 
 			float health;
 			if (oldHealth > newHealth) {

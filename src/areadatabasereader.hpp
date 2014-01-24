@@ -4,6 +4,8 @@
 #include "databasereader.hpp"
 #include "typedefs.hpp"
 
+#include <string>
+
 class AreaDatabaseReader : public DatabaseReader {
 
 	public:

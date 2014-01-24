@@ -41,7 +41,7 @@
 // Likelyhoods:
 // A likelyhood entry needs to look like this:
 // name>a-b>probability
-// where "name" is the name of the animal, "a" and "b" are the levels where the animals level is between, and "probabilty" is the probability [0,1] of this animal appearing. 
+// where "name" is the name of the animal, "a" and "b" are the levels where the animals level is between, and "probabilty" is the probability [0,1] of this animal appearing. Decimals use a ',' instead of a '.'!
 //
 // NPCs:
 // x,y>name where x and y are the coordinates of the NPC and name is the name of the NPC.
@@ -153,7 +153,7 @@ Hometown
 9,6>Home
 43,10>Route1a
 <l>
-Snowly>50-51>1.0
+Snowly>50-51>1,0
 <n>
 Route1a
 <b>
@@ -172,8 +172,8 @@ Route1a
 1,2>Hometown
 25,9>Route1b
 <l>
-Mousey>2-3>0.65
-Arachnom>2-3>0.35
+Mousey>2-3>0,65
+Arachnom>2-3>0,35
 <n>
 Route1b
 <b>
@@ -195,8 +195,8 @@ Route1b
 38,5>Route1c
 4,11>FirstTown
 <l>
-Mousey>2-4>0.55
-Arachnom>2-3>0.45
+Mousey>2-4>0,55
+Arachnom>2-3>0,45
 <n>
 Route1c
 <b>
@@ -225,9 +225,9 @@ Route1c
 1,2>Route1b
 20,19>FirstTown
 <l>
-Mousey>3-5>0.5
-Arachnom>3-4>0.25
-Nightfairy>2-3>0.25
+Mousey>3-5>0,5
+Arachnom>3-4>0,25
+Nightfairy>2-3>0,25
 <n>
 FirstTown
 <b>
@@ -287,9 +287,9 @@ Route2a
 1,2>FirstTown
 43,2>Route2b
 <l>
-Arachnom>4-7>0.4
-Duckweed>3-6>0.3
-Nightfairy>5-7>0.3
+Arachnom>4-7>0,4
+Duckweed>3-6>0,3
+Nightfairy>5-7>0,3
 <c>
 15,8>Marc
 24,4>Andy

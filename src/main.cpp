@@ -11,6 +11,7 @@ int main () {
 	std::mt19937 mt(rd());
 	generator = mt;
 	
+	Console::clear();
 	Game game;
 	
 	return 0;
