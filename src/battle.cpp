@@ -20,7 +20,7 @@ Battle::~Battle() {
 
 void Battle::addExp(Animal & winner, const Animal & loser) const {
 
-	BattleConsole::emptyText();
+	BattleConsole::emptyTextAutomatically(1000);
 
 	unsigned int loserStats = loser.getMaxHealth() + loser.getMaxAttack()
 								+ loser.getMaxDefense() + loser.getMaxSpeed();
@@ -28,8 +28,7 @@ void Battle::addExp(Animal & winner, const Animal & loser) const {
 					/ static_cast<float>(k_maxlvldiff);
 	if (lvlDiff < 0.f) lvlDiff = 0.f;
 	unsigned int xpGain = static_cast<unsigned int>(static_cast<float>(loserStats) * lvlDiff);
-	BattleConsole::addText(winner.getName() + " gains " + std::to_string(xpGain) + " experience points.");
-	BattleConsole::print();
+	BattleConsole::addTextAndPrint(winner.getName() + " gains " + std::to_string(xpGain) + " experience points.");
 
 	winner.gainExp(xpGain);
 
@@ -38,9 +37,8 @@ void Battle::addExp(Animal & winner, const Animal & loser) const {
 void Battle::startUservsAIRandom() {
 
 	Console::clear();
-	BattleConsole::addText("You use " + m_animal1.getName() + ".");
-	BattleConsole::print();
-	BattleConsole::emptyText();
+	BattleConsole::addTextAndPrint("You use " + m_animal1.getName() + ".");
+	BattleConsole::emptyTextAutomatically(1000);
 
 	BattleConsole::printOwn(m_animal1.getName(), m_animal1.getLevel(), m_animal1.getActualHealth(),
 		m_animal1.getMaxHealth(), m_animal1.getExp(), m_animal1.getNeededExp());
@@ -56,14 +54,14 @@ void Battle::startUservsAIRandom() {
 		BattleConsole::printFoe(m_animal2.getName(), m_animal2.getLevel(), m_animal2.getActualHealth(),
 			m_animal2.getMaxHealth());
 
-		BattleConsole::emptyText();
+		BattleConsole::emptyTextAutomatically(1000);
 
 		std::shared_ptr<Attack> atk;
 		atk = s_io.chooseAttack(m_animal1.getAttacks());
 		
 		if (m_animal1.getActualSpeed() >= m_animal2.getActualSpeed()) {
 			
-			f.oneAttacks(atk);
+			f.ownAttacks(atk);
 			if (m_animal2.getActualHealth() == 0) {
 				BattleConsole::addText(m_animal2.getName() + " fainted!");
 				break;
@@ -73,9 +71,9 @@ void Battle::startUservsAIRandom() {
 				m_animal1.getMaxHealth(), m_animal1.getExp(), m_animal1.getNeededExp());
 			BattleConsole::printFoe(m_animal2.getName(), m_animal2.getLevel(), m_animal2.getActualHealth(),
 				m_animal2.getMaxHealth());
-			BattleConsole::emptyText();
+			BattleConsole::emptyTextAutomatically(1000);
 
-			f.twoAttacksRandom();
+			f.foeAttacksRandom();
 			if (m_animal1.getActualHealth() == 0) {
 				BattleConsole::addText(m_animal1.getName() + " fainted!");
 				break;
@@ -83,7 +81,7 @@ void Battle::startUservsAIRandom() {
 
 		} else {
 			
-			f.twoAttacksRandom();
+			f.foeAttacksRandom();
 			if (m_animal1.getActualHealth() == 0) {
 				BattleConsole::addText(m_animal1.getName() + " fainted!");
 				break;
@@ -93,9 +91,9 @@ void Battle::startUservsAIRandom() {
 				m_animal1.getMaxHealth(), m_animal1.getExp(), m_animal1.getNeededExp());
 			BattleConsole::printFoe(m_animal2.getName(), m_animal2.getLevel(), m_animal2.getActualHealth(),
 				m_animal2.getMaxHealth());
-			BattleConsole::emptyText();
+			BattleConsole::emptyTextAutomatically(1000);
 
-			f.oneAttacks(atk);
+			f.foeAttacks(atk);
 			if (m_animal2.getActualHealth() == 0) {
 				BattleConsole::addText(m_animal2.getName() + " fainted!");
 				break;
@@ -106,14 +104,12 @@ void Battle::startUservsAIRandom() {
 	}
 
 	if (m_animal1.getActualHealth() > m_animal2.getActualHealth()) {
-		BattleConsole::addText("You won!");
-		BattleConsole::print();
+		BattleConsole::addTextAndPrint("You won!");
 		addExp(m_animal1, m_animal2);
 	} else {
-		BattleConsole::addText("You lost!");
-		BattleConsole::print();
+		BattleConsole::addTextAndPrint("You lost!");
 	}
 
-	BattleConsole::emptyText();
+	BattleConsole::emptyTextAutomatically(1000);
 
 }

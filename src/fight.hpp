@@ -10,19 +10,19 @@ class Fight {
 		Fight(Animal &, Animal &, bool);
 		~Fight();
 
-		void oneAttacks(const std::shared_ptr<Attack>);
-		void oneAttacksRandom();
-		void twoAttacks(const std::shared_ptr<Attack>);
-		void twoAttacksRandom();
+		void ownAttacks(const std::shared_ptr<Attack>);
+		void ownAttacksRandom();
+		void foeAttacks(const std::shared_ptr<Attack>);
+		void foeAttacksRandom();
 
 	private:
 
 		void printAttack(const std::string &, const std::string &, const EffectiveType &) const;
-		void refreshOwnHealth(unsigned int, unsigned int) const;
-		void refreshFoeHealth(unsigned int, unsigned int) const;
+		bool refreshOwnHealth(unsigned int, unsigned int) const;
+		bool refreshFoeHealth(unsigned int, unsigned int) const;
 
-		Animal & m_animal1;
-		Animal & m_animal2;
+		Animal & m_own;
+		Animal & m_foe;
 		bool m_logging;
 	
 };

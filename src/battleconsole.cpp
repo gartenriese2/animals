@@ -2,6 +2,8 @@
 
 #include <algorithm>
 #include <cmath>
+#include <thread>
+#include <chrono>
 
 #include "io.hpp"
 
@@ -91,7 +93,11 @@ void BattleConsole::printOwn(const std::string & name, unsigned int level, float
 	Console::clearLine();
 
 	line = "HP: [";
-	std::string lineEnd("] " + std::to_string(static_cast<int>(ceil(health))) + "/" + std::to_string(maxHealth));
+	std::string lineEnd("] ");
+	for (unsigned int i = 0; i < std::to_string(maxHealth).size() - std::to_string(static_cast<int>(ceil(health))).size(); ++i) {
+		lineEnd += " ";
+	}
+	lineEnd += std::to_string(static_cast<int>(ceil(health))) + "/" + std::to_string(maxHealth);
 	waddstr(Console::win(), line.c_str());
 
 	int num1 = Console::getWidth() * 2 / 3 - 4 - line.size() - lineEnd.size();
@@ -225,6 +231,18 @@ void BattleConsole::addText(const std::string & str) {
 
 }
 
+void BattleConsole::addTextAndPrint(const std::string & str) {
+	
+	std::vector<std::string> vec = Console::splitString(str, instance().m_textWidth);
+
+	for (const auto i : vec) {
+		instance().m_text.emplace_back(i);
+	}
+
+	print();
+
+}
+
 void BattleConsole::advanceText() {
 	if (instance().m_text.size() > 0) {
 		instance().m_text.pop_front();
@@ -241,6 +259,18 @@ void BattleConsole::emptyText() {
 			advanceText();
 			print();
 		}
+
+	}
+
+}
+
+void BattleConsole::emptyTextAutomatically(unsigned int ms) {
+
+	while (!textEmpty()) {
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+		advanceText();
+		print();
 
 	}
 

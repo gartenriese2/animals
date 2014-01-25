@@ -10,20 +10,20 @@ static constexpr float k_ratioStep = 0.02f;
 static constexpr unsigned int k_ratioSteps = 400;
 static constexpr unsigned int k_sleep = 2000;
 
-Fight::Fight(Animal & animal1, Animal & animal2, bool logging)
-  : m_animal1(animal1), m_animal2(animal2), m_logging(logging)
+Fight::Fight(Animal & own, Animal & foe, bool logging)
+  : m_own(own), m_foe(foe), m_logging(logging)
 {
 }
 
 Fight::~Fight() {
 }
 
-void Fight::refreshOwnHealth(unsigned int oldHealth, unsigned int newHealth) const {
+bool Fight::refreshOwnHealth(unsigned int oldHealth, unsigned int newHealth) const {
 	
 	if (oldHealth != newHealth) {
 
 		unsigned int sleep = k_sleep;
-		if (static_cast<float>(abs(oldHealth - newHealth)) / static_cast<float>(m_animal1.getMaxHealth()) < 0.25f)
+		if (static_cast<float>(abs(oldHealth - newHealth)) / static_cast<float>(m_own.getMaxHealth()) < 0.25f)
 			sleep /= 2;
 
 		for (unsigned int i = 0; i < k_ratioSteps; ++i) {
@@ -39,21 +39,25 @@ void Fight::refreshOwnHealth(unsigned int oldHealth, unsigned int newHealth) con
 					/ static_cast<float>(k_ratioSteps) * static_cast<float>(newHealth - oldHealth);
 			}
 
-			BattleConsole::printOwn(m_animal1.getName(), m_animal1.getLevel(),
-				health,	m_animal1.getMaxHealth(), m_animal1.getExp(), m_animal1.getNeededExp());
+			BattleConsole::printOwn(m_own.getName(), m_own.getLevel(),
+				health,	m_own.getMaxHealth(), m_own.getExp(), m_own.getNeededExp());
 			
 		}
+
+		return true;
 		
 	}
 
+	return false;
+
 }
 
-void Fight::refreshFoeHealth(unsigned int oldHealth, unsigned int newHealth) const {
+bool Fight::refreshFoeHealth(unsigned int oldHealth, unsigned int newHealth) const {
 	
 	if (oldHealth != newHealth) {
 
 		unsigned int sleep = k_sleep;
-		if (static_cast<float>(abs(oldHealth - newHealth)) / static_cast<float>(m_animal1.getMaxHealth()) < 0.25f)
+		if (static_cast<float>(abs(oldHealth - newHealth)) / static_cast<float>(m_own.getMaxHealth()) < 0.25f)
 			sleep /= 2;
 
 		for (unsigned int i = 0; i < k_ratioSteps; ++i) {
@@ -69,107 +73,127 @@ void Fight::refreshFoeHealth(unsigned int oldHealth, unsigned int newHealth) con
 					/ static_cast<float>(k_ratioSteps) * static_cast<float>(newHealth - oldHealth);
 			}
 
-			BattleConsole::printFoe(m_animal2.getName(), m_animal2.getLevel(),
-				health,	m_animal2.getMaxHealth());
+			BattleConsole::printFoe(m_foe.getName(), m_foe.getLevel(),
+				health,	m_foe.getMaxHealth());
 			
 		}
+
+		return true;
 		
 	}
 
+	return false;
+
 }
 
-void Fight::oneAttacks(const std::shared_ptr<Attack> atk) {
+void Fight::ownAttacks(const std::shared_ptr<Attack> atk) {
 
-	BattleConsole::addText(m_animal1.getName() + " uses " + atk->getName() + ".");
-	BattleConsole::print();
+	BattleConsole::emptyTextAutomatically(1000);
+	BattleConsole::addTextAndPrint(m_own.getName() + " uses " + atk->getName() + ".");
 
-	unsigned int oldHP1 = m_animal1.getActualHealth();
-	unsigned int oldHP2 = m_animal2.getActualHealth();
-	bool hit = m_animal1.useAttack(atk, m_animal2);
-	unsigned int newHP1 = m_animal1.getActualHealth();
-	unsigned int newHP2 = m_animal2.getActualHealth();
-	refreshOwnHealth(oldHP1, newHP1);
-	refreshFoeHealth(oldHP2, newHP2);
+	unsigned int oldHP1 = m_own.getActualHealth();
+	unsigned int oldHP2 = m_foe.getActualHealth();
+	bool hit = m_own.useAttack(atk, m_foe);
+	unsigned int newHP1 = m_own.getActualHealth();
+	unsigned int newHP2 = m_foe.getActualHealth();
 
-	BattleConsole::advanceText();
-	BattleConsole::print();
+	bool refreshFoe = refreshFoeHealth(oldHP2, newHP2);
+	bool refreshOwn = refreshOwnHealth(oldHP1, newHP1);
+
+	if (!refreshOwn && !refreshFoe) {
+		BattleConsole::emptyTextAutomatically(1000);
+	} else {
+		BattleConsole::emptyTextAutomatically();
+	}
 
 	if (atk->getType().getBaseTypes().at(0) != BaseType::None && hit) {
-		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal2.getType());
-		if (m_logging) printAttack(m_animal1.getName(), atk->getName(), eff);
+		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_foe.getType());
+		if (m_logging) printAttack(m_own.getName(), atk->getName(), eff);
 	}
 
 }
 
-void Fight::oneAttacksRandom() {
+void Fight::ownAttacksRandom() {
 
-	const std::shared_ptr<Attack> atk = m_animal1.getRandomAttack();
+	const std::shared_ptr<Attack> atk = m_own.getRandomAttack();
 
-	BattleConsole::addText(m_animal1.getName() + " uses " + atk->getName() + ".");
-	BattleConsole::print();
+	BattleConsole::emptyTextAutomatically(1000);
+	BattleConsole::addTextAndPrint(m_own.getName() + " uses " + atk->getName() + ".");
 	
-	unsigned int oldHP1 = m_animal1.getActualHealth();
-	unsigned int oldHP2 = m_animal2.getActualHealth();
-	bool hit = m_animal1.useAttack(atk, m_animal2);
-	unsigned int newHP1 = m_animal1.getActualHealth();
-	unsigned int newHP2 = m_animal2.getActualHealth();
-	refreshOwnHealth(oldHP1, newHP1);
-	refreshFoeHealth(oldHP2, newHP2);
+	unsigned int oldHP1 = m_own.getActualHealth();
+	unsigned int oldHP2 = m_foe.getActualHealth();
+	bool hit = m_own.useAttack(atk, m_foe);
+	unsigned int newHP1 = m_own.getActualHealth();
+	unsigned int newHP2 = m_foe.getActualHealth();
+	
+	bool refreshFoe = refreshFoeHealth(oldHP2, newHP2);
+	bool refreshOwn = refreshOwnHealth(oldHP1, newHP1);
 
-	BattleConsole::advanceText();
-	BattleConsole::print();
+	if (!refreshOwn && !refreshFoe) {
+		BattleConsole::emptyTextAutomatically(1000);
+	} else {
+		BattleConsole::emptyTextAutomatically();
+	}
 	
 	if (atk->getType().getBaseTypes().at(0) != BaseType::None && hit) {
-		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal2.getType());
-		if (m_logging) printAttack(m_animal1.getName(), atk->getName(), eff);
+		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_foe.getType());
+		if (m_logging) printAttack(m_own.getName(), atk->getName(), eff);
 	}
 
 }
 
-void Fight::twoAttacks(const std::shared_ptr<Attack> atk) {
+void Fight::foeAttacks(const std::shared_ptr<Attack> atk) {
 
-	BattleConsole::addText(m_animal2.getName() + " uses " + atk->getName() + ".");
-	BattleConsole::print();
+	BattleConsole::emptyTextAutomatically(1000);
+	BattleConsole::addTextAndPrint(m_foe.getName() + " uses " + atk->getName() + ".");
 	
-	unsigned int oldHP1 = m_animal1.getActualHealth();
-	unsigned int oldHP2 = m_animal2.getActualHealth();
-	bool hit = m_animal2.useAttack(atk, m_animal1);
-	unsigned int newHP1 = m_animal1.getActualHealth();
-	unsigned int newHP2 = m_animal2.getActualHealth();
-	refreshOwnHealth(oldHP1, newHP1);
-	refreshFoeHealth(oldHP2, newHP2);
+	unsigned int oldHP1 = m_own.getActualHealth();
+	unsigned int oldHP2 = m_foe.getActualHealth();
+	bool hit = m_foe.useAttack(atk, m_own);
+	unsigned int newHP1 = m_own.getActualHealth();
+	unsigned int newHP2 = m_foe.getActualHealth();
 
-	BattleConsole::advanceText();
-	BattleConsole::print();
+	bool refreshOwn = refreshOwnHealth(oldHP1, newHP1);
+	bool refreshFoe = refreshFoeHealth(oldHP2, newHP2);
+
+	if (!refreshOwn && !refreshFoe) {
+		BattleConsole::emptyTextAutomatically(1000);
+	} else {
+		BattleConsole::emptyTextAutomatically();
+	}
 
 	if (atk->getType().getBaseTypes().at(0) != BaseType::None && hit) {
-		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal1.getType());
-		if (m_logging) printAttack(m_animal2.getName(), atk->getName(), eff);
+		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_own.getType());
+		if (m_logging) printAttack(m_foe.getName(), atk->getName(), eff);
 	}
 
 }
 
-void Fight::twoAttacksRandom() {
+void Fight::foeAttacksRandom() {
 
-	const std::shared_ptr<Attack> atk = m_animal2.getRandomAttack();
+	const std::shared_ptr<Attack> atk = m_foe.getRandomAttack();
 	
-	BattleConsole::addText(m_animal2.getName() + " uses " + atk->getName() + ".");
-	BattleConsole::print();
+	BattleConsole::emptyTextAutomatically(1000);
+	BattleConsole::addTextAndPrint(m_foe.getName() + " uses " + atk->getName() + ".");
 	
-	unsigned int oldHP1 = m_animal1.getActualHealth();
-	unsigned int oldHP2 = m_animal2.getActualHealth();
-	bool hit = m_animal2.useAttack(atk, m_animal1);
-	unsigned int newHP1 = m_animal1.getActualHealth();
-	unsigned int newHP2 = m_animal2.getActualHealth();
-	refreshOwnHealth(oldHP1, newHP1);
-	refreshFoeHealth(oldHP2, newHP2);
+	unsigned int oldHP1 = m_own.getActualHealth();
+	unsigned int oldHP2 = m_foe.getActualHealth();
+	bool hit = m_foe.useAttack(atk, m_own);
+	unsigned int newHP1 = m_own.getActualHealth();
+	unsigned int newHP2 = m_foe.getActualHealth();
+	
+	bool refreshOwn = refreshOwnHealth(oldHP1, newHP1);
+	bool refreshFoe = refreshFoeHealth(oldHP2, newHP2);
 
-	BattleConsole::advanceText();
-	BattleConsole::print();
+	if (!refreshOwn && !refreshFoe) {
+		BattleConsole::emptyTextAutomatically(1000);
+	} else {
+		BattleConsole::emptyTextAutomatically();
+	}
 
 	if (atk->getType().getBaseTypes().at(0) != BaseType::None && hit) {
-		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_animal1.getType());
-		if (m_logging) printAttack(m_animal2.getName(), atk->getName(), eff);
+		const EffectiveType eff = atk->getType().getEffectTypeAgainst(m_own.getType());
+		if (m_logging) printAttack(m_foe.getName(), atk->getName(), eff);
 	}
 
 }
@@ -177,9 +201,9 @@ void Fight::twoAttacksRandom() {
 void Fight::printAttack(const std::string & animalName, const std::string & atkName, const EffectiveType & eff) const {
 
 	if (eff != EffectiveType::Neutral && eff != EffectiveType::Zero) {
-		BattleConsole::addText("It is " + Database::getStringFromEffectivenessType(eff) + "!");
+		BattleConsole::addTextAndPrint("It is " + Database::getStringFromEffectivenessType(eff) + "!");
 	} else if (eff == EffectiveType::Zero) {
-		BattleConsole::addText("It has no effect!");
+		BattleConsole::addTextAndPrint("It has no effect!");
 	}
 
 }

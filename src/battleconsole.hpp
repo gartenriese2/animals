@@ -18,8 +18,10 @@ class BattleConsole {
 		static void printFoe(const std::string &, unsigned int, float, unsigned int);
 
 		static void addText(const std::string &);
+		static void addTextAndPrint(const std::string &);
 		static void advanceText();
 		static void emptyText();
+		static void emptyTextAutomatically(unsigned int = 0);
 		static bool textEmpty() { return instance().m_text.empty(); }
 		static unsigned int textLeft() { return instance().m_text.size(); }
 
