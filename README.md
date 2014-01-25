@@ -1,7 +1,11 @@
 animals
 =======
 
-compile: ./buildproject
+compile: ./buildproject  
 execute: ./run
 
-clang++ and libc++ is needed
+prerequisites:  
+> clang++
+> libc++
+> libncurses
+> libncursesw
