@@ -34,7 +34,13 @@ void BattleConsole::printAttacks(const std::vector<std::string> & vec, unsigned 
 	if (highlight == 0) Console::useColor(instance().m_attackHighlightColor);
 	wprintw(Console::win(), vec[0].c_str());
 	if (highlight == 0) Console::unsetColor(instance().m_attackHighlightColor);
-
+short a,b;
+pair_content(instance().m_attackHighlightColor,&a,&b);
+short r,g,b2;
+color_content(a,&r,&g, &b2);
+DEB("attackcolor: " + std::to_string(instance().m_attackHighlightColor)
+	+ " a: " + std::to_string(a) + " b: " + std::to_string(b)
+	+ " color(a): " + std::to_string(r) + "|" + std::to_string(g) + "|" + std::to_string(b2));
 	if (vec.size() > 1) {
 		Console::moveCursorToCol(Console::getWidth() * 2 / 3 - vec[1].size() / 2);
 		if (highlight == 1) Console::useColor(instance().m_attackHighlightColor);
@@ -104,7 +110,7 @@ void BattleConsole::printOwn(const std::string & name, unsigned int level, float
 	int num2 = Console::getMinWidth() - 4 - line.size() - lineEnd.size();
 	instance().m_bars = std::max(num1, num2);
 	unsigned int healthBars = std::ceil(health / static_cast<float>(maxHealth) * static_cast<float>(instance().m_bars));
-DEB(std::to_string(health));
+
 	if (static_cast<float>(health) / static_cast<float>(maxHealth) < k_criticalHealth) {
 		Console::useColor(instance().m_criticalHealthColor);
 	} else if (static_cast<float>(health) / static_cast<float>(maxHealth) < k_badHealth) {
@@ -184,7 +190,7 @@ void BattleConsole::printFoe(const std::string & name, unsigned int level, float
 	std::string lineEnd("]");
 
 	unsigned int healthBars = std::ceil(health / static_cast<float>(maxHealth) * static_cast<float>(instance().m_bars));
-DEB(std::to_string(health));
+
 	Console::moveCursorToCol(Console::getWidth() - line.size() - lineEnd.size() - instance().m_bars - 2);
 	waddstr(Console::win(), line.c_str());
 

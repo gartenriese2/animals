@@ -33,6 +33,18 @@ void Console::end(const std::string & str) {
 
 }
 
+void Console::resize() {
+
+	Console::clear();
+	werase(stdscr);
+
+	instance().createWindow();
+
+	Console::refresh();
+	wrefresh(stdscr);
+
+}
+
 unsigned int Console::getHeight() {
 	
 	unsigned int x,y;
@@ -237,6 +249,22 @@ Console::Console() {
 	start_color();
 	use_default_colors();
 
+	createWindow();
+
+	colorNum = 1;
+
+}
+
+Console::~Console() {
+	
+	// end ncurses
+	delwin(m_win);
+	endwin();
+
+}
+
+void Console::createWindow() {
+
 	unsigned int x,y;
 	getmaxyx(stdscr,y,x);
 	if (x < k_minConsoleWidth || y < k_minConsoleHeight) {
@@ -259,15 +287,5 @@ Console::Console() {
 	m_win = newwin(dY, dX, yStart, xStart);
 	keypad(m_win, TRUE);
 	wrefresh(m_win);
-
-	colorNum = 1;
-
-}
-
-Console::~Console() {
-	
-	// end ncurses
-	delwin(m_win);
-	endwin();
 
 }

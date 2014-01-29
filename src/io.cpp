@@ -131,6 +131,9 @@ Key IO::getKeyInstance() const {
 		case 'm':
 			k = Key::MENU;
 			break;
+		case KEY_RESIZE:
+			Console::resize();
+			break;
 		default:
 			break;
 	};

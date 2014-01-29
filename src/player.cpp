@@ -32,22 +32,18 @@ void Player::move(Key key) {
 		case Key::UP:
 			setPosition(m_position->x(), m_position->y() - 1);
 			m_view = Position(0,-1);
-			// DEB("up");
 			break;
 		case Key::DOWN:
 			setPosition(m_position->x(), m_position->y() + 1);
 			m_view = Position(0,+1);
-			// DEB("down");
 			break;
 		case Key::LEFT:
 			setPosition(m_position->x() - 1, m_position->y());
 			m_view = Position(-1,0);
-			// DEB("left");
 			break;
 		case Key::RIGHT:
 			setPosition(m_position->x() + 1, m_position->y());
 			m_view = Position(1,0);
-			// DEB("right");
 			break;
 		default:
 			break;
@@ -104,8 +100,7 @@ void Player::setPosition(unsigned int x, unsigned int y) {
 				break;
 		}
 	}
-	// DEB("pos: " + std::to_string(m_position->getX()) + "|" + std::to_string(m_position->getY()));
-
+	
 }
 
 void Player::enterArea(const std::string & name) {

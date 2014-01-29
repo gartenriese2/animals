@@ -22,6 +22,7 @@ class Console {
 
 		static WINDOW * win() { return instance().m_win; }
 		static void refresh() { wrefresh(win()); }
+		static void resize();
 
 		static void clear();
 		
@@ -58,6 +59,8 @@ class Console {
 		static void printBorders();
 
 	private:
+
+		void createWindow();
 
 		static Console & instance() { static Console c; return c; }
 
