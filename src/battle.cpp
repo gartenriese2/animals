@@ -93,7 +93,7 @@ void Battle::startUservsAIRandom() {
 				m_animal2.getMaxHealth());
 			BattleConsole::emptyTextAutomatically(1000);
 
-			f.foeAttacks(atk);
+			f.ownAttacks(atk);
 			if (m_animal2.getActualHealth() == 0) {
 				BattleConsole::addText(m_animal2.getName() + " fainted!");
 				break;
