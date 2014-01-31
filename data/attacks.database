@@ -1,0 +1,395 @@
+// Attacks database
+//
+// <n> Name
+// <t> Type
+// <b> Basestats
+//		Name (Standardvalue)
+//		-------------------
+//		Accuracy (1,0)
+//		Power (0)
+//		OwnRelToMaxHeal (0,0)
+//		OwnRelToMaxDmg (0,0)
+//		FoeAbsDmg (0)
+//		FoeRelToMaxDmg (0,0)
+//		OwnRelAtkPlus (0,0)
+//		OwnRelAtkMinus (0,0)
+//		FoeRelAtkPlus (0,0)
+//		FoeRelAtkMinus (0,0)
+//		FoeRelDefMinus (0,0)
+//		FoeRelSpdMinus (0,0)
+//
+////////////////////
+//	Fire
+//
+<n>
+Fire Spark
+<t>
+Fire
+<b>
+Accuracy 0,95
+Power 25
+<n>
+Fire Blast
+<t>
+Fire
+<b>
+Accuracy 0,95
+Power 50
+<n>
+Flamethrower
+<t>
+Fire
+<b>
+Power 100
+<n>
+Fire Ball
+<t>
+Fire
+<b>
+Power 40
+Accuracy 0,8
+<n>
+Hellfire
+<t>
+Fire
+<b>
+Accuracy 0,6
+Power 120
+OwnRelToMaxHeal 0,5
+<n>
+Flamebullet
+<t>
+Fire
+<b>
+Power 75
+<n>
+Glow
+<t>
+Fire
+<b>
+FoeRelAtkMinus 0,2
+////////////////////
+//	Water
+//
+<n>
+Water Splash
+<t>
+Water
+<b>
+Power 25
+Accuracy 0,95
+<n>
+Water Blast
+<t>
+Water
+<b>
+Power 50
+Accuracy 0,95
+<n>
+Water Wave
+<t>
+Water
+<b>
+Power 70
+<n>
+Rainstorm
+<t>
+Water
+<b>
+Power 80
+Accuracy 0,9
+<n>
+Tsunami
+<t>
+Water
+<b>
+Power 100
+<n>
+Fin Attack
+<t>
+Water
+<b>
+Power 30
+Accuracy 0,9
+////////////////////
+//	Ice
+//
+<n>
+Ice Blow
+<t>
+Ice
+<b>
+Power 35
+Accuracy 0,9
+<n>
+Icerain
+<t>
+Ice
+<b>
+Power 50
+Accuracy 0,95
+////////////////////
+//	Snow
+//
+<n>
+Snowball
+<t>
+Snow
+<b>
+Power 30
+Accuracy 0,8
+<n>
+Snowstorm
+<t>
+Snow
+<b>
+Power 85
+Accuracy 0,9
+<n>
+Avalanche
+<t>
+Snow
+<b>
+Power 120
+Accuracy 0,75
+////////////////////
+//	Electro
+//
+<n>
+Short Circuit
+<t>
+Electro
+<b>
+Power 60
+////////////////////
+//	Stone
+//
+////////////////////
+//	Earth
+//
+////////////////////
+//	Air
+//
+<n>
+Claw
+<t>
+Air
+<b>
+Power 35
+Accuracy 0,9
+////////////////////
+//	Plant
+//
+<n>
+Twine
+<t>
+Plant
+<b>
+Power 40
+Accuracy 0,95
+<n>
+Leaf Wrap
+<t>
+Plant
+<b>
+Power 30
+Accuracy 0,95
+////////////////////
+//	Normal
+//
+<n>
+Tackle
+<t>
+Normal
+<b>
+Power 30
+Accuracy 0,95
+<n>
+Shove
+<t>
+Normal
+<b>
+Power 20
+Accuracy 0,95
+<n>
+Nudge
+<t>
+Normal
+<b>
+Power 10
+Accuracy 0,95
+<n>
+Stomp
+<t>
+Normal
+<b>
+Power 50
+Accuracy 0,95
+<n>
+Sting
+<t>
+Normal
+<b>
+Power 30
+Accuracy 0,95
+<n>
+Intimidate
+<t>
+Normal
+<b>
+Accuracy 0,95
+FoeRelAtkMinus 0,2
+////////////////////
+//	Ghost
+//
+<n>
+Spook
+<t>
+Ghost
+<b>
+Power 25
+<n>
+Haunt
+<t>
+Ghost
+<b>
+Power 45
+Accuracy 0,95
+<n>
+Nightmare
+<t>
+Ghost
+<b>
+Power 65
+Accuracy 0,9
+////////////////////
+//	Psycho
+//
+////////////////////
+//	Steel
+//
+<n>
+Steel Blow
+<t>
+Steel
+<b>
+Power 35
+Accuracy 0,9
+<n>
+Steel Edge
+<t>
+Steel
+<b>
+Power 45
+Accuracy 0,85
+////////////////////
+//	Fighting
+//
+////////////////////
+//	Dark
+//
+<n>
+Dark Shadow
+<t>
+Dark
+<b>
+Power 60
+<n>
+Dark Eye
+<t>
+Dark
+<b>
+Power 20
+FoeRelAtkMinus 0,2
+////////////////////
+//	Light
+//
+////////////////////
+//	Magma
+//
+////////////////////
+//	Magnet
+//
+////////////////////
+//	Underground
+//
+<n>
+Sonar
+<t>
+Underground
+<b>
+Power 20
+<n>
+Subduct
+<t>
+Underground
+<b>
+Power 60
+Accuracy 0,95
+<n>
+Earthquake
+<t>
+Underground
+<b>
+Power 120
+////////////////////
+//	Poison
+//
+<n>
+Poison Sting
+<t>
+Poison
+<b>
+Power 45
+Accuracy 0,8
+FoeRelAtkMinus 0,1
+FoeRelSpdMinus 0,1
+FoeRelDefMinus 0,1
+////////////////////
+//	Radiation
+//
+////////////////////
+//	Antic
+//
+////////////////////
+//	Technology
+//
+<n>
+Disc Throw
+<t>
+Technology
+<b>
+Power 25
+Accuracy 0,85
+<n>
+Disc Cannon
+<t>
+Technology
+<b>
+Power 50
+<n>
+Modern Shock
+<t>
+Technology
+<b>
+Power 10
+FoeRelAtkMinus 0,1
+FoeRelSpdMinus 0,1
+////////////////////
+//	Magic
+//
+<n>
+Hex
+<t>
+Magic
+<b>
+Power 25
+Accuracy 0,95
+<n>
+Curse
+<t>
+Magic
+<b>
+Power 50
+Accuracy 0,85
+<e>

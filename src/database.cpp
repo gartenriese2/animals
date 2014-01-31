@@ -95,6 +95,10 @@ const std::string Database::getStringFromBaseType(const BaseType type) {
     return instance().getName(type);
 }
 
+const BaseType Database::getBaseTypeFromString(const std::string & name) {
+	return instance().getBaseType(name);
+}
+
 const std::string Database::getStringFromEffectivenessType(const EffectiveType type) {
 	return instance().getName(type);
 }
@@ -144,6 +148,15 @@ const std::string Database::getName(const BaseType type) const {
 		s = it->second;
 	}
 	return s;
+
+}
+
+const BaseType Database::getBaseType(const std::string & name) const {
+
+	for (const auto & i : m_baseTypeNames) {
+		if (i.second == name) return i.first;
+	}
+	return BaseType();
 
 }
 

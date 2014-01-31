@@ -34,13 +34,7 @@ void BattleConsole::printAttacks(const std::vector<std::string> & vec, unsigned 
 	if (highlight == 0) Console::useColor(instance().m_attackHighlightColor);
 	wprintw(Console::win(), vec[0].c_str());
 	if (highlight == 0) Console::unsetColor(instance().m_attackHighlightColor);
-short a,b;
-pair_content(instance().m_attackHighlightColor,&a,&b);
-short r,g,b2;
-color_content(a,&r,&g, &b2);
-DEB("attackcolor: " + std::to_string(instance().m_attackHighlightColor)
-	+ " a: " + std::to_string(a) + " b: " + std::to_string(b)
-	+ " color(a): " + std::to_string(r) + "|" + std::to_string(g) + "|" + std::to_string(b2));
+
 	if (vec.size() > 1) {
 		Console::moveCursorToCol(Console::getWidth() * 2 / 3 - vec[1].size() / 2);
 		if (highlight == 1) Console::useColor(instance().m_attackHighlightColor);

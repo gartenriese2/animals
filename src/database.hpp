@@ -11,6 +11,7 @@ class Database {
     public:
         
         static const std::string getStringFromBaseType(const BaseType);
+        static const BaseType getBaseTypeFromString(const std::string &);
         static const std::string getStringFromEffectivenessType(const EffectiveType);
         static const EffectiveType getEffectiveness(const BaseType, const BaseType);
         static const float getEffectivenessValue(const EffectiveType);
@@ -27,6 +28,7 @@ class Database {
 
         void addNames();
         const std::string getName(const BaseType) const;
+        const BaseType getBaseType(const std::string &) const;
         const std::string getName(const EffectiveType) const;
         void addEffectivenesses();
         const EffectiveType getEffect(const BaseType, const BaseType) const;

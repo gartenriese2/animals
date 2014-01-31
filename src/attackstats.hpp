@@ -2,90 +2,26 @@
 #define _ATTACKSTATS_HPP
 
 #include "type.hpp"
-#include <unordered_map>
 
-class Data {
-public:
-	Data(const Type & t) { m_type = t; }
-	Data(int i) { m_int = i; }
-	Data(float f) { m_float = f; }
-	Type getType() const { return m_type; }
-	int getInt() const { return m_int; }
-	float getFloat() const { return m_float; }
-private:
-	Type m_type;
-	int m_int;
-	float m_float;
-};
+#include <unordered_map>
 
 class AttackStats {
 
 	public:
 
-		AttackStats(const Type &, int, int odmg = 0, float p = 1.f,
-			float fam = 1.f, float fdm = 1.f, float fsm = 1.f,
-			float oam = 1.f, float odm = 1.f, float osm = 1.f,
-			float ohm = 0.f);
-		AttackStats(const std::unordered_map<std::string, Data> &);
-		AttackStats(const Type &, int, float);
-
-		// template<typename ... Tn>
-		// AttackStats(Tn && ... args) {
-		// 	handleTemplateArgs(args ...);
-		// }
-
-		// template<typename T>
-		// void handleTemplateArgs(T && arg1) {
-		// 	handleArg(arg1);
-		// }
-		// template<typename T1, typename ... Tn>
-		// void handleTemplateArgs(T1 && arg1, Tn && ... args) {
-		// 	handleTemplateArgs(arg1);
-		// 	handleTemplateArgs(args ...);
-		// }
-
+		AttackStats(const Type &, const std::unordered_map<std::string, double> &);
 		~AttackStats();
 
-		void handleArg(std::pair<std::string,int> &);
-		void handleArg(std::pair<std::string,float> &);
-		void handleArg(const Type &);
-
 		const Type & getType() const { return m_type; }
-		const int getFoeDamage() const { return m_foeDamage; }
-		const int getOwnDamage() const { return m_ownDamage; }
-
-		const float getFoeAttackModifier() const { return m_foeAttackModifier; }
-		const float getFoeDefenseModifier() const { return m_foeDefenseModifier; }
-		const float getFoeSpeedModifier() const { return m_foeSpeedModifier; }
-		const float getOwnAttackModifier() const { return m_ownAttackModifier; }
-		const float getOwnDefenseModifier() const { return m_ownDefenseModifier; }
-		const float getOwnSpeedModifier() const { return m_ownSpeedModifier; }
-		const float getOwnHealthModifier() const { return m_ownHealthModifier; }
-
-		const float getProbability() const { return m_probability; }
+		const std::unordered_map<std::string, double> & getMap() const { return m_values; }
 
 	private:
 
 		Type m_type;
+		std::unordered_map<std::string, double> m_values;
 
-		int m_foeDamage;
-		int m_ownDamage;
-
-		float m_probability;
-
-		float m_foeAttackModifier;
-		float m_foeDefenseModifier;
-		float m_foeSpeedModifier;
-
-		float m_ownAttackModifier;
-		float m_ownDefenseModifier;
-		float m_ownSpeedModifier;
-		float m_ownHealthModifier;
-
-		
+		void initValues();
 
 };
-
-
 
 #endif // _ATTACKSTATS_HPP

@@ -280,20 +280,22 @@ void Animal::evolveInto(const Animal & other) {
 
 bool Animal::useAttack(std::shared_ptr<Attack> atk, Animal & foe) {
 
-	std::uniform_real_distribution<float> dist(0.f, 1.f);
+	Attack & a = *atk;
 
-	if (dist(generator) > atk->getProbability()) {
+	std::uniform_real_distribution<double> dist(0.0, 1.0);
+
+	if (dist(generator) > a("Accuracy")) {
 
 		if (m_log) BattleConsole::addText("Attack missed!");
 		return false;
 
 	} else {
 
-		float atkDefRatio = static_cast<float>(getActualAttack()) / static_cast<float>(foe.getActualDefense());
-		float lvlRatio = static_cast<float>(getLevel()) / k_lvlRatio;
-		float effValue = atk->getType().getEffectValueAgainst(foe.getType());
-		float boost = atk->getType().isPartOf(getType()) ? k_typeFit : k_typeNoFit;
-		int foeDmg = ceil(static_cast<float>(atk->getFoeDamage()) * atkDefRatio * lvlRatio * effValue * boost);
+		double atkDefRatio = static_cast<double>(getActualAttack()) / static_cast<double>(foe.getActualDefense());
+		double lvlRatio = static_cast<double>(getLevel()) / k_lvlRatio;
+		double effValue = atk->getType().getEffectValueAgainst(foe.getType());
+		double boost = atk->getType().isPartOf(getType()) ? k_typeFit : k_typeNoFit;
+		int foeDmg = ceil(a("Power") * atkDefRatio * lvlRatio * effValue * boost);
 
 		if (dist(generator) < k_criticalHit && foeDmg != 0) {
 			foeDmg *= 2;
@@ -301,17 +303,14 @@ bool Animal::useAttack(std::shared_ptr<Attack> atk, Animal & foe) {
 		}
 
 		foe.changeHealth(-foeDmg);
-		if (effValue != 0.f || atk->getType().getBaseTypes()[0] == BaseType::None) {
-			foe.modifyAttack(atk->getFoeAttackModifier());
-			foe.modifyDefense(atk->getFoeDefenseModifier());
-			foe.modifySpeed(atk->getFoeSpeedModifier());
-		}
+		foe.modifyAttack(a("FoeRelAtkMinus") * a("FoeRelAtkPlus"));
+		foe.modifyDefense(a("FoeRelDefMinus") * a("FoeRelDefPlus"));
+		foe.modifySpeed(a("FoeRelSpdMinus") * a("FoeRelSpdPlus"));
 
-		changeHealth(-atk->getOwnDamage());
-		modifyAttack(atk->getOwnAttackModifier());
-		modifyDefense(atk->getOwnDefenseModifier());
-		modifySpeed(atk->getOwnSpeedModifier());
-		modifyHealth(atk->getOwnHealthModifier());
+		modifyAttack(a("OwnRelAtkMinus") * a("OwnRelAtkPlus"));
+		modifyDefense(a("OwnRelDefMinus") * a("OwnRelDefPlus"));
+		modifySpeed(a("OwnRelSpdMinus") * a("OwnRelSpdPlus"));
+		modifyHealth(a("OwnRelToMaxHeal") * a("OwnRelToMaxDmg"));
 
 		return true;
 

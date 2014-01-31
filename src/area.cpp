@@ -6,7 +6,6 @@
 
 extern std::mt19937 generator;
 static AreaDatabaseReader m_reader;
-static constexpr char k_stopsign = 'x';
 
 Area::Area()
   : m_name("default")
