@@ -1,21 +1,5 @@
 #include "attackstats.hpp"
 
-#include "math.h"
-
-static const Type k_defaultType = Type(BaseType::None);
-static constexpr int k_defaultFoeDmg = 0;
-static constexpr int k_defaultOwnDmg = 0;
-static constexpr float k_defaultProbability = 1.f;
-static constexpr float k_defaultFoeAttackModifier = 1.f;
-static constexpr float k_defaultFoeDefenseModifier = 1.f;
-static constexpr float k_defaultFoeSpeedModifier = 1.f;
-static constexpr float k_defaultOwnAttackModifier = 1.f;
-static constexpr float k_defaultOwnDefenseModifier = 1.f;
-static constexpr float k_defaultOwnSpeedModifier = 1.f;
-static constexpr float k_defaultOwnHealthModifier = 0.f;
-
-
-
 AttackStats::AttackStats(const Type & type, const std::unordered_map<std::string, double> & map)
   : m_type(type)
 {
@@ -31,6 +15,7 @@ AttackStats::~AttackStats() {
 void AttackStats::initValues() {
 
 	m_values = {
+		{"Priority", 0.0},
 		{"Accuracy", 1.0},
 		{"Power", 0.0},
 		{"OwnRelToMaxHeal", 0.0},
