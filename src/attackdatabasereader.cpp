@@ -2,6 +2,8 @@
 
 #include "console.hpp"
 
+#include <clocale>
+
 AttackDatabaseReader::AttackDatabaseReader() {
 	openFile();
 }
@@ -47,7 +49,7 @@ const std::unordered_map<std::string, double> AttackDatabaseReader::convertStrin
 	std::unordered_map<std::string, double> map;
 
 	unsigned int count = 0;
-	
+	setlocale(LC_NUMERIC, "C");
 	while (count < str.size()) {
 	
 		std::string entry;
@@ -58,6 +60,7 @@ const std::unordered_map<std::string, double> AttackDatabaseReader::convertStrin
 		map.emplace(entry,std::stod(value));
 
 	}
+	setlocale(LC_NUMERIC, "");
 
 	return map;
 
