@@ -78,26 +78,6 @@ void Animal::fillActualAttacks() {
 
 }
 
-void Animal::printInfo() const {
-
-	// std::cout << "----------INFO----------" << std::endl;
-	// std::cout << "Name:    " << m_name << std::endl;
-	// std::cout << "Type:    " << m_type << std::endl;
-	// std::cout << "Level:   " << m_level << std::endl;
-	// std::cout << "XP:      " << m_exp << "/" << getNeededExp() << std::endl;
-	// std::cout << "Health:  " << getActualHealth() << "/" << getMaxHealth() << std::endl;
-	// std::cout << "Attack:  " << getMaxAttack() << std::endl;
-	// std::cout << "Defense: " << getMaxDefense() << std::endl;
-	// std::cout << "Speed:   " << getMaxSpeed() << std::endl;
-	// std::cout << "Moves:" << std::endl;
-	for (const auto i : m_moves) {
-		// std::cout << "---- " << i->getName() << " (" << i->getFoeDamage() << ") ["
-			// << i->getType() << "]" << std::endl;
-	}
-	// std::cout << "------------------------" << std::endl;
-
-}
-
 void Animal::raiseLevels(const unsigned int lvl) {
 
 	bool tmp = m_log;
@@ -128,27 +108,36 @@ void Animal::heal() {
 
 }
 
-void Animal::modifyAttack(float f) {
+/*
+*	f is between 0.0 and 1.99
+*/
+void Animal::modifyAttack(double f) {
 
-	float f2 = f * static_cast<float>(getActualAttack());
+	double f2 = f * static_cast<double>(getActualAttack());
 	int n = f < 1.f ? floor(f2) : ceil(f2);
 	if (n == 0) n = 1;
 	m_stats.setActualAttack(n);
 
 }
 
-void Animal::modifyDefense(float f) {
+/*
+*	f is between 0.0 and 1.99
+*/
+void Animal::modifyDefense(double f) {
 
-	float f2 = f * static_cast<float>(getActualDefense());
+	double f2 = f * static_cast<double>(getActualDefense());
 	int n = f < 1.f ? floor(f2) : ceil(f2);
 	if (n == 0) n = 1;
 	m_stats.setActualDefense(n);
 
 }
 
-void Animal::modifySpeed(float f) {
+/*
+*	f is between 0.0 and 1.99
+*/
+void Animal::modifySpeed(double f) {
 
-	float f2 = f * static_cast<float>(getActualSpeed());
+	double f2 = f * static_cast<double>(getActualSpeed());
 	int n = f < 1.f ? floor(f2) : ceil(f2);
 	if (n == 0) n = 1;
 	m_stats.setActualSpeed(n);
@@ -303,13 +292,13 @@ bool Animal::useAttack(std::shared_ptr<Attack> atk, Animal & foe) {
 		}
 
 		foe.changeHealth(-foeDmg);
-		foe.modifyAttack(a("FoeRelAtkMinus") * a("FoeRelAtkPlus"));
-		foe.modifyDefense(a("FoeRelDefMinus") * a("FoeRelDefPlus"));
-		foe.modifySpeed(a("FoeRelSpdMinus") * a("FoeRelSpdPlus"));
+		foe.modifyAttack(a("FoeRelAtk"));
+		foe.modifyDefense(a("FoeRelDef"));
+		foe.modifySpeed(a("FoeRelSpd"));
 
-		modifyAttack(a("OwnRelAtkMinus") * a("OwnRelAtkPlus"));
-		modifyDefense(a("OwnRelDefMinus") * a("OwnRelDefPlus"));
-		modifySpeed(a("OwnRelSpdMinus") * a("OwnRelSpdPlus"));
+		modifyAttack(a("OwnRelAtk"));
+		modifyDefense(a("OwnRelDef"));
+		modifySpeed(a("OwnRelSpd"));
 		modifyHealth(a("OwnRelToMaxHeal") * a("OwnRelToMaxDmg"));
 
 		return true;
@@ -632,12 +621,5 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 	};
 
 	return s_animals;
-
-}
-
-std::ostream & operator<<(std::ostream & os, Animal animal) {
-  
-	animal.printInfo();
-	return os;
 
 }

@@ -15,8 +15,6 @@ class Animal {
 
 		void setLog(bool b) { m_log = b; }
 
-		void printInfo() const;
-
 		const std::string & getName() const { return m_name; }
 		const std::string getNameCopy() const { return m_name; }
 		const Type & getType() const { return m_type; }
@@ -49,9 +47,9 @@ class Animal {
 		const std::shared_ptr<Attack> getRandomAttack() const;
 
 		void heal();
-		void modifyAttack(float);
-		void modifyDefense(float);
-		void modifySpeed(float);
+		void modifyAttack(double);
+		void modifyDefense(double);
+		void modifySpeed(double);
 		void modifyHealth(float);
 		void resetBattleStats();
 

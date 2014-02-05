@@ -11,12 +11,12 @@
 //		OwnRelToMaxDmg (0.0)
 //		FoeAbsDmg (0)
 //		FoeRelToMaxDmg (0.0)
-//		OwnRelAtkPlus (0.0)
-//		OwnRelAtkMinus (0.0)
-//		FoeRelAtkPlus (0.0)
-//		FoeRelAtkMinus (0.0)
-//		FoeRelDefMinus (0.0)
-//		FoeRelSpdMinus (0.0)
+//		OwnRelAtk (0.0)
+//		OwnRelDef (0.0)
+//		OwnRelSpd (0.0)
+//		FoeRelAtk (0.0)
+//		FoeRelDef (0.0)
+//		FoeRelSpd (0.0)
 //
 ////////////////////
 //	Fire
@@ -67,7 +67,7 @@ Glow
 <t>
 Fire
 <b>
-FoeRelAtkMinus 0.2
+FoeRelAtk 0.8
 ////////////////////
 //	Water
 //
@@ -238,7 +238,7 @@ Intimidate
 Normal
 <b>
 Accuracy 0.95
-FoeRelAtkMinus 0.2
+FoeRelAtk 0.8
 ////////////////////
 //	Ghost
 //
@@ -300,7 +300,7 @@ Dark Eye
 Dark
 <b>
 Power 20
-FoeRelAtkMinus 0.2
+FoeRelAtk 0.8
 ////////////////////
 //	Light
 //
@@ -342,9 +342,9 @@ Poison
 <b>
 Power 45
 Accuracy 0.8
-FoeRelAtkMinus 0.1
-FoeRelSpdMinus 0.1
-FoeRelDefMinus 0.1
+FoeRelAtk 0.9
+FoeRelSpd 0.9
+FoeRelDef 0.9
 ////////////////////
 //	Radiation
 //
@@ -373,8 +373,8 @@ Modern Shock
 Technology
 <b>
 Power 10
-FoeRelAtkMinus 0.1
-FoeRelSpdMinus 0.1
+FoeRelAtk 0.9
+FoeRelSpd 0.9
 ////////////////////
 //	Magic
 //
