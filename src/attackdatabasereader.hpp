@@ -19,12 +19,8 @@ class AttackDatabaseReader : public DatabaseReader {
 
 	private:
 
-		const std::string k_filename = "data/attacks.database";
-
-        void openFile();
-
-        const Type convertStringToType(const std::string &);
-        const std::unordered_map<std::string, double> convertStringToMap(const std::string &);
+        const Type convertContentToType(const std::vector<std::string> &);
+        const std::unordered_map<std::string, double> convertContentToMap(const std::vector<std::string> &);
 
 };
 

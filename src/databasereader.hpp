@@ -1,27 +1,22 @@
 #ifndef _DATABASEREADER_HPP
 #define _DATABASEREADER_HPP
 
+#include "databasefile.hpp"
+
 #include <fstream>
 
 class DatabaseReader {
 
 	public:
 
-		DatabaseReader();
+		DatabaseReader(const std::string &);
 		virtual ~DatabaseReader();
-
-		virtual void openFile() = 0;
 
 	protected:
 
-		std::ifstream m_file;
+		DatabaseFile m_file;
 
-		void goToNextLine();
-		const char getNextTag();
-		const std::string nextEntry();
-		const std::string getNextWord();
-		const std::string getNextContent();
-		const std::string getTagContentFromEntry(const char &, const std::string &);
+		const std::vector<std::string> getTagContentFromEntry(const char &, const std::string &);
 
 };
 

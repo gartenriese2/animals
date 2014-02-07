@@ -11,7 +11,7 @@ class NPChar {
 
 	public:
 		
-		NPChar(const std::string &, const std::string &, const Position &, const Party &, const std::string &);
+		NPChar(const std::string &, const std::string &, const Position &, const Party &, const std::vector<std::string> &);
 		~NPChar();
 
 		bool wantsToBattle() const { return m_party.getSize() != 0; }
@@ -25,7 +25,7 @@ class NPChar {
 		std::string m_area;
 		Position m_position;
 		Party m_party;
-		std::string m_text;
+		std::vector<std::string> m_text;
 
 };
 

@@ -15,10 +15,11 @@ class AreaConsole {
 
 		static void print();
 
-		static void setAreaBase(std::shared_ptr<twoDimArray>);
+		static void setAreaBase(std::shared_ptr<std::vector<std::string>>);
 		static void setPosition(std::shared_ptr<Position>);
 
 		static void addText(const std::string &);
+		static void addText(const std::vector<std::string> & vec);
 		static void advanceText();
 		static void emptyText();
 		static bool textEmpty() { return instance().m_text.empty(); }
@@ -39,7 +40,7 @@ class AreaConsole {
 
 		static AreaConsole & instance() { static AreaConsole c; return c; }
 
-		std::shared_ptr<twoDimArray> m_area;
+		std::shared_ptr<std::vector<std::string>> m_area;
 		std::shared_ptr<Position> m_pos;
 		std::deque<std::string> m_text;
 

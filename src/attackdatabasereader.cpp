@@ -4,59 +4,46 @@
 
 #include <clocale>
 
-AttackDatabaseReader::AttackDatabaseReader() {
-	openFile();
+AttackDatabaseReader::AttackDatabaseReader()
+  : DatabaseReader("data/attacks.database")
+{
 }
 
 AttackDatabaseReader::~AttackDatabaseReader() {
 }
 
-void AttackDatabaseReader::openFile() {
-
-	m_file.open(k_filename);
-	if (!m_file.good()) {
-		EXIT("Bad Attack database!");
-	}
-
-}
-
 const Type AttackDatabaseReader::getTypeFromEntry(const std::string & str) {
 
-	std::string content = getTagContentFromEntry('t', str);
-	return convertStringToType(content);
+	return convertContentToType(getTagContentFromEntry('t', str));
 
 }
 
 const std::unordered_map<std::string, double> AttackDatabaseReader::getMapFromEntry(const std::string & str) {
 
-	std::string content = getTagContentFromEntry('b', str);
-	return convertStringToMap(content);
+	return convertContentToMap(getTagContentFromEntry('b', str));
 
 }
 
-const Type AttackDatabaseReader::convertStringToType(const std::string & str) {
+const Type AttackDatabaseReader::convertContentToType(const std::vector<std::string> & content) {
 
-	std::string type;
-	unsigned int count = 0;
-	while(str[count] != '\n') type += str[count++];
-
-	return Type(Database::getBaseTypeFromString(type));
+	return Type(Database::getBaseTypeFromString(content[0]));
 
 }
 
-const std::unordered_map<std::string, double> AttackDatabaseReader::convertStringToMap(const std::string & str) {
+const std::unordered_map<std::string, double> AttackDatabaseReader::convertContentToMap(const std::vector<std::string> & content) {
 
 	std::unordered_map<std::string, double> map;
 
 	unsigned int count = 0;
 	setlocale(LC_NUMERIC, "C");
-	while (count < str.size()) {
-	
+	for (const auto & line : content) {
+
+		count = 0;
+
 		std::string entry;
 		std::string value;
-		
-		while (str[count++] != ' ') entry += str[count - 1];
-		while (str[count++] != '\n') value += str[count - 1];
+		while (line[count++] != ' ') entry += line[count - 1];
+		while (count++ < line.size()) value += line[count - 1];
 		map.emplace(entry,std::stod(value));
 
 	}

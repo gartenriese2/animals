@@ -13,16 +13,12 @@ class NPCDatabaseReader : public DatabaseReader {
 		
 		const partyTuples getPartyTuplesFromEntry(const std::string &);
         const locationTuple getLocationFromEntry(const std::string &);
-        const std::string getTextFromEntry(const std::string &);
+        const std::vector<std::string> getTextFromEntry(const std::string &);
 
 	private:
 
-		const std::string k_filename = "data/npcs.database";
-
-        void openFile();
-
-        const partyTuples convertStringToPartyTuples(const std::string &);
-        const locationTuple convertStringToLocationTuple(const std::string &);
+        const partyTuples convertContentToPartyTuples(const std::vector<std::string> &);
+        const locationTuple convertContentToLocationTuple(const std::vector<std::string> &);
 
 };
 

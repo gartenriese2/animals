@@ -232,7 +232,7 @@ void Console::unsetColor(unsigned int pair) {
 //
 
 Console::Console() {
-	
+
 	// init ncurses
 	setlocale(LC_ALL,"");
 	initscr();

@@ -19,14 +19,17 @@ class Area {
 	public:
 
 		Area();
-		Area(const std::string &, const twoDimArray &, const portalMap &,
+		// Area(const std::string &, const twoDimArray &, const portalMap &,
+		// 	const likelyhoodTuples &, const portalMap &);
+		Area(const std::string &, const std::vector<std::string> &, const portalMap &,
 			const likelyhoodTuples &, const portalMap &);
 		~Area();
 
 		void print(const Position & pos) const;
 
 		const std::string & getName() const { return m_name; }
-		const twoDimArray & getBase() const { return m_base; }
+		// const twoDimArray & getBase() const { return m_base; }
+		const std::vector<std::string> & getBase() const { return m_base; }
 		const Position & getPortalPos(const std::string &) const;
 		const Area getAreaFromPortalPos(const Position &);
 		const NPChar getNPC(const Position &);
@@ -39,7 +42,8 @@ class Area {
 	private:
 
 		std::string m_name;
-		twoDimArray m_base;
+		// twoDimArray m_base;
+		std::vector<std::string> m_base;
 		portalMap m_portals;
 		likelyhoodTuples m_likelyhoods;
 		portalMap m_npcs;

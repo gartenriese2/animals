@@ -26,7 +26,17 @@ Area::Area()
 
 }
 
-Area::Area(const std::string & name, const twoDimArray & base, const portalMap & portals,
+// Area::Area(const std::string & name, const twoDimArray & base, const portalMap & portals,
+// 	const likelyhoodTuples & tuples, const portalMap & npcs)
+//   : m_name(name),
+//   	m_base(base),
+//   	m_portals(portals),
+//   	m_likelyhoods(tuples),
+//   	m_npcs(npcs)
+// {
+// }
+
+Area::Area(const std::string & name, const std::vector<std::string> & base, const portalMap & portals,
 	const likelyhoodTuples & tuples, const portalMap & npcs)
   : m_name(name),
   	m_base(base),
@@ -79,7 +89,7 @@ Animal Area::getWildAnimal() const {
 		probSum += std::get<3>(m_likelyhoods[i]);
 		if (choice < probSum) break;
 	}
-	
+
 	Animal animal = Animal::getAnimal(std::get<0>(m_likelyhoods[i]));
 	std::uniform_int_distribution<int> dist2(std::get<1>(m_likelyhoods[i]), std::get<2>(m_likelyhoods[i]));
 	animal.raiseLevels(dist2(generator) - 1);
@@ -104,7 +114,8 @@ const NPChar Area::getNPC(const Position & pos) {
 
 const Area Area::getArea(const std::string & s) {
 
-	twoDimArray arr;
+	// twoDimArray arr;
+	std::vector<std::string> arr;
 	portalMap map;
 	likelyhoodTuples tuples;
 	portalMap npcs;

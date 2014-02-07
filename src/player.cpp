@@ -14,7 +14,7 @@ Player::Player(const std::tuple<std::string,Position> & spawn)
 {
 
 	m_area = Area::getArea(std::get<0>(m_respawnPos));
-	m_areaBase = std::make_shared<twoDimArray>(m_area.getBase());
+	m_areaBase = std::make_shared<std::vector<std::string>>(m_area.getBase());
 	m_position = std::make_shared<Position>(std::get<1>(m_respawnPos));
 	m_view = Position(0,1);
 
@@ -79,9 +79,9 @@ void Player::interact() {
 
 void Player::setPosition(unsigned int x, unsigned int y) {
 
-	const twoDimArray base = m_area.getBase();
+	const std::vector<std::string> base = m_area.getBase();
 
-	if (x < base[0].size() && y < base.size()
+	if (x < base[y].size() && y < base.size()
 		&& base[y][x] != AreaType::BORDER
 		&& base[y][x] != AreaType::NPC) {
 		m_position->set(x, y);

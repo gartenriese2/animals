@@ -27,7 +27,8 @@ class Player {
 
 		std::tuple<std::string,Position> m_respawnPos;
 		Area m_area;
-		std::shared_ptr<twoDimArray> m_areaBase;
+		// std::shared_ptr<twoDimArray> m_areaBase;
+		std::shared_ptr<std::vector<std::string>> m_areaBase;
 		std::shared_ptr<Position> m_position;
 		Position m_view;
 

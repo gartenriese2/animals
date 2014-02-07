@@ -8,7 +8,7 @@
 
 static NPCDatabaseReader m_reader;
 
-NPChar::NPChar(const std::string & name, const std::string & area, const Position & pos, const Party & party, const std::string & text)
+NPChar::NPChar(const std::string & name, const std::string & area, const Position & pos, const Party & party, const std::vector<std::string> & text)
   : m_name(name),
   	m_area(area),
   	m_position(pos),
@@ -22,19 +22,21 @@ NPChar::~NPChar() {
 
 void NPChar::action(Party & party) {
 
-	unsigned int count = 0;
+	// unsigned int count = 0;
 	
-	while(count < m_text.size()) {
-		std::string tmp;
+	// while(count < m_text.size()) {
+	// 	std::string tmp;
 		
-		while(m_text[count] != '\n' && count < m_text.size()) {
-			tmp += m_text[count++];
-		}
-		++count;
+	// 	while(m_text[count] != '\n' && count < m_text.size()) {
+	// 		tmp += m_text[count++];
+	// 	}
+	// 	++count;
 		
-		AreaConsole::addText(m_name + ": " + tmp);
+	// 	AreaConsole::addText(m_name + ": " + tmp);
 		
-	}
+	// }
+
+	AreaConsole::addText(m_text);
 
 	AreaConsole::print();
 	AreaConsole::emptyText();
@@ -54,7 +56,8 @@ const NPChar NPChar::getNPC(const std::string & s) {
 
 	partyTuples vec;
 	locationTuple tuple;
-	std::string str;
+	// std::string str;
+	std::vector<std::string> str;
 
 	try {
 		vec = m_reader.getPartyTuplesFromEntry(s);

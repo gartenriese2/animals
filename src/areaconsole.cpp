@@ -20,12 +20,20 @@ void AreaConsole::print() {
 
 }
 
-void AreaConsole::setAreaBase(std::shared_ptr<twoDimArray> ptr) {
+void AreaConsole::setAreaBase(std::shared_ptr<std::vector<std::string>> ptr) {
 	instance().m_area = ptr;
 }
 
 void AreaConsole::setPosition(std::shared_ptr<Position> ptr) {
 	instance().m_pos = ptr;
+}
+
+void AreaConsole::addText(const std::vector<std::string> & vec) {
+
+	for (const auto & line : vec) {
+		addText(line);
+	}
+
 }
 
 void AreaConsole::addText(const std::string & str) {
@@ -91,8 +99,6 @@ void AreaConsole::printArea() const {
 	int toY = fromY + static_cast<int>(m_areaHeight);
 	int fromX = static_cast<int>(m_pos->getX()) - static_cast<int>(m_areaWidth) / 2;
 	int toX = fromX + static_cast<int>(m_areaWidth);
-
-	
 
 	for (int i = fromY; i < toY; ++i) {
 
