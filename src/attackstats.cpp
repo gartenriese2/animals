@@ -22,12 +22,12 @@ void AttackStats::initValues() {
 		{"OwnRelToMaxDmg", 0.0},
 		{"FoeAbsDmg", 0.0},
 		{"FoeRelToMaxDmg", 0.0},
-		{"OwnRelAtk", 0.0},
-		{"OwnRelSpd", 0.0},
-		{"OwnRelDef", 0.0},
-		{"FoeRelAtk", 0.0},
-		{"FoeRelDef", 0.0},
-		{"FoeRelSpd", 0.0},
+		{"OwnRelAtk", 1.0},
+		{"OwnRelSpd", 1.0},
+		{"OwnRelDef", 1.0},
+		{"FoeRelAtk", 1.0},
+		{"FoeRelDef", 1.0},
+		{"FoeRelSpd", 1.0},
 	};
 
 }

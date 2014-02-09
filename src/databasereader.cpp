@@ -9,7 +9,6 @@ DatabaseReader::DatabaseReader(const std::string & filename)
 }
 
 DatabaseReader::~DatabaseReader() {
-
 }
 
 const std::vector<std::string> DatabaseReader::getTagContentFromEntry(const char & tag, const std::string & name) {
