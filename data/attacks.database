@@ -3,7 +3,7 @@ Alpha Ray
 <t>
 Radiation
 <b>
-Power 35
+Power 30
 <n>
 Avalanche
 <t>
@@ -11,6 +11,12 @@ Snow
 <b>
 Power 120
 Accuracy 0.75
+<n>
+Beta Ray
+<t>
+Radiation
+<b>
+Power 50
 <n>
 Claw
 <t>
@@ -103,6 +109,12 @@ Flash
 Light
 <b>
 Power 40
+<n>
+Gamma Ray
+<t>
+Radiation
+<b>
+Power 80
 <n>
 Glow
 <t>
