@@ -1,6 +1,6 @@
 #include "areadatabasereader.hpp"
 
-#include "console.hpp"
+#include "gui/console.hpp"
 
 AreaDatabaseReader::AreaDatabaseReader()
   : DatabaseReader("data/areas.database")
@@ -17,7 +17,7 @@ const std::vector<std::string> AreaDatabaseReader::getBaseFromEntry(const std::s
 }
 
 const portalMap AreaDatabaseReader::getPortalMapFromEntry(const std::string & str) {
-	
+
 	return convertContentToPortalMap(getTagContentFromEntry('p', str));
 
 }
@@ -37,7 +37,7 @@ const portalMap AreaDatabaseReader::getNPCSFromEntry(const std::string & str) {
 const portalMap AreaDatabaseReader::convertContentToPortalMap(const std::vector<std::string> & content) {
 
 	portalMap map;
-	
+
 	unsigned int count = 0;
 	setlocale(LC_NUMERIC, "C");
 	for (const auto & line : content) {
@@ -50,7 +50,7 @@ const portalMap AreaDatabaseReader::convertContentToPortalMap(const std::vector<
 		while (line[count++] != ',') x += line[count - 1];
 		while (line[count++] != '>') y += line[count - 1];
 		while (count++ < line.size()) to += line[count - 1];
-		Position p(std::stoi(x), std::stoi(y));
+		Position_unsigned p(static_cast<unsigned int>(std::stoul(x)), static_cast<unsigned int>(std::stoul(y)));
 		map.emplace(p,to);
 
 	}
@@ -90,7 +90,7 @@ const likelyhoodTuples AreaDatabaseReader::convertContentToLikelyhoodTuples(cons
 const portalMap AreaDatabaseReader::convertContentToNPCMap(const std::vector<std::string> & content) {
 
 	portalMap map;
-	
+
 	unsigned int count = 0;
 	setlocale(LC_NUMERIC, "C");
 	for (const auto & line : content) {
@@ -103,7 +103,7 @@ const portalMap AreaDatabaseReader::convertContentToNPCMap(const std::vector<std
 		while (line[count++] != ',') x += line[count - 1];
 		while (line[count++] != '>') y += line[count - 1];
 		while (count++ < line.size()) name += line[count - 1];
-		Position p(std::stoi(x), std::stoi(y));
+		Position_unsigned p(static_cast<unsigned int>(std::stoul(x)), static_cast<unsigned int>(std::stoul(y)));
 		map.emplace(p,name);
 
 	}

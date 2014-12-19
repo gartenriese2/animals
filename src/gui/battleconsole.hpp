@@ -1,11 +1,9 @@
-#ifndef _BATTLECONSOLE_HPP
-#define _BATTLECONSOLE_HPP
+#ifndef _BATTLECONSOLE_
+#define _BATTLECONSOLE_
 
 #include <string>
 #include <deque>
 #include <vector>
-
-#include "console.hpp"
 
 class BattleConsole {
 
@@ -23,7 +21,7 @@ class BattleConsole {
 		static void emptyText();
 		static void emptyTextAutomatically(unsigned int = 0);
 		static bool textEmpty() { return instance().m_text.empty(); }
-		static unsigned int textLeft() { return instance().m_text.size(); }
+		static unsigned int textLeft() { return static_cast<unsigned int>(instance().m_text.size()); }
 
 	private:
 
@@ -40,15 +38,15 @@ class BattleConsole {
 		static BattleConsole & instance() { static BattleConsole c; return c; }
 
 		std::deque<std::string> m_text;
-		unsigned int m_textWidth;
-		unsigned int m_textHeight;
-		unsigned int m_attackHighlightColor;
-		unsigned int m_regularHealthColor;
-		unsigned int m_badHealthColor;
-		unsigned int m_criticalHealthColor;
-		unsigned int m_xpColor;
-		unsigned int m_bars;
+		unsigned int 			m_textWidth;
+		unsigned int 			m_textHeight;
+		unsigned int 			m_attackHighlightColor;
+		unsigned int 			m_regularHealthColor;
+		unsigned int 			m_badHealthColor;
+		unsigned int 			m_criticalHealthColor;
+		unsigned int 			m_xpColor;
+		unsigned int 			m_bars;
 
 };
 
-#endif // _BATTLECONSOLE_HPP
+#endif // _BATTLECONSOLE_

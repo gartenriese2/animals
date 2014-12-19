@@ -3,40 +3,44 @@
 
 #include <string>
 
-class Position {
+template <typename T>
+class TPosition {
 
 	public:
 
-		Position() {}
-		Position(int x, int y) : m_x(x), m_y(y) {};
+		TPosition() {}
+		TPosition(T x, T y) : m_x(x), m_y(y) {};
 
-		void set(int x, int y) { m_x = x; m_y = y; }
+		void set(T x, T y) { m_x = x; m_y = y; }
 
-		const int getX() const { return m_x; }
-		const int getY() const { return m_y; }
+		T getX() const { return m_x; }
+		T getY() const { return m_y; }
 
-		int & x() { return m_x; }
-		int & y() { return m_y; }
+		T & x() { return m_x; }
+		T & y() { return m_y; }
 
-		bool operator==(const Position & other) const {
-			return (m_x == other.getX() && m_y == other.getY());
+		bool operator==(const TPosition & other) const {
+			return (m_x == other.m_x && m_y == other.m_y);
 		}
 
-		bool operator<(const Position & other) const {
-			return (m_x < other.getX()) || (m_x == other.getX() && m_y < other.getY());
+		bool operator<(const TPosition & other) const {
+			return (m_x < other.m_x) || (m_x == other.m_x && m_y < other.m_y);
 		}
 
-		friend std::ostream & operator<<(std::ostream & output, const Position & pos) {
-			std::string str = "(" + std::to_string(pos.getX()) + "|" + std::to_string(pos.getY()) + ")";
+		friend std::ostream & operator<<(std::ostream & output, const TPosition & pos) {
+			std::string str = "(" + std::to_string(pos.m_x) + "|" + std::to_string(pos.m_y) + ")";
 			output << str;
 			return output;
 		}
 
 	private:
 
-		int m_x;
-		int m_y;
+		T m_x;
+		T m_y;
 
 };
+
+using Position = TPosition<int>;
+using Position_unsigned = TPosition<unsigned int>;
 
 #endif // _POSITION_HPP

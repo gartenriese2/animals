@@ -1,6 +1,7 @@
 #include "textconsole.hpp"
 
 #include "io.hpp"
+#include "console.hpp"
 
 //
 // STATIC
@@ -12,25 +13,25 @@ void TextConsole::print() {
 
 	instance().printText();
 	Console::printBorders();
-	
+
 	Console::refresh();
 
 }
 
 void TextConsole::addText(const std::string & str) {
-	
-	std::vector<std::string> vec = Console::splitString(str, instance().m_textWidth);
 
-	for (const auto i : vec) {
+	for (const auto i : Console::splitString(str, instance().m_textWidth)) {
 		instance().m_text.emplace_back(i);
 	}
 
 }
 
 void TextConsole::advanceText() {
+
 	if (instance().m_text.size() > 0) {
 		instance().m_text.pop_front();
 	}
+
 }
 
 void TextConsole::emptyText() {
@@ -38,7 +39,7 @@ void TextConsole::emptyText() {
 	while (!textEmpty()) {
 
 		Key key = IO::getKey();
-		
+
 		if (key == Key::ENTER) {
 			advanceText();
 			print();
@@ -52,25 +53,26 @@ void TextConsole::emptyText() {
 // MEMBER
 //
 
-TextConsole::TextConsole() {
-
-	m_textHeight = 5;
-	m_textWidth = Console::getWidth() - 10;
-
+TextConsole::TextConsole()
+  : m_textWidth{Console::getWidth() - 10},
+	m_textHeight{5}
+{
 }
 
 void TextConsole::printText() const {
 
 	for (unsigned int i = 0; i < m_textHeight; ++i) {
-		
+
 		moveCursorToTopOfTextOutput();
-		Console::moveCursorDown(i);
+		Console::moveCursorDown(static_cast<int>(i));
 
 		Console::clearLine();
 
 		if (m_text.size() > i) {
-			Console::moveCursorRight((m_textWidth - m_text[i].size()) / 2);
+
+			Console::moveCursorRight(static_cast<int>((m_textWidth - m_text[i].size()) / 2));
 			wprintw(Console::win(), m_text[i].c_str());
+
 		}
 
 	}
@@ -78,6 +80,8 @@ void TextConsole::printText() const {
 }
 
 void TextConsole::moveCursorToTopOfTextOutput() const {
+
 	Console::moveCursorToRow((Console::getHeight() + m_textHeight) / 2);
 	Console::moveCursorToCol((Console::getWidth() - m_textWidth) / 2);
+
 }

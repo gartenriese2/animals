@@ -5,9 +5,9 @@
 #include "attackset.hpp"
 
 class Animal {
-	
+
 	public:
-		
+
 		Animal(const std::string &, const Type &, const AnimalStats &, AttackSet,
 			const unsigned int, const std::pair<unsigned int,std::string>);
 		Animal(const Animal &);
@@ -24,22 +24,22 @@ class Animal {
 		const AttackSet & getAttackSet() const;
 		AttackSet getAttackSetCopy() const;
 		const std::vector<std::shared_ptr<Attack>> & getAttacks() const { return m_moves; }
-		const unsigned int getActualHealth() const { return m_stats.getActualHealth(); }
-		const unsigned int getMaxHealth() const { return m_stats.getHealth(); }
-		const unsigned int getActualAttack() const { return m_stats.getActualAttack(); }
-		const unsigned int getMaxAttack() const { return m_stats.getAttack(); }
-		const unsigned int getActualDefense() const { return m_stats.getActualDefense(); }
-		const unsigned int getMaxDefense() const { return m_stats.getDefense(); }
-		const unsigned int getActualSpeed() const { return m_stats.getActualSpeed(); }
-		const unsigned int getMaxSpeed() const { return m_stats.getSpeed(); }
-		const unsigned int getLevel() const { return m_level; }
+		unsigned int getActualHealth() const { return m_stats.getActualHealth(); }
+		unsigned int getMaxHealth() const { return m_stats.getHealth(); }
+		unsigned int getActualAttack() const { return m_stats.getActualAttack(); }
+		unsigned int getMaxAttack() const { return m_stats.getAttack(); }
+		unsigned int getActualDefense() const { return m_stats.getActualDefense(); }
+		unsigned int getMaxDefense() const { return m_stats.getDefense(); }
+		unsigned int getActualSpeed() const { return m_stats.getActualSpeed(); }
+		unsigned int getMaxSpeed() const { return m_stats.getSpeed(); }
+		unsigned int getLevel() const { return m_level; }
 		const std::pair<unsigned int, std::string> & getEvolve() const { return m_evolve; }
 		const std::pair<unsigned int, std::string> getEvolveCopy() const { return m_evolve; }
 
 		void raiseLevels(const unsigned int);
-		
-		const unsigned int getExp() const { return m_exp; }
-		const unsigned int getNeededExp() const;
+
+		unsigned int getExp() const { return m_exp; }
+		unsigned int getNeededExp() const;
 		void showExpGain(unsigned int from, unsigned int to) const;
 		void gainExp(unsigned int);
 		void changeHealth(const int h);
@@ -47,10 +47,10 @@ class Animal {
 		const std::shared_ptr<Attack> getRandomAttack() const;
 
 		void heal();
-		void modifyAttack(double);
-		void modifyDefense(double);
-		void modifySpeed(double);
-		void modifyHealth(float);
+		bool modifyAttack(double);
+		bool modifyDefense(double);
+		bool modifySpeed(double);
+		bool modifyHealth(float);
 		void resetBattleStats();
 
 		static const std::map<std::string, Animal> & getAnimals();
@@ -87,7 +87,7 @@ class Animal {
 		bool checkForNewMoves();
 		void levelUp();
 		void evolveInto(const Animal &);
-	
+
 };
 
 std::ostream & operator<<(std::ostream & out, Animal);

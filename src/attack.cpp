@@ -1,6 +1,6 @@
 #include "attack.hpp"
 
-#include "console.hpp"
+#include "gui/console.hpp"
 #include "attackdatabasereader.hpp"
 
 static AttackDatabaseReader m_reader;

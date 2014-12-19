@@ -15,7 +15,7 @@
 enum AreaType : char { BORDER = '+', GRASS = '#', PORTAL = 'o', HEALING = 'H', WATER = '~', NPC = 'N' };
 
 class Area {
-	
+
 	public:
 
 		Area();
@@ -30,14 +30,14 @@ class Area {
 		const std::string & getName() const { return m_name; }
 		// const twoDimArray & getBase() const { return m_base; }
 		const std::vector<std::string> & getBase() const { return m_base; }
-		const Position & getPortalPos(const std::string &) const;
-		const Area getAreaFromPortalPos(const Position &);
-		const NPChar getNPC(const Position &);
+		const Position_unsigned & getPortalPos(const std::string &) const;
+		const Area getAreaFromPortalPos(const Position_unsigned &);
+		const NPChar getNPC(const Position_unsigned &);
 
 		Animal getWildAnimal() const;
 
 		static const Area getArea(const std::string &);
-		static const unsigned int getHeight() { return k_height; }
+		static unsigned int getHeight() { return k_height; }
 
 	private:
 

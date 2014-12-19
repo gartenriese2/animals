@@ -1,21 +1,24 @@
 #include "player.hpp"
 
 #include <random>
+
 #include "tournament.hpp"
-#include "areaconsole.hpp"
-#include "textconsole.hpp"
+
+#include "gui/areaconsole.hpp"
+#include "gui/textconsole.hpp"
+#include "gui/console.hpp"
 
 extern std::mt19937 generator;
 
 static constexpr float k_grassEncounterProb = 0.15f;
 
-Player::Player(const std::tuple<std::string,Position> & spawn)
+Player::Player(const locationTuple & spawn)
   : m_respawnPos(spawn)
 {
 
 	m_area = Area::getArea(std::get<0>(m_respawnPos));
 	m_areaBase = std::make_shared<std::vector<std::string>>(m_area.getBase());
-	m_position = std::make_shared<Position>(std::get<1>(m_respawnPos));
+	m_position = std::make_shared<Position_unsigned>(std::get<1>(m_respawnPos));
 	m_view = Position(0,1);
 
 	AreaConsole::setAreaBase(m_areaBase);
@@ -30,15 +33,15 @@ void Player::move(Key key) {
 
 	switch(key) {
 		case Key::UP:
-			setPosition(m_position->x(), m_position->y() - 1);
+			setPosition(m_position->x(), static_cast<unsigned int>(std::max(0, static_cast<int>(m_position->y()) - 1)));
 			m_view = Position(0,-1);
 			break;
 		case Key::DOWN:
 			setPosition(m_position->x(), m_position->y() + 1);
-			m_view = Position(0,+1);
+			m_view = Position(0,1);
 			break;
 		case Key::LEFT:
-			setPosition(m_position->x() - 1, m_position->y());
+			setPosition(static_cast<unsigned int>(std::max(0, static_cast<int>(m_position->x()) - 1)), m_position->y());
 			m_view = Position(-1,0);
 			break;
 		case Key::RIGHT:
@@ -53,13 +56,15 @@ void Player::move(Key key) {
 
 void Player::interact() {
 
-	char c = m_area.getBase()[m_position->getY() + m_view.getY()][m_position->getX() + m_view.getX()];
-	
+	char c = m_area.getBase()[static_cast<unsigned int>(static_cast<int>(m_position->getY()) + m_view.getY())]
+							 [static_cast<unsigned int>(static_cast<int>(m_position->getX()) + m_view.getX())];
+
 	if (c == AreaType::NPC) {
-		
+
 		try {
-			
-			NPChar npc = m_area.getNPC(Position(m_position->getX() + m_view.getX(),m_position->getY() + m_view.getY()));
+
+			NPChar npc = m_area.getNPC(Position_unsigned(static_cast<unsigned int>(static_cast<int>(m_position->getX()) + m_view.getX()),
+				static_cast<unsigned int>(static_cast<int>(m_position->getY()) + m_view.getY())));
 			npc.action(m_party);
 			if (!m_party.isHealthy()) {
 				Console::clear();
@@ -100,7 +105,7 @@ void Player::setPosition(unsigned int x, unsigned int y) {
 				break;
 		}
 	}
-	
+
 }
 
 void Player::enterArea(const std::string & name) {
@@ -118,7 +123,7 @@ void Player::enterArea(const std::string & name) {
 		m_area = Area::getArea(oldAreaName);
 
 	}
-	
+
 	* m_areaBase = m_area.getBase();
 
 }

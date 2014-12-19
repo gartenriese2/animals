@@ -4,9 +4,9 @@
 #include "animal.hpp"
 
 class Fight {
-	
+
 	public:
-		
+
 		Fight(Animal &, Animal &, bool);
 		~Fight();
 
@@ -17,14 +17,14 @@ class Fight {
 
 	private:
 
-		void printAttack(const std::string &, const std::string &, const EffectiveType &) const;
+		void printAttack(const EffectiveType &) const;
 		bool refreshOwnHealth(unsigned int, unsigned int) const;
 		bool refreshFoeHealth(unsigned int, unsigned int) const;
 
 		Animal & m_own;
 		Animal & m_foe;
 		bool m_logging;
-	
+
 };
 
 #endif // _FIGHT_H

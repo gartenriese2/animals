@@ -12,7 +12,7 @@ class Party {
 		Party();
 		~Party();
 
-		unsigned int getSize() const { return m_animals.size(); }
+		unsigned int getSize() const { return static_cast<unsigned int>(m_animals.size()); }
 		void addAnimal(const std::string &);
 		Animal & getFrontAnimal();
 		Animal & getFirstHealthyAnimal();

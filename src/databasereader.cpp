@@ -1,8 +1,5 @@
 #include "databasereader.hpp"
 
-#include "typedefs.hpp"
-#include "console.hpp"
-
 DatabaseReader::DatabaseReader(const std::string & filename)
   : m_file(filename)
 {

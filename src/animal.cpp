@@ -6,8 +6,10 @@
 #include <random>
 #include <chrono>
 #include <thread>
+#include <cassert>
 
-#include "battleconsole.hpp"
+#include "gui/battleconsole.hpp"
+#include "gui/console.hpp"
 
 extern std::mt19937 generator;
 
@@ -29,7 +31,7 @@ Animal::Animal(const std::string & name, const Type & type,	const AnimalStats & 
 	m_level(1),
 	m_exp(0),
 	m_evolve(evolve)
-{	
+{
 	fillActualAttacks();
 	raiseLevels(level - 1);
 }
@@ -80,7 +82,7 @@ void Animal::fillActualAttacks() {
 
 void Animal::raiseLevels(const unsigned int lvl) {
 
-	bool tmp = m_log;
+	const auto tmp = m_log;
 	m_log = false;
 	for (unsigned int i = 0; i < lvl; ++i) {
 		levelUp();
@@ -91,15 +93,15 @@ void Animal::raiseLevels(const unsigned int lvl) {
 
 void Animal::changeHealth(const int h) {
 
-	if (static_cast<int>(getActualHealth() + h) < 0) {
+	if (static_cast<int>(getActualHealth()) + h < 0) {
 		m_stats.setActualHealth(0);
 	} else {
-		m_stats.setActualHealth(getActualHealth() + h);
+		m_stats.setActualHealth(getActualHealth() + static_cast<unsigned int>(h));
 	}
 
 }
 
-void Animal::heal() { 
+void Animal::heal() {
 
 	m_stats.setActualHealth(getMaxHealth());
 	m_stats.setActualAttack(getMaxAttack());
@@ -108,48 +110,54 @@ void Animal::heal() {
 
 }
 
-/*
-*	f is between 0.0 and 1.99
-*/
-void Animal::modifyAttack(double f) {
+bool Animal::modifyAttack(double f) {
 
-	double f2 = f * static_cast<double>(getActualAttack());
-	int n = f < 1.f ? floor(f2) : ceil(f2);
-	if (n == 0) n = 1;
-	m_stats.setActualAttack(n);
+	assert(f >= 0.0 && f < 2.0);
 
-}
+	const auto before = getActualAttack();
+	const auto f2 = f * static_cast<double>(before);
+	const auto after = std::max(1u, static_cast<unsigned int>(f < 1.f ? std::floor(f2) : std::ceil(f2)));
+	m_stats.setActualAttack(after);
 
-/*
-*	f is between 0.0 and 1.99
-*/
-void Animal::modifyDefense(double f) {
-
-	double f2 = f * static_cast<double>(getActualDefense());
-	int n = f < 1.f ? floor(f2) : ceil(f2);
-	if (n == 0) n = 1;
-	m_stats.setActualDefense(n);
+	return before != after;
 
 }
 
-/*
-*	f is between 0.0 and 1.99
-*/
-void Animal::modifySpeed(double f) {
+bool Animal::modifyDefense(double f) {
 
-	double f2 = f * static_cast<double>(getActualSpeed());
-	int n = f < 1.f ? floor(f2) : ceil(f2);
-	if (n == 0) n = 1;
-	m_stats.setActualSpeed(n);
+	assert(f >= 0.0 && f < 2.0);
+
+	const auto before = getActualDefense();
+	const auto f2 = f * static_cast<double>(before);
+	const auto after = std::max(1u, static_cast<unsigned int>(f < 1.f ? floor(f2) : ceil(f2)));
+	m_stats.setActualDefense(after);
+
+	return before != after;
 
 }
 
-void Animal::modifyHealth(float f) {
+bool Animal::modifySpeed(double f) {
+
+	assert(f >= 0.0 && f < 2.0);
+
+	const auto before = getActualSpeed();
+	const auto f2 = f * static_cast<double>(before);
+	const auto after = std::max(1u, static_cast<unsigned int>(f < 1.f ? floor(f2) : ceil(f2)));
+	m_stats.setActualSpeed(after);
+
+	return before != after;
+
+}
+
+bool Animal::modifyHealth(float f) {
 
 	f *= static_cast<float>(getMaxHealth());
-	int n = ceil(f);
-	n = std::min(getActualHealth() + n, getMaxHealth());
-	m_stats.setActualHealth(n);
+
+	const auto before = getActualHealth();
+	const auto after = std::max(0u, std::min(before + static_cast<unsigned int>(std::ceil(f)), getMaxHealth()));
+	m_stats.setActualHealth(after);
+
+	return before != after;
 
 }
 
@@ -161,9 +169,9 @@ void Animal::resetBattleStats() {
 
 }
 
-const unsigned int Animal::getNeededExp() const {
+unsigned int Animal::getNeededExp() const {
 
-	return m_stats.getExpMultiplier() * (k_baseExpNeeds + 2.f * m_level * m_level);
+	return static_cast<unsigned int>(m_stats.getExpMultiplier() * (k_baseExpNeeds + 2.f * m_level * m_level));
 
 }
 
@@ -174,14 +182,14 @@ void Animal::showExpGain(unsigned int from, unsigned int to) const {
 		unsigned int maxXP = getNeededExp();
 		float oldRatio = static_cast<float>(from) / static_cast<float>(maxXP);
 		float newRatio = static_cast<float>(to) / static_cast<float>(maxXP);
-		
+
 		for (float old = oldRatio; old < newRatio; old += k_ratioStep) {
 			std::this_thread::sleep_for(std::chrono::milliseconds(k_sleep));
 			unsigned int xp = static_cast<unsigned int>(old * static_cast<float>(maxXP));
 			BattleConsole::printOwn(getName(), getLevel(),
 				getActualHealth(), getMaxHealth(), xp, getNeededExp());
 		}
-		
+
 	}
 
 }
@@ -189,7 +197,7 @@ void Animal::showExpGain(unsigned int from, unsigned int to) const {
 void Animal::gainExp(unsigned int xp) {
 
 	if (m_exp + xp >= getNeededExp()) {
-		
+
 		showExpGain(m_exp, getNeededExp());
 		std::this_thread::sleep_for(std::chrono::milliseconds(k_sleep));
 		BattleConsole::printOwn(getName(), getLevel(),
@@ -200,7 +208,7 @@ void Animal::gainExp(unsigned int xp) {
 		m_exp = 0;
 		gainExp(xp);
 	} else {
-		
+
 		showExpGain(m_exp, m_exp + xp);
 
 		m_exp += xp;
@@ -209,7 +217,7 @@ void Animal::gainExp(unsigned int xp) {
 }
 
 void Animal::levelUp() {
-	
+
 	float healthRatio = static_cast<float>(m_stats.getActualHealth()) / static_cast<float>(m_stats.getHealth());
 	float attackRatio = static_cast<float>(m_stats.getActualAttack()) / static_cast<float>(m_stats.getAttack());
 	float defenseRatio = static_cast<float>(m_stats.getActualDefense()) / static_cast<float>(m_stats.getDefense());
@@ -230,14 +238,14 @@ void Animal::levelUp() {
 		if (m_log) BattleConsole::addText(oldName + " evolved into " + getName() + "!");
 	}
 
-	m_stats.setHealth(m_stats.getHealth() + round(m_stats.getHealthMultiplier() * sqrt(getLevel())));
-	m_stats.setAttack(m_stats.getAttack() + round(m_stats.getAttackMultiplier() * sqrt(getLevel())));
-	m_stats.setDefense(m_stats.getDefense() + round(m_stats.getDefenseMultiplier() * sqrt(getLevel())));
-	m_stats.setSpeed(m_stats.getSpeed() + round(m_stats.getSpeedMultiplier() * sqrt(getLevel())));
-	m_stats.setActualHealth(round(healthRatio * static_cast<float>(m_stats.getHealth())));
-	m_stats.setActualAttack(round(attackRatio * static_cast<float>(m_stats.getAttack())));
-	m_stats.setActualDefense(round(defenseRatio * static_cast<float>(m_stats.getDefense())));
-	m_stats.setActualSpeed(round(speedRatio * static_cast<float>(m_stats.getSpeed())));
+	m_stats.setHealth(m_stats.getHealth() + static_cast<unsigned int>(std::round(m_stats.getHealthMultiplier() * sqrt(getLevel()))));
+	m_stats.setAttack(m_stats.getAttack() + static_cast<unsigned int>(std::round(m_stats.getAttackMultiplier() * sqrt(getLevel()))));
+	m_stats.setDefense(m_stats.getDefense() + static_cast<unsigned int>(std::round(m_stats.getDefenseMultiplier() * sqrt(getLevel()))));
+	m_stats.setSpeed(m_stats.getSpeed() + static_cast<unsigned int>(std::round(m_stats.getSpeedMultiplier() * sqrt(getLevel()))));
+	m_stats.setActualHealth(static_cast<unsigned int>(std::round(healthRatio * static_cast<float>(m_stats.getHealth()))));
+	m_stats.setActualAttack(static_cast<unsigned int>(std::round(attackRatio * static_cast<float>(m_stats.getAttack()))));
+	m_stats.setActualDefense(static_cast<unsigned int>(std::round(defenseRatio * static_cast<float>(m_stats.getDefense()))));
+	m_stats.setActualSpeed(static_cast<unsigned int>(std::round(speedRatio * static_cast<float>(m_stats.getSpeed()))));
 
 	checkForNewMoves();
 
@@ -280,11 +288,11 @@ bool Animal::useAttack(std::shared_ptr<Attack> atk, Animal & foe) {
 
 	} else {
 
-		double atkDefRatio = static_cast<double>(getActualAttack()) / static_cast<double>(foe.getActualDefense());
-		double lvlRatio = static_cast<double>(getLevel()) / k_lvlRatio;
-		double effValue = atk->getType().getEffectValueAgainst(foe.getType());
-		double boost = atk->getType().isPartOf(getType()) ? k_typeFit : k_typeNoFit;
-		int foeDmg = ceil(a("Power") * atkDefRatio * lvlRatio * effValue * boost);
+		const auto atkDefRatio = static_cast<double>(getActualAttack()) / static_cast<double>(foe.getActualDefense());
+		const auto lvlRatio = static_cast<double>(getLevel()) / k_lvlRatio;
+		const auto effValue = atk->getType().getEffectValueAgainst(foe.getType());
+		const auto boost = atk->getType().isPartOf(getType()) ? k_typeFit : k_typeNoFit;
+		auto foeDmg = static_cast<int>(std::ceil(a("Power") * atkDefRatio * lvlRatio * effValue * boost));
 
 		if (dist(generator) < k_criticalHit && foeDmg != 0) {
 			foeDmg *= 2;
@@ -292,14 +300,28 @@ bool Animal::useAttack(std::shared_ptr<Attack> atk, Animal & foe) {
 		}
 
 		foe.changeHealth(-foeDmg);
-		foe.modifyAttack(a("FoeRelAtk"));
-		foe.modifyDefense(a("FoeRelDef"));
-		foe.modifySpeed(a("FoeRelSpd"));
+		if (foe.modifyAttack(a("FoeRelAtk")) && m_log) {
+			BattleConsole::addText("The defenders attack was " + std::string(a("FoeRelAtk") < 1.f ? "lowered." : "raised."));
+		}
+		if (foe.modifyDefense(a("FoeRelDef")) && m_log) {
+			BattleConsole::addText("The defenders defense was " + std::string(a("FoeRelDef") < 1.f ? "lowered." : "raised."));
+		}
+		if (foe.modifySpeed(a("FoeRelSpd")) && m_log) {
+			BattleConsole::addText("The defenders speed was " + std::string(a("FoeRelSpd") < 1.f ? "lowered." : "raised."));
+		}
 
-		modifyAttack(a("OwnRelAtk"));
-		modifyDefense(a("OwnRelDef"));
-		modifySpeed(a("OwnRelSpd"));
-		modifyHealth(a("OwnRelToMaxHeal") * a("OwnRelToMaxDmg"));
+		if (modifyAttack(a("OwnRelAtk")) && m_log) {
+			BattleConsole::addText("The attackers attack was " + std::string(a("OwnRelAtk") < 1.f ? "lowered." : "raised."));
+		}
+		if (modifyDefense(a("OwnRelDef")) && m_log) {
+			BattleConsole::addText("The attackers defense was " + std::string(a("OwnRelDef") < 1.f ? "lowered." : "raised."));
+		}
+		if (modifySpeed(a("OwnRelSpd")) && m_log) {
+			BattleConsole::addText("The attackers speed was " + std::string(a("OwnRelSpd") < 1.f ? "lowered." : "raised."));
+		}
+		if (modifyHealth(static_cast<float>(a("OwnRelToMaxHeal") * a("OwnRelToMaxDmg"))) && m_log) {
+			BattleConsole::addText("The attackers health was " + std::string(a("OwnRelAtk") < 0.f ? "lowered." : "raised."));
+		}
 
 		return true;
 
@@ -309,16 +331,16 @@ bool Animal::useAttack(std::shared_ptr<Attack> atk, Animal & foe) {
 
 const std::shared_ptr<Attack> Animal::getRandomAttack() const {
 
-	std::uniform_int_distribution<int> dist(0, m_moves.size() - 1);
-	int choice = dist(generator);
+	std::uniform_int_distribution<unsigned int> dist(0, static_cast<unsigned int>(m_moves.size()) - 1);
+	const auto choice = dist(generator);
 	return m_moves[choice];
 
 }
 
 const Animal & Animal::getRandomAnimal() {
 
-	std::uniform_int_distribution<int> dist(0, getAnimals().size() - 1);
-	int choice = dist(generator);
+	std::uniform_int_distribution<unsigned int> dist(0, static_cast<unsigned int>(getAnimals().size()) - 1);
+	const auto choice = dist(generator);
 
 	std::vector<std::string> v;
 	for (auto i : getAnimals()) {
@@ -449,7 +471,7 @@ using AnimalEntry = std::pair<std::string, Animal>;
 using AttackSetEntry = std::pair<unsigned int, std::shared_ptr<Attack>>;
 
 const std::map<std::string, Animal> & Animal::getAnimals() {
-	
+
 	static std::map<std::string, Animal> s_animals {
 		// Fire
 		AnimalEntry("Firax", Animal("Firax",
@@ -491,7 +513,7 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 		// FireWater
 		AnimalEntry("Waterdevil", Animal("Waterdevil",
 										Type(BaseType::Fire, BaseType::Water),
-										AnimalStats(15, 4, 5, 4, 
+										AnimalStats(15, 4, 5, 4,
 											0.95f, 0.7f, 0.7f, 0.65f, 1.0f),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Tackle")),
@@ -504,7 +526,7 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 		// FireGhost
 		AnimalEntry("Firaspar", Animal("Firaspar",
 										Type(BaseType::Fire, BaseType::Ghost),
-										AnimalStats(10, 6, 5, 6, 
+										AnimalStats(10, 6, 5, 6,
 											0.95f, 0.75f, 0.7f, 0.7f, 1.0f),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Spook")),

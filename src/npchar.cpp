@@ -1,14 +1,16 @@
 #include "npchar.hpp"
 
+#include "gui/areaconsole.hpp"
+#include "gui/console.hpp"
+#include "gui/io.hpp"
+
 #include "npcdatabasereader.hpp"
-#include "areaconsole.hpp"
 #include "party.hpp"
-#include "io.hpp"
 #include "tournament.hpp"
 
 static NPCDatabaseReader m_reader;
 
-NPChar::NPChar(const std::string & name, const std::string & area, const Position & pos, const Party & party, const std::vector<std::string> & text)
+NPChar::NPChar(const std::string & name, const std::string & area, const Position_unsigned & pos, const Party & party, const std::vector<std::string> & text)
   : m_name(name),
   	m_area(area),
   	m_position(pos),
@@ -23,24 +25,24 @@ NPChar::~NPChar() {
 void NPChar::action(Party & party) {
 
 	// unsigned int count = 0;
-	
+
 	// while(count < m_text.size()) {
 	// 	std::string tmp;
-		
+
 	// 	while(m_text[count] != '\n' && count < m_text.size()) {
 	// 		tmp += m_text[count++];
 	// 	}
 	// 	++count;
-		
+
 	// 	AreaConsole::addText(m_name + ": " + tmp);
-		
+
 	// }
 
 	AreaConsole::addText(m_text);
 
 	AreaConsole::print();
 	AreaConsole::emptyText();
-	
+
 	if (wantsToBattle()) {
 		AreaConsole::addText(m_name + " wants to battle!");
 		AreaConsole::print();

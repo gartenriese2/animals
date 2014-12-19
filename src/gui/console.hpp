@@ -1,5 +1,5 @@
-#ifndef _CONSOLE_HPP
-#define _CONSOLE_HPP
+#ifndef _CONSOLE_
+#define _CONSOLE_
 
 #include <ncursesw/ncurses.h>
 #include <string>
@@ -17,7 +17,7 @@ class Console {
 
 	public:
 
-		static void debug(const std::string &); 
+		static void debug(const std::string &);
 		static void end(const std::string &);
 
 		static WINDOW * win() { return instance().m_win; }
@@ -25,7 +25,7 @@ class Console {
 		static void resize();
 
 		static void clear();
-		
+
 		Console();
 		~Console();
 
@@ -40,13 +40,13 @@ class Console {
 		static unsigned int getWidth();
 		static unsigned int getMinWidth();
 
-		static void moveCursorTo(unsigned int = 0, unsigned int = 0);
-		static void moveCursorToRow(unsigned int = 0);
-		static void moveCursorToCol(unsigned int = 0);
-		static void moveCursorUp(unsigned int = 1);
-		static void moveCursorDown(unsigned int = 1);
-		static void moveCursorRight(unsigned int = 1);
-		static void moveCursorLeft(unsigned int = 1);
+		static void moveCursorTo(int = 0, int = 0);
+		static void moveCursorToRow(int = 0);
+		static void moveCursorToCol(int = 0);
+		static void moveCursorUp(int = 1);
+		static void moveCursorDown(int = 1);
+		static void moveCursorRight(int = 1);
+		static void moveCursorLeft(int = 1);
 		static void moveCursorToNextLine();
 
 		static void clearLine();
@@ -66,8 +66,8 @@ class Console {
 
 		WINDOW * m_win;
 
-		unsigned int colorNum;
+		unsigned int m_colorNum;
 
 };
 
-#endif // _CONSOLE_HPP
+#endif // _CONSOLE_

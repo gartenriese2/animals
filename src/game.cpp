@@ -1,7 +1,8 @@
 #include "game.hpp"
 
-#include "areaconsole.hpp"
-#include "textconsole.hpp"
+#include "gui/areaconsole.hpp"
+#include "gui/textconsole.hpp"
+#include "gui/io.hpp"
 
 Game::Game() {
 
@@ -20,7 +21,7 @@ void Game::intro() {
 	TextConsole::print();
 	TextConsole::emptyText();
 
-	m_world.getPlayer().getParty().addAnimal(m_io.chooseStarter());
+	m_world.getPlayer().getParty().addAnimal(IO::chooseStarter());
 	m_world.getPlayer().getParty().getFrontAnimal().raiseLevels(4);
 
 	TextConsole::addText("You choose " + m_world.getPlayer().getParty().getFrontAnimal().getName() + ", the "
@@ -35,7 +36,7 @@ void Game::intro() {
 void Game::loop() {
 
 	while(1) {
-		
+
 		Key key = IO::getKey();
 
 		if (key == Key::ENTER && !AreaConsole::textEmpty()) {
@@ -43,12 +44,14 @@ void Game::loop() {
 			AreaConsole::print();
 		} else if (key == Key::ENTER) {
 			m_world.getPlayer().interact();
+		} else if (key == Key::ESCAPE) {
+			break;
 		} else {
 			m_world.getPlayer().move(key);
 		}
-		
+
 		AreaConsole::print();
-		
+
 	}
 
 }

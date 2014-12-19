@@ -1,7 +1,7 @@
 #include "world.hpp"
 
 World::World()
-  : m_player(std::make_tuple("Home",Position(3,1)))
+  : m_player(std::make_tuple("Home", Position_unsigned(3,1)))
 {
 }
 

@@ -5,16 +5,13 @@
 
 #include "areaconsole.hpp"
 #include "battleconsole.hpp"
-
-IO::IO() {
-}
-
-IO::~IO() {
-}
+#include "console.hpp"
 
 IO & IO::instance() {
+
 	static IO io;
 	return io;
+
 }
 
 const std::shared_ptr<Attack> IO::chooseAttack(const std::vector<std::shared_ptr<Attack>> & attacks) {
@@ -49,26 +46,27 @@ const std::shared_ptr<Attack> IO::chooseAttack(const std::vector<std::shared_ptr
 
 }
 
-const std::string IO::chooseStarter() const {
+const std::string IO::chooseStarter() {
 
-	std::vector<std::string> starter { "Firax", "Aquax" };
+	const std::vector<std::string> starter { "Firax", "Aquax" };
 
-	std::string question("Which animal do you choose as your starter animal?");
-	std::vector<std::string> questionVec = Console::splitString(question);
+	const std::string question("Which animal do you choose as your starter animal?");
+	const auto questionVec = Console::splitString(question);
 
-	for (unsigned int i = 0; i < questionVec.size(); ++i) {
-		
-		Console::moveCursorTo(Console::getHeight() / 2 - 3 + i, (Console::getWidth() - questionVec[i].size()) / 2);
+	for (size_t i = 0; i < questionVec.size(); ++i) {
+
+		Console::moveCursorTo(static_cast<int>(Console::getHeight() / 2 - 3 + i),
+			static_cast<int>((Console::getWidth() - questionVec[i].size()) / 2));
 		waddstr(Console::win(), questionVec[i].c_str());
 
 	}
 
 	Console::moveCursorDown(2);
-	Console::moveCursorToCol(Console::getWidth() / 2 - starter[0].size() - 5);
-	unsigned int col0 = getcurx(Console::win()) - 1;
+	Console::moveCursorToCol(static_cast<int>(Console::getWidth() / 2 - starter[0].size() - 5));
+	const auto col0 = getcurx(Console::win()) - 1;
 	waddstr(Console::win(), starter[0].c_str());
 	Console::moveCursorRight(10);
-	unsigned int col1 = getcurx(Console::win()) - 1;
+	const auto col1 = getcurx(Console::win()) - 1;
 	waddstr(Console::win(), starter[1].c_str());
 
 	Console::moveCursorToCol(col0);
@@ -76,11 +74,11 @@ const std::string IO::chooseStarter() const {
 
 	Console::refresh();
 
-	int choice = 0;
-	
+	size_t choice = 0;
+
 	Key k;
 	while ((k = getKey()) != Key::ENTER) {
-		
+
 		if (k == Key::RIGHT && choice != 1) {
 			choice = 1;
 			Console::moveCursorToCol(col1);
@@ -97,8 +95,8 @@ const std::string IO::chooseStarter() const {
 			wprintw(Console::win(), " ");
 			Console::refresh();
 		}
-		
-		
+
+
 	}
 
 	return starter[choice];
@@ -133,6 +131,9 @@ Key IO::getKeyInstance() const {
 			break;
 		case KEY_RESIZE:
 			Console::resize();
+			break;
+		case 27:
+			k = Key::ESCAPE;
 			break;
 		default:
 			break;

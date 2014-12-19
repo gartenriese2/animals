@@ -2,7 +2,7 @@
 
 #include <random>
 
-#include "console.hpp"
+#include "gui/console.hpp"
 
 extern std::mt19937 generator;
 static AreaDatabaseReader m_reader;
@@ -49,7 +49,7 @@ Area::Area(const std::string & name, const std::vector<std::string> & base, cons
 Area::~Area() {
 }
 
-const Position & Area::getPortalPos(const std::string & name) const {
+const Position_unsigned & Area::getPortalPos(const std::string & name) const {
 
 	for (const auto & i : m_portals) {
 		if (name == i.second) {
@@ -61,7 +61,7 @@ const Position & Area::getPortalPos(const std::string & name) const {
 
 }
 
-const Area Area::getAreaFromPortalPos(const Position & pos) {
+const Area Area::getAreaFromPortalPos(const Position_unsigned & pos) {
 
 	for (const auto & i : m_portals) {
 		if (pos == i.first) {
@@ -91,14 +91,14 @@ Animal Area::getWildAnimal() const {
 	}
 
 	Animal animal = Animal::getAnimal(std::get<0>(m_likelyhoods[i]));
-	std::uniform_int_distribution<int> dist2(std::get<1>(m_likelyhoods[i]), std::get<2>(m_likelyhoods[i]));
+	std::uniform_int_distribution<unsigned int> dist2(std::get<1>(m_likelyhoods[i]), std::get<2>(m_likelyhoods[i]));
 	animal.raiseLevels(dist2(generator) - 1);
-	
+
 	return animal;
 
 }
 
-const NPChar Area::getNPC(const Position & pos) {
+const NPChar Area::getNPC(const Position_unsigned & pos) {
 
 	for (const auto & i : m_npcs) {
 		if (pos == i.first) {

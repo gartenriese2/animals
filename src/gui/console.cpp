@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include <locale.h>
+#include <cassert>
 
 static constexpr unsigned int k_maxConsoleWidth = 100;
 static constexpr unsigned int k_maxConsoleHeight = 30;
@@ -14,9 +15,9 @@ static constexpr unsigned int k_minConsoleHeight = 20;
 //
 
 void Console::debug(const std::string & str) {
-	
+
 	std::string s =  "DEBUG: " + str;
-	wmove(stdscr,0,0);
+	wmove(stdscr, 0, 0);
 	wclrtoeol(stdscr);
 	wprintw(stdscr, s.c_str());
 	wrefresh(stdscr);
@@ -29,7 +30,7 @@ void Console::end(const std::string & str) {
 	endwin();
 
 	std::cout << str << std::endl;
-	exit(1);
+	exit(EXIT_FAILURE);
 
 }
 
@@ -46,7 +47,7 @@ void Console::resize() {
 }
 
 unsigned int Console::getHeight() {
-	
+
 	unsigned int x,y;
 	getmaxyx(win(), y, x);
 	return std::min(k_maxConsoleHeight, y);
@@ -54,7 +55,7 @@ unsigned int Console::getHeight() {
 }
 
 unsigned int Console::getWidth() {
-	
+
 	unsigned int x,y;
 	getmaxyx(win(), y, x);
 	return std::min(k_maxConsoleWidth, x);
@@ -62,81 +63,94 @@ unsigned int Console::getWidth() {
 }
 
 unsigned int Console::getMinWidth() {
+
 	return k_minConsoleWidth;
-}
-
-void Console::moveCursorToRow(unsigned int rows) {
-
-	wmove(win(), getmaxy(win()) - 1 - rows, getcurx(win()));
 
 }
 
-void Console::moveCursorToCol(unsigned int cols) {
-	
-	wmove(win(), getcury(win()), cols);
+void Console::moveCursorToRow(int rows) {
+
+	assert(rows >= 0);
+	wmove(win(), getmaxy(win()) - 1 - static_cast<int>(rows), getcurx(win()));
 
 }
 
-void Console::moveCursorUp(unsigned int rows) {
+void Console::moveCursorToCol(int cols) {
 
-	int col = getcurx(win());
-	int row = getcury(win());
+	assert(cols >= 0);
+	wmove(win(), getcury(win()), static_cast<int>(cols));
+
+}
+
+void Console::moveCursorUp(int rows) {
+
+	assert(rows >= 0);
+	const auto col = getcurx(win());
+	const auto row = getcury(win());
 	wmove(win(), row - rows, col);
 
 }
 
-void Console::moveCursorDown(unsigned int rows) {
+void Console::moveCursorDown(int rows) {
 
-	int col = getcurx(win());
-	int row = getcury(win());
+	assert(rows >= 0);
+	const auto col = getcurx(win());
+	const auto row = getcury(win());
 	wmove(win(), row + rows, col);
 
 }
 
-void Console::moveCursorRight(unsigned int cols) {
+void Console::moveCursorRight(int cols) {
 
-	int col = getcurx(win());
-	int row = getcury(win());
+	assert(cols >= 0);
+	const auto col = getcurx(win());
+	const auto row = getcury(win());
 	wmove(win(), row, col + cols);
 
 }
 
-void Console::moveCursorLeft(unsigned int cols) {
+void Console::moveCursorLeft(int cols) {
 
-	int col = getcurx(win());
-	int row = getcury(win());
+	assert(cols >= 0);
+	const auto col = getcurx(win());
+	const auto row = getcury(win());
 	wmove(win(), row, col - cols);
 
 }
 
 void Console::moveCursorToNextLine() {
-	
+
 	moveCursorDown();
 	moveCursorToCol();
 
 }
 
-void Console::moveCursorTo(unsigned int y, unsigned int x) {
+void Console::moveCursorTo(int y, int x) {
 
+	assert(y >= 0 && x >= 0);
 	wmove(win(), y, x);
 
 }
 
 void Console::clear() {
+
 	werase(win());
+
 }
 
 void Console::clearLine() {
 
-	unsigned int x,y;
-    getmaxyx(win(),y,x);
+	int x,y;
+	getmaxyx(win(), y, x);
 
-	unsigned int row = getcury(win());
-	unsigned int col = getcurx(win());
+	const auto row = getcury(win());
+	const auto col = getcurx(win());
 
-	for (unsigned int i = 1; i < x - 1; ++i) {
+	for (int i = 1; i < x - 1; ++i) {
+
 		moveCursorTo(row, i);
 		waddstr(win(), " ");
+
 	}
 
 	moveCursorTo(row, col);
@@ -145,39 +159,50 @@ void Console::clearLine() {
 
 void Console::printBorders() {
 
-        unsigned int x,y;
-        getmaxyx(win(),y,x);
+	int x,y;
+	getmaxyx(win(), y, x);
 
-        moveCursorTo();
-        waddstr(win(), "\u256D");
-        for (unsigned int i = 0; i < x - 2; ++i) {
-                waddstr(win(), "\u2500");
-        }
-        waddstr(win(), "\u256E");
-        
-        for (unsigned int i = 0; i < y - 2; ++i) {
-                waddstr(win(), "\u2502");
-                moveCursorToCol(x - 1);
-                waddstr(win(), "\u2502");
-        }
-        
-        waddstr(win(), "\u2570");
-        for (unsigned int i = 0; i < x - 2; ++i) {
-                waddstr(win(), "\u2500");
-        }
-        waddstr(win(), "\u256F");
+	moveCursorTo();
+
+	waddstr(win(), "\u256D");
+	for (int i = 0; i < x - 2; ++i) {
+
+		waddstr(win(), "\u2500");
+
+	}
+	waddstr(win(), "\u256E");
+
+	for (int i = 0; i < y - 2; ++i) {
+
+		waddstr(win(), "\u2502");
+		moveCursorToCol(x - 1);
+		waddstr(win(), "\u2502");
+
+	}
+
+	waddstr(win(), "\u2570");
+	for (int i = 0; i < x - 2; ++i) {
+
+		waddstr(win(), "\u2500");
+
+	}
+	waddstr(win(), "\u256F");
 
 }
 
 const std::vector<std::string> Console::splitString(const std::string & str, const unsigned int w) {
 
 	std::vector<std::string> v;
-	unsigned int width = (w == 0 ? getWidth() - 2 : w);
+	const unsigned int width = (w == 0 ? getWidth() - 2 : w);
+
 	unsigned int pos = width;
 	while (pos < str.size()) {
+
 		v.emplace_back(str.substr(pos - width, width));
 		pos += width;
+
 	}
+
 	v.emplace_back(str.substr(pos - width));
 
 	return v;
@@ -185,16 +210,15 @@ const std::vector<std::string> Console::splitString(const std::string & str, con
 }
 
 float clamp(float value) {
-	double temp = value + 1.f - abs(value - 1.f);
-    return (temp + abs(temp)) * 0.25f;
+
+	const auto temp = value + 1.f - std::abs(value - 1.f);
+	return (temp + std::abs(temp)) * 0.25f;
+
 }
 
 unsigned int Console::setColor(float r, float g, float b, float r2, float g2, float b2) {
 
-	bool bkgd = true;
-	if (r2 == -1.f || g2 == -1.f || b2 == -1.f) {
-		bkgd = false;
-	}
+	const auto bkgd = !(r2 == -1.f || g2 == -1.f || b2 == -1.f);
 
 	clamp(r);
 	clamp(g);
@@ -203,15 +227,19 @@ unsigned int Console::setColor(float r, float g, float b, float r2, float g2, fl
 	clamp(g2);
 	clamp(b2);
 
-	init_color(instance().colorNum * 2, static_cast<int>(r * 1000.f), static_cast<int>(g * 1000.f), static_cast<int>(b * 1000.f));
-	init_color(instance().colorNum * 2 + 1, static_cast<int>(r2 * 1000.f), static_cast<int>(g2 * 1000.f), static_cast<int>(b2 * 1000.f));
+	init_color(static_cast<short>(instance().m_colorNum * 2), static_cast<short>(r * 1000.f),
+		static_cast<short>(g * 1000.f), static_cast<short>(b * 1000.f));
+	init_color(static_cast<short>(instance().m_colorNum * 2 + 1), static_cast<short>(r2 * 1000.f),
+		static_cast<short>(g2 * 1000.f), static_cast<short>(b2 * 1000.f));
+
 	if(bkgd) {
-		init_pair(instance().colorNum, instance().colorNum * 2, instance().colorNum * 2 + 1);
+		init_pair(static_cast<short>(instance().m_colorNum), static_cast<short>(instance().m_colorNum * 2),
+			static_cast<short>(instance().m_colorNum * 2 + 1));
 	} else {
-		init_pair(instance().colorNum, instance().colorNum * 2, -1);
+		init_pair(static_cast<short>(instance().m_colorNum), static_cast<short>(instance().m_colorNum * 2), -1);
 	}
-	
-	return ++instance().colorNum - 1;
+
+	return ++instance().m_colorNum - 1;
 
 }
 
@@ -231,19 +259,23 @@ void Console::unsetColor(unsigned int pair) {
 // MEMBER
 //
 
-Console::Console() {
+Console::Console()
+  : m_colorNum{1}
+{
 
 	// init ncurses
-	setlocale(LC_ALL,"");
+	setlocale(LC_ALL, "");
 	initscr();
 	noecho();
 	curs_set(0);
 	cbreak();
 
 	if(has_colors() == FALSE) {
+
 		endwin();
 		std::cout << "Your terminal does not support color" << std::endl;
-		exit(1);
+		exit(EXIT_FAILURE);
+
 	}
 
 	start_color();
@@ -251,12 +283,10 @@ Console::Console() {
 
 	createWindow();
 
-	colorNum = 1;
-
 }
 
 Console::~Console() {
-	
+
 	// end ncurses
 	delwin(m_win);
 	endwin();
@@ -266,9 +296,12 @@ Console::~Console() {
 void Console::createWindow() {
 
 	unsigned int x,y;
-	getmaxyx(stdscr,y,x);
+	getmaxyx(stdscr, y, x);
+
 	if (x < k_minConsoleWidth || y < k_minConsoleHeight) {
+
 		endwin();
+
 		std::cout << "Terminal too small!" << std::endl;
 		if (x < k_minConsoleWidth) {
 			std::cout << "Needs to be " << k_minConsoleWidth << " wide, but is " << x << " wide!" << std::endl;
@@ -276,13 +309,15 @@ void Console::createWindow() {
 		if (y < k_minConsoleHeight) {
 			std::cout << "Needs to be " << k_minConsoleHeight << " high, but is " << y << " high!" << std::endl;
 		}
-		exit(1);
+
+		exit(EXIT_FAILURE);
+
 	}
 
-	unsigned int dX = std::min(x,k_maxConsoleWidth);
-	unsigned int dY = std::min(y,k_maxConsoleHeight);
-	unsigned int xStart = (x - dX) / 2;
-	unsigned int yStart = (y - dY) / 2;
+	const auto dX = static_cast<int>(std::min(x,k_maxConsoleWidth));
+	const auto dY = static_cast<int>(std::min(y,k_maxConsoleHeight));
+	const int xStart = (static_cast<int>(x) - dX) / 2;
+	const int yStart = (static_cast<int>(y) - dY) / 2;
 
 	m_win = newwin(dY, dX, yStart, xStart);
 	keypad(m_win, TRUE);

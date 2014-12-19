@@ -25,7 +25,7 @@ project "main"
     end
 
     flags {"Symbols"}
-    buildoptions {"-std=c++11", "-Wall", "-pedantic"}
+    buildoptions {"-std=c++1y", "-Wall", "-pedantic", "-Wextra", "-Werror", "-Wconversion"}
     links {"ncursesw"}
 
     if (use_clang) then
@@ -34,12 +34,6 @@ project "main"
         links {"c++abi"}
         premake.gcc.cc = "clang"
         premake.gcc.cxx = "clang++"
-        print("\n" ..
-              "====================================\n" ..
-              "|                                  |\n" ..
-              "| Don't forget to run clangfix.sh! |\n" ..
-              "|                                  |\n" ..
-              "====================================\n")
     end
 
     configuration "Debug"

@@ -1,12 +1,11 @@
 #include "battle.hpp"
 
-#include "io.hpp"
-#include "battleconsole.hpp"
+#include "gui/io.hpp"
+#include "gui/battleconsole.hpp"
+#include "gui/console.hpp"
 
 #include <chrono>
 #include <thread>
-
-static IO s_io;
 
 static constexpr unsigned int k_maxlvldiff = 50;
 
@@ -57,16 +56,16 @@ void Battle::startUservsAIRandom() {
 		BattleConsole::emptyTextAutomatically(1000);
 
 		std::shared_ptr<Attack> atk;
-		atk = s_io.chooseAttack(m_animal1.getAttacks());
-		
+		atk = IO::chooseAttack(m_animal1.getAttacks());
+
 		if (m_animal1.getActualSpeed() >= m_animal2.getActualSpeed()) {
-			
+
 			f.ownAttacks(atk);
 			if (m_animal2.getActualHealth() == 0) {
 				BattleConsole::addText(m_animal2.getName() + " fainted!");
 				break;
 			}
-			
+
 			BattleConsole::printOwn(m_animal1.getName(), m_animal1.getLevel(), m_animal1.getActualHealth(),
 				m_animal1.getMaxHealth(), m_animal1.getExp(), m_animal1.getNeededExp());
 			BattleConsole::printFoe(m_animal2.getName(), m_animal2.getLevel(), m_animal2.getActualHealth(),
@@ -80,13 +79,13 @@ void Battle::startUservsAIRandom() {
 			}
 
 		} else {
-			
+
 			f.foeAttacksRandom();
 			if (m_animal1.getActualHealth() == 0) {
 				BattleConsole::addText(m_animal1.getName() + " fainted!");
 				break;
 			}
-			
+
 			BattleConsole::printOwn(m_animal1.getName(), m_animal1.getLevel(), m_animal1.getActualHealth(),
 				m_animal1.getMaxHealth(), m_animal1.getExp(), m_animal1.getNeededExp());
 			BattleConsole::printFoe(m_animal2.getName(), m_animal2.getLevel(), m_animal2.getActualHealth(),
@@ -98,9 +97,9 @@ void Battle::startUservsAIRandom() {
 				BattleConsole::addText(m_animal2.getName() + " fainted!");
 				break;
 			}
-			
+
 		}
-		
+
 	}
 
 	if (m_animal1.getActualHealth() > m_animal2.getActualHealth()) {

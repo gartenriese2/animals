@@ -4,8 +4,6 @@
 #include <string>
 #include <deque>
 
-#include "console.hpp"
-
 class TextConsole {
 
 	public:
@@ -27,8 +25,8 @@ class TextConsole {
 		static TextConsole & instance() { static TextConsole c; return c; }
 
 		std::deque<std::string> m_text;
-		unsigned int m_textWidth;
-		unsigned int m_textHeight;
+		unsigned int 			m_textWidth;
+		unsigned int 			m_textHeight;
 
 };
 

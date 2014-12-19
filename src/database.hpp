@@ -9,15 +9,15 @@
 class Database {
 
     public:
-        
+
         static const std::string getStringFromBaseType(const BaseType);
-        static const BaseType getBaseTypeFromString(const std::string &);
+        static BaseType getBaseTypeFromString(const std::string &);
         static const std::string getStringFromEffectivenessType(const EffectiveType);
-        static const EffectiveType getEffectiveness(const BaseType, const BaseType);
-        static const float getEffectivenessValue(const EffectiveType);
+        static EffectiveType getEffectiveness(const BaseType, const BaseType);
+        static float getEffectivenessValue(const EffectiveType);
 
     private:
-        
+
         Database();
 
         std::map<BaseType, std::map<BaseType, EffectiveType>> m_effectivenesses;
@@ -28,13 +28,13 @@ class Database {
 
         void addNames();
         const std::string getName(const BaseType) const;
-        const BaseType getBaseType(const std::string &) const;
+        BaseType getBaseType(const std::string &) const;
         const std::string getName(const EffectiveType) const;
         void addEffectivenesses();
-        const EffectiveType getEffect(const BaseType, const BaseType) const;
+        EffectiveType getEffect(const BaseType, const BaseType) const;
 
         const std::map<BaseType, EffectiveType> createEffectivenessMap(const std::vector<float> &);
-        const EffectiveType getEffectivenessType(const float);
+        EffectiveType getEffectivenessType(const float);
 
 };
 

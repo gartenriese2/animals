@@ -27,7 +27,7 @@ const std::string Type::getString() const {
 
 }
 
-const float Type::getEffectValueAgainst(const Type & against) const {
+float Type::getEffectValueAgainst(const Type & against) const {
 
 	float f = 1.f;
 
@@ -36,12 +36,12 @@ const float Type::getEffectValueAgainst(const Type & against) const {
 			f *= Database::getEffectivenessValue(Database::getEffectiveness(i, j));
 		}
 	}
-	
+
 	return f;
 
 }
 
-const EffectiveType Type::getEffectTypeAgainst(const Type & against) const {
+EffectiveType Type::getEffectTypeAgainst(const Type & against) const {
 
 	float f = getEffectValueAgainst(against);
 
@@ -79,7 +79,7 @@ const std::string Type::getEffectStringAgainst(const Type & against) const {
 
 }
 
-const bool Type::isPartOf(const Type & other) const {
+bool Type::isPartOf(const Type & other) const {
 
 	bool b = false;
 	for (auto i : m_types) {
@@ -93,7 +93,7 @@ const bool Type::isPartOf(const Type & other) const {
 }
 
 std::ostream & operator<<(std::ostream & os, Type type) {
-  
+
 	os << type.getString();
 	return os;
 

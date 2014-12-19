@@ -62,7 +62,7 @@ void Tournament::startRandomBattles(unsigned int a, unsigned int b) {
 	if (a == 0) a = 1;
 	if (b == 0) b = 1;
 	if (a > b) std::swap(a, b);
-	std::uniform_int_distribution<int> dist(a, b);
+	std::uniform_int_distribution<unsigned int> dist(a, b);
 
 	while(1) {
 
@@ -90,7 +90,7 @@ void Tournament::startWithFirestarter() {
 	own.raiseLevels(4);
 	unsigned int victories = 0;
 
-	std::uniform_int_distribution<int> dist(2, 4);
+	std::uniform_int_distribution<unsigned int> dist(2, 4);
 
 	while (own.getActualHealth() > 0) {
 		std::cout << "Next Battle? (y)" << std::endl;
@@ -115,11 +115,11 @@ void Tournament::startWithFirestarter() {
 
 void Tournament::startWithWaterstarter() {
 
-	Animal own(Animal::getAnimal("Waterstarter")); 
+	Animal own(Animal::getAnimal("Waterstarter"));
 	own.raiseLevels(4);
 	unsigned int victories = 0;
 
-	std::uniform_int_distribution<int> dist(2, 4);
+	std::uniform_int_distribution<unsigned int> dist(2, 4);
 
 	while (own.getActualHealth() > 0) {
 		std::cout << "Next Battle? (y)" << std::endl;

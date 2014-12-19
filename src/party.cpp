@@ -1,7 +1,8 @@
 #include "party.hpp"
 
-#include "areaconsole.hpp"
-#include "io.hpp"
+#include "gui/areaconsole.hpp"
+#include "gui/console.hpp"
+#include "gui/io.hpp"
 
 static constexpr unsigned int k_maxAnimals = 5;
 
@@ -23,14 +24,14 @@ void Party::addAnimal(const std::string & name) {
 }
 
 Animal & Party::getFrontAnimal() {
-	
+
 	if (getSize() == 0) {
 		EXIT("You don't have any animals!");
 		abort();
 	} else {
 		return m_animals.at(0);
 	}
-	
+
 }
 
 Animal & Party::getFirstHealthyAnimal() {

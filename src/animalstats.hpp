@@ -2,34 +2,34 @@
 #define _ANIMALSTATS_H
 
 class AnimalStats {
-	
+
 	public:
-		
+
 		AnimalStats(const unsigned int, const unsigned int, const unsigned int, const unsigned int,
 			const float, const float, const float, const float, const float);
 		~AnimalStats();
 
-		const unsigned int getHealth() const { return m_health; }
+		unsigned int getHealth() const { return m_health; }
 		void setHealth(const unsigned int h) { m_health = h; }
-		const unsigned int getActualHealth() const { return m_healthActual; }
+		unsigned int getActualHealth() const { return m_healthActual; }
 		void setActualHealth(const unsigned int h) { m_healthActual = h; }
-		const unsigned int getAttack() const { return m_attack; }
+		unsigned int getAttack() const { return m_attack; }
 		void setAttack(const unsigned int a) { m_attack = a; }
-		const unsigned int getActualAttack() const { return m_attackActual; }
+		unsigned int getActualAttack() const { return m_attackActual; }
 		void setActualAttack(const unsigned int a) { m_attackActual = a; }
-		const unsigned int getDefense() const { return m_defense; }
+		unsigned int getDefense() const { return m_defense; }
 		void setDefense(const unsigned int d) { m_defense = d; }
-		const unsigned int getActualDefense() const { return m_defenseActual; }
+		unsigned int getActualDefense() const { return m_defenseActual; }
 		void setActualDefense(const unsigned int d) { m_defenseActual = d; }
-		const unsigned int getSpeed() const { return m_speed; }
+		unsigned int getSpeed() const { return m_speed; }
 		void setSpeed(const unsigned int s) { m_speed = s; }
-		const unsigned int getActualSpeed() const { return m_speedActual; }
+		unsigned int getActualSpeed() const { return m_speedActual; }
 		void setActualSpeed(const unsigned int s) { m_speedActual = s; }
-		const float getHealthMultiplier() const { return m_healthMultiplier; }
-		const float getAttackMultiplier() const { return m_attackMultiplier; }
-		const float getDefenseMultiplier() const { return m_defenseMultiplier; }
-		const float getSpeedMultiplier() const { return m_speedMultiplier; }
-		const float getExpMultiplier() const { return m_expMultiplier; }
+		float getHealthMultiplier() const { return m_healthMultiplier; }
+		float getAttackMultiplier() const { return m_attackMultiplier; }
+		float getDefenseMultiplier() const { return m_defenseMultiplier; }
+		float getSpeedMultiplier() const { return m_speedMultiplier; }
+		float getExpMultiplier() const { return m_expMultiplier; }
 
 	private:
 

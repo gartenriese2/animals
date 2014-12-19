@@ -12,76 +12,76 @@ static constexpr float k_HighlyEffective = 2.f;
 static constexpr float k_MostEffective = 2.5f;
 
 
-static std::vector<float> k_Fire {			1.00f, 0.25f, 2.50f, 1.50f, 1.00f, 0.50f, 0.25f, 1.00f, 2.50f, 1.00f, 1.00f, 1.00f,
+static const std::vector<float> k_Fire {			1.00f, 0.25f, 2.50f, 1.50f, 1.00f, 0.50f, 0.25f, 1.00f, 2.50f, 1.00f, 1.00f, 1.00f,
 										       	   2.00f, 1.00f, 1.50f, 0.75f, 0.00f, 1.00f, 1.00f, 1.00f, 1.00f, 0.50f, 1.50f, 0.50f};
 
-static std::vector<float> k_Water {			2.50f, 1.00f, 1.00f, 1.25f, 0.50f, 1.25f, 1.50f, 1.00f, 0.50f, 1.00f, 1.00f, 1.00f,
+static const std::vector<float> k_Water {			2.50f, 1.00f, 1.00f, 1.25f, 0.50f, 1.25f, 1.50f, 1.00f, 0.50f, 1.00f, 1.00f, 1.00f,
 										   	   	   0.25f, 1.00f, 1.00f, 1.00f, 2.50f, 1.00f, 1.50f, 1.25f, 1.00f, 0.50f, 1.50f, 0.50f};
 
-static std::vector<float> k_Ice {			1.00f, 1.25f, 0.75f, 1.00f, 0.50f, 1.25f, 1.00f, 1.50f, 1.50f, 1.25f, 1.00f, 1.00f,
+static const std::vector<float> k_Ice {			1.00f, 1.25f, 0.75f, 1.00f, 0.50f, 1.25f, 1.00f, 1.50f, 1.50f, 1.25f, 1.00f, 1.00f,
 										       	   1.00f, 1.00f, 1.00f, 1.00f, 0.50f, 1.00f, 0.75f, 1.00f, 1.25f, 2.00f, 1.50f, 1.00f};
 
-static std::vector<float> k_Snow {			1.00f, 1.00f, 0.00f, 0.75f, 1.00f, 1.00f, 1.25f, 2.00f, 1.25f, 1.00f, 1.25f, 1.00f,
+static const std::vector<float> k_Snow {			1.00f, 1.00f, 0.00f, 0.75f, 1.00f, 1.00f, 1.25f, 2.00f, 1.25f, 1.00f, 1.25f, 1.00f,
 										       	   0.75f, 1.00f, 1.25f, 1.00f, 0.50f, 0.75f, 0.75f, 1.00f, 1.25f, 1.25f, 1.50f, 1.25f};
 
-static std::vector<float> k_Electro {		1.00f, 2.50f, 1.00f, 1.25f, 0.50f, 0.25f, 0.00f, 0.75f, 0.00f, 1.00f, 1.50f, 1.00f,
+static const std::vector<float> k_Electro {		1.00f, 2.50f, 1.00f, 1.25f, 0.50f, 0.25f, 0.00f, 0.75f, 0.00f, 1.00f, 1.50f, 1.00f,
 										       	   2.00f, 1.00f, 1.00f, 1.00f, 1.00f, 1.50f, 0.25f, 1.00f, 1.00f, 1.00f, 1.50f, 2.00f};
 
-static std::vector<float> k_Stone {			1.00f, 0.50f, 2.00f, 0.75f, 2.00f, 1.25f, 1.00f, 0.75f, 1.50f, 1.00f, 0.25f, 1.00f,
+static const std::vector<float> k_Stone {			1.00f, 0.50f, 2.00f, 0.75f, 2.00f, 1.25f, 1.00f, 0.75f, 1.50f, 1.00f, 0.25f, 1.00f,
 										       	   0.75f, 1.50f, 1.00f, 1.50f, 0.75f, 1.00f, 0.75f, 1.00f, 1.00f, 0.75f, 1.00f, 1.25f};
 
-static std::vector<float> k_Earth {			2.00f, 0.75f, 1.25f, 1.00f, 1.50f, 0.75f, 1.00f, 0.75f, 1.00f, 1.00f, 0.50f, 1.00f,
+static const std::vector<float> k_Earth {			2.00f, 0.75f, 1.25f, 1.00f, 1.50f, 0.75f, 1.00f, 0.75f, 1.00f, 1.00f, 0.50f, 1.00f,
 										       	   1.50f, 1.00f, 1.00f, 1.50f, 0.75f, 1.00f, 1.00f, 1.00f, 0.75f, 1.00f, 1.00f, 1.00f};
 
-static std::vector<float> k_Air {			0.75f, 1.00f, 0.50f, 0.75f, 1.00f, 0.50f, 1.25f, 1.50f, 1.00f, 1.00f, 1.00f, 1.00f,
+static const std::vector<float> k_Air {			0.75f, 1.00f, 0.50f, 0.75f, 1.00f, 0.50f, 1.25f, 1.50f, 1.00f, 1.00f, 1.00f, 1.00f,
 										       	   0.00f, 2.00f, 1.00f, 1.00f, 1.50f, 1.00f, 0.25f, 1.00f, 0.75f, 2.00f, 1.00f, 1.00f};
 
-static std::vector<float> k_Plant {			0.25f, 2.00f, 0.75f, 0.75f, 2.00f, 2.00f, 2.00f, 1.00f, 1.00f, 1.00f, 0.75f, 1.25f,
+static const std::vector<float> k_Plant {			0.25f, 2.00f, 0.75f, 0.75f, 2.00f, 2.00f, 2.00f, 1.00f, 1.00f, 1.00f, 0.75f, 1.25f,
 										       	   0.25f, 1.00f, 1.00f, 2.50f, 0.25f, 1.00f, 1.00f, 1.25f, 0.75f, 0.75f, 2.00f, 1.00f};
 
-static std::vector<float> k_Normal {		1.00f, 1.00f, 1.00f, 1.00f, 1.00f, 0.25f, 1.00f, 1.00f, 1.00f, 1.00f, 0.00f, 1.00f,
+static const std::vector<float> k_Normal {		1.00f, 1.00f, 1.00f, 1.00f, 1.00f, 0.25f, 1.00f, 1.00f, 1.00f, 1.00f, 0.00f, 1.00f,
 										   	   	   0.25f, 1.00f, 1.00f, 1.00f, 1.00f, 0.75f, 1.00f, 0.75f, 0.75f, 2.00f, 1.00f, 2.50f};
 
-static std::vector<float> k_Ghost {			1.00f, 1.00f, 1.00f, 1.00f, 1.00f, 1.50f, 1.25f, 1.00f, 1.00f, 1.50f, 0.00f, 0.00f,
+static const std::vector<float> k_Ghost {			1.00f, 1.00f, 1.00f, 1.00f, 1.00f, 1.50f, 1.25f, 1.00f, 1.00f, 1.50f, 0.00f, 0.00f,
 										   	   	   1.50f, 1.50f, 1.00f, 1.25f, 1.00f, 0.75f, 1.00f, 1.50f, 2.00f, 0.50f, 0.00f, 1.25f};
 
-static std::vector<float> k_Psycho {		1.00f, 1.00f, 1.00f, 1.00f, 1.00f, 1.00f, 1.00f, 1.00f, 1.00f, 2.00f, 2.50f, 1.00f,
+static const std::vector<float> k_Psycho {		1.00f, 1.00f, 1.00f, 1.00f, 1.00f, 1.00f, 1.00f, 1.00f, 1.00f, 2.00f, 2.50f, 1.00f,
 										   	   	   1.00f, 2.00f, 1.25f, 1.25f, 1.00f, 2.00f, 1.00f, 1.00f, 1.00f, 0.25f, 0.00f, 2.00f};
 
-static std::vector<float> k_Steel {			0.25f, 1.00f, 1.50f, 1.00f, 0.50f, 2.00f, 1.00f, 0.50f, 1.00f, 1.00f, 1.50f, 1.00f,
+static const std::vector<float> k_Steel {			0.25f, 1.00f, 1.50f, 1.00f, 0.50f, 2.00f, 1.00f, 0.50f, 1.00f, 1.00f, 1.50f, 1.00f,
 										   	   	   1.00f, 0.50f, 1.00f, 1.50f, 0.25f, 1.50f, 1.00f, 1.00f, 2.00f, 1.50f, 0.50f, 0.25f};
 
-static std::vector<float> k_Fighting {		1.00f, 1.00f, 1.50f, 1.00f, 1.00f, 1.00f, 1.00f, 0.50f, 1.00f, 1.50f, 0.00f, 2.50f,
+static const std::vector<float> k_Fighting {		1.00f, 1.00f, 1.50f, 1.00f, 1.00f, 1.00f, 1.00f, 0.50f, 1.00f, 1.50f, 0.00f, 2.50f,
 										   	   	   1.50f, 1.00f, 1.00f, 1.00f, 1.00f, 1.50f, 1.00f, 1.00f, 1.00f, 1.00f, 1.25f, 1.50f};
 
-static std::vector<float> k_Dark {			1.00f, 1.00f, 1.00f, 1.50f, 1.00f, 1.00f, 1.00f, 1.00f, 2.00f, 1.50f, 0.25f, 1.50f,
+static const std::vector<float> k_Dark {			1.00f, 1.00f, 1.00f, 1.50f, 1.00f, 1.00f, 1.00f, 1.00f, 2.00f, 1.50f, 0.25f, 1.50f,
 										   	   	   1.00f, 1.00f, 0.00f, 2.50f, 1.00f, 1.00f, 1.00f, 1.00f, 1.00f, 1.00f, 1.00f, 0.75f};
 
-static std::vector<float> k_Light {			1.00f, 1.00f, 1.50f, 1.25f, 1.00f, 1.00f, 1.00f, 1.00f, 0.50f, 1.00f, 2.50f, 1.00f,
+static const std::vector<float> k_Light {			1.00f, 1.00f, 1.50f, 1.25f, 1.00f, 1.00f, 1.00f, 1.00f, 0.50f, 1.00f, 2.50f, 1.00f,
 										   	   	   1.00f, 1.00f, 2.50f, 0.00f, 1.00f, 1.00f, 2.50f, 1.00f, 1.00f, 1.00f, 1.00f, 0.75f};
 
-static std::vector<float> k_Magma {			0.00f, 0.25f, 1.50f, 1.50f, 1.00f, 0.50f, 0.25f, 0.50f, 2.50f, 1.00f, 1.00f, 1.00f,
+static const std::vector<float> k_Magma {			0.00f, 0.25f, 1.50f, 1.50f, 1.00f, 0.50f, 0.25f, 0.50f, 2.50f, 1.00f, 1.00f, 1.00f,
 										   	   	   1.25f, 1.00f, 1.00f, 1.00f, 1.00f, 1.25f, 1.25f, 1.00f, 1.25f, 1.00f, 1.00f, 1.00f};
 
-static std::vector<float> k_Magnet {		1.00f, 1.00f, 1.00f, 1.00f, 2.00f, 1.25f, 1.25f, 0.50f, 0.00f, 0.25f, 1.25f, 1.00f,
+static const std::vector<float> k_Magnet {		1.00f, 1.00f, 1.00f, 1.00f, 2.00f, 1.25f, 1.25f, 0.50f, 0.00f, 0.25f, 1.25f, 1.00f,
 										   	   	   2.50f, 0.50f, 1.00f, 1.00f, 1.00f, 1.50f, 1.00f, 1.00f, 1.00f, 1.25f, 1.50f, 0.50f};
 
-static std::vector<float> k_Underground {	1.00f, 1.25f, 1.00f, 1.25f, 1.00f, 0.75f, 0.75f, 0.00f, 1.50f, 1.00f, 0.00f, 1.25f,
+static const std::vector<float> k_Underground {	1.00f, 1.25f, 1.00f, 1.25f, 1.00f, 0.75f, 0.75f, 0.00f, 1.50f, 1.00f, 0.00f, 1.25f,
 										   		   1.00f, 1.25f, 0.75f, 0.75f, 1.25f, 1.25f, 1.50f, 1.00f, 1.00f, 1.50f, 1.00f, 1.00f};
 
-static std::vector<float> k_Poison {		1.00f, 1.25f, 1.25f, 1.25f, 1.00f, 0.50f, 1.00f, 1.00f, 1.50f, 1.50f, 0.00f, 2.50f,
+static const std::vector<float> k_Poison {		1.00f, 1.25f, 1.25f, 1.25f, 1.00f, 0.50f, 1.00f, 1.00f, 1.50f, 1.50f, 0.00f, 2.50f,
 										   		   0.00f, 1.50f, 1.00f, 1.00f, 0.75f, 0.25f, 1.00f, 0.00f, 1.00f, 0.50f, 1.00f, 2.50f};
 
-static std::vector<float> k_Radiation {		1.00f, 1.00f, 1.00f, 1.00f, 1.00f, 1.25f, 1.25f, 1.50f, 2.00f, 1.50f, 1.00f, 1.50f,
+static const std::vector<float> k_Radiation {		1.00f, 1.00f, 1.00f, 1.00f, 1.00f, 1.25f, 1.25f, 1.50f, 2.00f, 1.50f, 1.00f, 1.50f,
 										   		   0.75f, 1.50f, 1.25f, 0.50f, 0.50f, 1.00f, 0.50f, 1.00f, 1.00f, 1.00f, 1.50f, 1.00f};
 
-static std::vector<float> k_Ancient {		1.00f, 1.00f, 0.25f, 0.75f, 1.00f, 1.50f, 1.00f, 1.00f, 1.00f, 0.75f, 1.25f, 1.25f,
+static const std::vector<float> k_Ancient {		1.00f, 1.00f, 0.25f, 0.75f, 1.00f, 1.50f, 1.00f, 1.00f, 1.00f, 0.75f, 1.25f, 1.25f,
 										   		   0.75f, 1.00f, 1.00f, 1.00f, 2.00f, 1.00f, 1.00f, 1.50f, 1.25f, 1.00f, 2.50f, 0.50f};
 
-static std::vector<float> k_Technology {	0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 2.00f, 1.00f, 1.00f, 0.75f, 1.00f, 2.50f, 2.00f,
+static const std::vector<float> k_Technology {	0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 2.00f, 1.00f, 1.00f, 0.75f, 1.00f, 2.50f, 2.00f,
 										   		   2.00f, 1.00f, 1.00f, 1.00f, 2.50f, 1.00f, 1.00f, 0.75f, 1.50f, 2.50f, 1.00f, 2.50f};
 
-static std::vector<float> k_Magic {			2.00f, 2.00f, 1.50f, 1.00f, 1.25f, 1.00f, 2.00f, 2.00f, 0.50f, 0.00f, 2.50f, 0.50f,
+static const std::vector<float> k_Magic {			2.00f, 2.00f, 1.50f, 1.00f, 1.25f, 1.00f, 2.00f, 2.00f, 0.50f, 0.00f, 2.50f, 0.50f,
 										   	       0.25f, 0.50f, 1.50f, 1.50f, 1.00f, 0.25f, 1.00f, 1.25f, 1.00f, 0.50f, 2.50f, 1.00f};
 
 
@@ -95,7 +95,7 @@ const std::string Database::getStringFromBaseType(const BaseType type) {
     return instance().getName(type);
 }
 
-const BaseType Database::getBaseTypeFromString(const std::string & name) {
+BaseType Database::getBaseTypeFromString(const std::string & name) {
 	return instance().getBaseType(name);
 }
 
@@ -103,11 +103,11 @@ const std::string Database::getStringFromEffectivenessType(const EffectiveType t
 	return instance().getName(type);
 }
 
-const EffectiveType Database::getEffectiveness(const BaseType type1, const BaseType type2) {
+EffectiveType Database::getEffectiveness(const BaseType type1, const BaseType type2) {
 	return instance().getEffect(type1, type2);
 }
 
-const float Database::getEffectivenessValue(const EffectiveType type) {
+float Database::getEffectivenessValue(const EffectiveType type) {
 
 	switch(type) {
 		case EffectiveType::Zero:
@@ -151,7 +151,7 @@ const std::string Database::getName(const BaseType type) const {
 
 }
 
-const BaseType Database::getBaseType(const std::string & name) const {
+BaseType Database::getBaseType(const std::string & name) const {
 
 	for (const auto & i : m_baseTypeNames) {
 		if (i.second == name) return i.first;
@@ -171,7 +171,7 @@ const std::string Database::getName(const EffectiveType type) const {
 
 }
 
-const EffectiveType Database::getEffect(const BaseType type1, const BaseType type2) const {
+EffectiveType Database::getEffect(const BaseType type1, const BaseType type2) const {
 
 	auto it1 = m_effectivenesses.find(type1);
 	if (it1 != m_effectivenesses.end()) {
@@ -284,9 +284,9 @@ const std::map<BaseType, EffectiveType> Database::createEffectivenessMap(const s
 
 }
 
-const EffectiveType Database::getEffectivenessType(const float f) {
+EffectiveType Database::getEffectivenessType(const float f) {
 
-	if (f == 0.f) 
+	if (f == 0.f)
 		return EffectiveType::Zero;
 	else if (f == 0.25f)
 		return EffectiveType::HighlyIneffective;
