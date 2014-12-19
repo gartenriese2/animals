@@ -4,7 +4,7 @@
 #include "gui/console.hpp"
 #include "gui/io.hpp"
 
-#include "npcdatabasereader.hpp"
+#include "database/npcdatabasereader.hpp"
 #include "party.hpp"
 #include "tournament.hpp"
 

@@ -1,6 +1,6 @@
 #include "attackdatabasereader.hpp"
 
-#include "gui/console.hpp"
+#include "../gui/console.hpp"
 
 #include <clocale>
 

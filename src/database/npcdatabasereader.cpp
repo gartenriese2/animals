@@ -1,6 +1,6 @@
 #include "npcdatabasereader.hpp"
 
-#include "gui/console.hpp"
+#include "../gui/console.hpp"
 
 NPCDatabaseReader::NPCDatabaseReader()
   : DatabaseReader("data/npcs.database")

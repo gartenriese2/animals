@@ -1,5 +1,5 @@
-#ifndef _IO_HPP
-#define _IO_HPP
+#ifndef _IO_
+#define _IO_
 
 #include <vector>
 #include <memory>
@@ -26,4 +26,4 @@ class IO {
 
 };
 
-#endif // _IO_HPP
+#endif // _IO_

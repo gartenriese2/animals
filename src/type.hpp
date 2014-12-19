@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 
-#include "database.hpp"
+#include "database/database.hpp"
 
 class Type {
 

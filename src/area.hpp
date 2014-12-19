@@ -7,7 +7,7 @@
 #include <string>
 
 #include "position.hpp"
-#include "areadatabasereader.hpp"
+#include "database/areadatabasereader.hpp"
 #include "typedefs.hpp"
 #include "animal.hpp"
 #include "npchar.hpp"

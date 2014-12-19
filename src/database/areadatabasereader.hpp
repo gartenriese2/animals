@@ -1,10 +1,11 @@
-#ifndef _AREADATABASEREADER_HPP
-#define _AREADATABASEREADER_HPP
+#ifndef _AREADATABASEREADER_
+#define _AREADATABASEREADER_
 
 #include "databasereader.hpp"
-#include "typedefs.hpp"
+#include "../typedefs.hpp"
 
 #include <string>
+#include <vector>
 
 class AreaDatabaseReader : public DatabaseReader {
 
@@ -12,7 +13,7 @@ class AreaDatabaseReader : public DatabaseReader {
 
 		AreaDatabaseReader();
 		~AreaDatabaseReader();
-		
+
 		const std::vector<std::string> getBaseFromEntry(const std::string &);
 		const portalMap getPortalMapFromEntry(const std::string &);
         const likelyhoodTuples getLikelyhoodsFromEntry(const std::string &);
@@ -27,4 +28,4 @@ class AreaDatabaseReader : public DatabaseReader {
 
 };
 
-#endif // _AREADATABASEREADER_HPP
+#endif // _AREADATABASEREADER_

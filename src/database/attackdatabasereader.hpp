@@ -2,7 +2,7 @@
 #define _ATTACKDATABASEREADER_HPP
 
 #include "databasereader.hpp"
-#include "type.hpp"
+#include "../type.hpp"
 
 #include <string>
 #include <unordered_map>
@@ -13,7 +13,7 @@ class AttackDatabaseReader : public DatabaseReader {
 
 		AttackDatabaseReader();
 		~AttackDatabaseReader();
-		
+
 		const Type getTypeFromEntry(const std::string &);
 		const std::unordered_map<std::string, double> getMapFromEntry(const std::string &);
 

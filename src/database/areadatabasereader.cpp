@@ -1,6 +1,8 @@
 #include "areadatabasereader.hpp"
 
-#include "gui/console.hpp"
+#include "../gui/console.hpp"
+
+#include <clocale>
 
 AreaDatabaseReader::AreaDatabaseReader()
   : DatabaseReader("data/areas.database")

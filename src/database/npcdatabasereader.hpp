@@ -2,7 +2,7 @@
 #define _NPCDATABASEREADER_HPP
 
 #include "databasereader.hpp"
-#include "typedefs.hpp"
+#include "../typedefs.hpp"
 
 class NPCDatabaseReader : public DatabaseReader {
 
@@ -10,7 +10,7 @@ class NPCDatabaseReader : public DatabaseReader {
 
 		NPCDatabaseReader();
 		~NPCDatabaseReader();
-		
+
 		const partyTuples getPartyTuplesFromEntry(const std::string &);
         const locationTuple getLocationFromEntry(const std::string &);
         const std::vector<std::string> getTextFromEntry(const std::string &);
