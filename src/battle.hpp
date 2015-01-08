@@ -4,9 +4,9 @@
 #include "fight.hpp"
 
 class Battle {
-	
+
 	public:
-		
+
 		Battle(Animal &, Animal &);
 		~Battle();
 
@@ -16,9 +16,11 @@ class Battle {
 
 	private:
 
+		unsigned int calculateExp(const Animal &) const;
+
 		Animal & m_animal1;
 		Animal & m_animal2;
-	
+
 };
 
 #endif // _BATTLE_H

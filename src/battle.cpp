@@ -7,7 +7,7 @@
 #include <chrono>
 #include <thread>
 
-static constexpr unsigned int k_maxlvldiff = 50;
+//static constexpr unsigned int k_maxlvldiff = 50;
 
 Battle::Battle(Animal & a1, Animal & a2)
   : m_animal1(a1), m_animal2(a2)
@@ -17,16 +17,25 @@ Battle::Battle(Animal & a1, Animal & a2)
 Battle::~Battle() {
 }
 
+// http://bulbapedia.bulbagarden.net/wiki/Experience#Experience_gain_in_battle
+unsigned int Battle::calculateExp(const Animal & loser) const {
+
+	return std::max(1u, static_cast<unsigned int>((loser.isWild() ? 1.f : 1.5f) *
+						static_cast<float>(loser.getLevel() * loser.getStats().getBaseXP()) / 7.f));
+
+}
+
 void Battle::addExp(Animal & winner, const Animal & loser) const {
 
 	BattleConsole::emptyTextAutomatically(1000);
 
-	unsigned int loserStats = loser.getMaxHealth() + loser.getMaxAttack()
-								+ loser.getMaxDefense() + loser.getMaxSpeed();
-	float lvlDiff = static_cast<float>(static_cast<int>(k_maxlvldiff) + loser.getLevel() - winner.getLevel())
-					/ static_cast<float>(k_maxlvldiff);
-	if (lvlDiff < 0.f) lvlDiff = 0.f;
-	unsigned int xpGain = static_cast<unsigned int>(static_cast<float>(loserStats) * lvlDiff);
+	//unsigned int loserStats = loser.getMaxHealth() + loser.getMaxAttack()
+	//							+ loser.getMaxDefense() + loser.getMaxSpeed();
+	//float lvlDiff = static_cast<float>(static_cast<int>(k_maxlvldiff) + loser.getLevel() - winner.getLevel())
+	//				/ static_cast<float>(k_maxlvldiff);
+	//if (lvlDiff < 0.f) lvlDiff = 0.f;
+	//unsigned int xpGain = static_cast<unsigned int>(static_cast<float>(loserStats) * lvlDiff);
+	auto xpGain = calculateExp(loser);
 	BattleConsole::addTextAndPrint(winner.getName() + " gains " + std::to_string(xpGain) + " experience points.");
 
 	winner.gainExp(xpGain);

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<effectivenesses>
+	<effectiveness id="1">
+		<name>Zero</name>
+		<value>0.0</value>
+	</effectiveness>
+	<effectiveness id="2">
+		<name>HighlyIneffective</name>
+		<value>0.25</value>
+	</effectiveness>
+	<effectiveness id="3">
+		<name>Ineffective</name>
+		<value>0.5</value>
+	</effectiveness>
+	<effectiveness id="4">
+		<name>SlightlyIneffective</name>
+		<value>0.75</value>
+	</effectiveness>
+	<effectiveness id="5">
+		<name>Neutral</name>
+		<value>1.0</value>
+	</effectiveness>
+	<effectiveness id="6">
+		<name>SlighltyEffective</name>
+		<value>1.25</value>
+	</effectiveness>
+	<effectiveness id="7">
+		<name>Effective</name>
+		<value>1.5</value>
+	</effectiveness>
+	<effectiveness id="8">
+		<name>HighlyEffective</name>
+		<value>2.0</value>
+	</effectiveness>
+	<effectiveness id="9">
+		<name>MostEffective</name>
+		<value>2.5</value>
+	</effectiveness>
+</effectivenesses>

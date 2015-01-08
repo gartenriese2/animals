@@ -22,12 +22,14 @@ static constexpr float k_ratioStep = 0.02f;
 static constexpr unsigned int k_sleep = 100;
 
 Animal::Animal(const std::string & name, const Type & type,	const AnimalStats & stats,
-	AttackSet attackSet, const unsigned int level = 1, const std::pair<unsigned int, std::string> evolve = {0,""})
+	AttackSet attackSet, const unsigned int level = 1,
+	const std::pair<unsigned int, std::string> evolve = {0,""})
   : m_log(true),
   	m_name(name),
 	m_type(type),
 	m_stats(stats),
 	m_attackSet(attackSet),
+	m_isWild(true),
 	m_level(1),
 	m_exp(0),
 	m_evolve(evolve)
@@ -38,10 +40,11 @@ Animal::Animal(const std::string & name, const Type & type,	const AnimalStats & 
 
 Animal::Animal(const Animal & other)
   : m_log(true),
-  	m_name(other.getNameCopy()),
+  	m_name(other.m_name),
 	m_type(other.getTypeCopy()),
 	m_stats(other.getStatsCopy()),
 	m_attackSet(other.getAttackSetCopy()),
+	m_isWild(other.m_isWild),
 	m_level(other.getLevel()),
 	m_exp(other.getExp()),
 	m_evolve(other.getEvolve())
@@ -216,6 +219,7 @@ void Animal::gainExp(unsigned int xp) {
 
 }
 
+// http://bulbapedia.bulbagarden.net/wiki/Stats#In_Generation_III_onward
 void Animal::levelUp() {
 
 	float healthRatio = static_cast<float>(m_stats.getActualHealth()) / static_cast<float>(m_stats.getHealth());
@@ -477,7 +481,7 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 		AnimalEntry("Firax", Animal("Firax",
 										Type(BaseType::Fire),
 										AnimalStats(12, 6, 5, 5,
-											0.9f, 0.72f, 0.7f, 0.7f, 1.0f),
+											0.9f, 0.72f, 0.7f, 0.7f, 1.0f, 50),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Tackle")),
 											AttackSetEntry(5, Attack::getAttack("Glow")),
@@ -489,7 +493,7 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 		AnimalEntry("Firaxas", Animal("Firaxas",
 										Type(BaseType::Fire),
 										AnimalStats(12, 6, 5, 5,
-											0.93f, 0.76f, 0.72f, 0.73f, 1.0f),
+											0.93f, 0.76f, 0.72f, 0.73f, 1.0f, 100),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Tackle")),
 											AttackSetEntry(5, Attack::getAttack("Glow")),
@@ -502,7 +506,7 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 		AnimalEntry("Firaxor", Animal("Firaxor",
 										Type(BaseType::Fire),
 										AnimalStats(12, 6, 5, 5,
-											0.96f, 0.8f, 0.74f, 0.76f, 1.0f),
+											0.96f, 0.8f, 0.74f, 0.76f, 1.0f, 150),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Tackle")),
 											AttackSetEntry(5, Attack::getAttack("Glow")),
@@ -514,7 +518,7 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 		AnimalEntry("Waterdevil", Animal("Waterdevil",
 										Type(BaseType::Fire, BaseType::Water),
 										AnimalStats(15, 4, 5, 4,
-											0.95f, 0.7f, 0.7f, 0.65f, 1.0f),
+											0.95f, 0.7f, 0.7f, 0.65f, 1.0f, 100),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Tackle")),
 											AttackSetEntry(12, Attack::getAttack("Fire Ball")),
@@ -527,7 +531,7 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 		AnimalEntry("Firaspar", Animal("Firaspar",
 										Type(BaseType::Fire, BaseType::Ghost),
 										AnimalStats(10, 6, 5, 6,
-											0.95f, 0.75f, 0.7f, 0.7f, 1.0f),
+											0.95f, 0.75f, 0.7f, 0.7f, 1.0f, 100),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Spook")),
 											AttackSetEntry(8, Attack::getAttack("Fire Spark")),
@@ -540,7 +544,7 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 		AnimalEntry("Aquax", Animal("Aquax",
 										Type(BaseType::Water),
 										AnimalStats(12, 5, 6, 5,
-											0.9f, 0.7f, 0.72f, 0.7f, 1.0f),
+											0.9f, 0.7f, 0.72f, 0.7f, 1.0f, 50),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Tackle")),
 											AttackSetEntry(5, Attack::getAttack("Intimidate")),
@@ -552,7 +556,7 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 		AnimalEntry("Duckweed", Animal("Duckweed",
 										Type(BaseType::Plant, BaseType::Water),
 										AnimalStats(12, 4, 3, 5,
-											0.85f, 0.65f, 0.6f, 0.75f, 0.8f),
+											0.85f, 0.65f, 0.6f, 0.75f, 0.8f, 40),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Tackle")),
 											AttackSetEntry(3, Attack::getAttack("Intimidate")),
@@ -566,7 +570,7 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 		AnimalEntry("Snowly", Animal("Snowly",
 										Type(BaseType::Snow, BaseType::Air),
 										AnimalStats(14, 6, 6, 5,
-											0.95f, 0.7f, 0.7f, 0.7f, 1.0f),
+											0.95f, 0.7f, 0.7f, 0.7f, 1.0f, 60),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Claw")),
 											AttackSetEntry(3, Attack::getAttack("Intimidate")),
@@ -581,7 +585,7 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 		AnimalEntry("Mousey", Animal("Mousey",
 										Type(BaseType::Normal),
 										AnimalStats(8, 3, 3, 5,
-											0.85f, 0.65f, 0.65f, 0.65f, 0.7f),
+											0.85f, 0.65f, 0.65f, 0.65f, 0.7f, 35),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Nudge")),
 											AttackSetEntry(3, Attack::getAttack("Intimidate")),
@@ -593,7 +597,7 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 		AnimalEntry("Irobat", Animal("Irobat",
 										Type(BaseType::Steel, BaseType::Underground),
 										AnimalStats(9, 4, 7, 5,
-											0.95f, 0.65f, 0.85f, 0.6f, 1.0f),
+											0.95f, 0.65f, 0.85f, 0.6f, 1.0f, 45),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Steel Blow")),
 											AttackSetEntry(3, Attack::getAttack("Intimidate")),
@@ -607,7 +611,7 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 		AnimalEntry("Nightfairy", Animal("Nightfairy",
 										Type(BaseType::Magic, BaseType::Dark),
 										AnimalStats(10, 7, 4, 8,
-											0.8f, 0.91f, 0.6f, 0.78f, 1.5f),
+											0.8f, 0.91f, 0.6f, 0.78f, 1.5f, 55),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Nudge")),
 											AttackSetEntry(3, Attack::getAttack("Dark Eye")),
@@ -620,7 +624,7 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 		AnimalEntry("Arachnom", Animal("Arachnom",
 										Type(BaseType::Poison),
 										AnimalStats(12, 6, 6, 6,
-											0.9f, 0.7f, 0.7f, 0.75f, 1.0f),
+											0.9f, 0.7f, 0.7f, 0.75f, 1.0f, 45),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Tackle")),
 											AttackSetEntry(3, Attack::getAttack("Intimidate")),
@@ -632,7 +636,7 @@ const std::map<std::string, Animal> & Animal::getAnimals() {
 		AnimalEntry("Computo", Animal("Computo",
 										Type(BaseType::Technology, BaseType::Electro),
 										AnimalStats(12, 7, 5, 4,
-											0.9f, 0.85f, 0.6f, 0.65f, 1.1f),
+											0.9f, 0.85f, 0.6f, 0.65f, 1.1f, 75),
 										AttackSet({
 											AttackSetEntry(1, Attack::getAttack("Disc Throw")),
 											AttackSetEntry(5, Attack::getAttack("Modern Shock")),

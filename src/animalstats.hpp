@@ -6,7 +6,7 @@ class AnimalStats {
 	public:
 
 		AnimalStats(const unsigned int, const unsigned int, const unsigned int, const unsigned int,
-			const float, const float, const float, const float, const float);
+			const float, const float, const float, const float, const float, unsigned int);
 		~AnimalStats();
 
 		unsigned int getHealth() const { return m_health; }
@@ -30,6 +30,7 @@ class AnimalStats {
 		float getDefenseMultiplier() const { return m_defenseMultiplier; }
 		float getSpeedMultiplier() const { return m_speedMultiplier; }
 		float getExpMultiplier() const { return m_expMultiplier; }
+		unsigned int getBaseXP() const { return m_baseXP; }
 
 	private:
 
@@ -47,6 +48,8 @@ class AnimalStats {
 		float m_defenseMultiplier;
 		float m_speedMultiplier;
 		float m_expMultiplier;
+
+		unsigned int m_baseXP;
 
 };
 

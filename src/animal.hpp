@@ -33,6 +33,8 @@ class Animal {
 		unsigned int getActualSpeed() const { return m_stats.getActualSpeed(); }
 		unsigned int getMaxSpeed() const { return m_stats.getSpeed(); }
 		unsigned int getLevel() const { return m_level; }
+		bool isWild() const { return m_isWild; }
+		void setWild(bool wild) { m_isWild = wild; }
 		const std::pair<unsigned int, std::string> & getEvolve() const { return m_evolve; }
 		const std::pair<unsigned int, std::string> getEvolveCopy() const { return m_evolve; }
 
@@ -76,6 +78,7 @@ class Animal {
 		Type m_type;
 		AnimalStats m_stats;
 		AttackSet m_attackSet;
+		bool m_isWild;
 
 		unsigned int m_level;
 		unsigned int m_exp;
