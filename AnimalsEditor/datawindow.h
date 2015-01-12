@@ -6,12 +6,15 @@
 #include <QModelIndex>
 #include <QString>
 
+#include <map>
+#include <memory>
+
 #include "database.h"
 
 class DataWindow {
 
     public:
-        DataWindow(QWidget *, Database &);
+        DataWindow(QWidget *, db::Database &, const std::map<QString, std::shared_ptr<db::Database>> &);
         virtual ~DataWindow();
 
     protected:
@@ -19,7 +22,8 @@ class DataWindow {
         QWidget * m_parent;
 
         QStringListModel m_nameList;
-        Database & m_db;
+        db::Database & m_db;
+        std::map<QString, std::shared_ptr<db::Database>> m_dbMap;
 
         virtual void setCurrent(const QModelIndex &) = 0;
         virtual void addNewEntry(const QString &, unsigned int) = 0;

@@ -5,8 +5,8 @@
 #-------------------------------------------------
 
 QT       += core gui
-CONFIG   += c++14
-QMAKE_CXXFLAGS += -Wextra -Wall -pedantic -Wconversion
+#CONFIG   += c++14
+QMAKE_CXXFLAGS += -Wextra -Wall -pedantic -Wconversion -std=c++1z
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,7 +26,10 @@ SOURCES += main.cpp\
     data.cpp \
     datawindow.cpp \
     comboboxdelegate.cpp \
-    animalmoveswindow.cpp
+    animalmoveswindow.cpp \
+    animaldatabase.cpp \
+	movedatabase.cpp# \
+	#tdatabase.tpp
 
 HEADERS  += mainwindow.h \
     animalswindow.h \
@@ -40,7 +43,10 @@ HEADERS  += mainwindow.h \
     datawindow.h \
     comboboxdelegate.h \
     numericmodel.h \
-    animalmoveswindow.h
+    animalmoveswindow.h \
+    animaldatabase.h \
+    movedatabase.h \
+    tdatabase.hpp
 
 FORMS    += mainwindow.ui \
     animalswindow.ui \

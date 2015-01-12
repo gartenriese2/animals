@@ -6,16 +6,18 @@
 #include <QXmlStreamReader>
 #include <QInputDialog>
 #include <QList>
-
 #include <QDebug>
+
 #include <cassert>
+
+#include <animaldatabase.h>
 
 constexpr unsigned int k_minVal {0};
 constexpr unsigned int k_maxVal {200};
 
-AnimalsWindow::AnimalsWindow(Database & db, QWidget *parent) :
+AnimalsWindow::AnimalsWindow(const std::map<QString, std::shared_ptr<db::Database>> & map, db::Database & db, QWidget *parent) :
     QWidget(),
-    DataWindow(parent, db),
+    DataWindow(parent, db, map),
     ui(new Ui::AnimalsWindow)
 {
     ui->setupUi(this);
@@ -54,7 +56,8 @@ void AnimalsWindow::init() {
     ui->progressBar_SpecialDefense->setTextVisible(false);
 
     QStringList list;
-    const auto animalsMap = m_db.getAnimalsByID();
+    const auto animalsMap = dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->getByID();
+//    const auto animalsMap = m_db.getAnimalsByID();
     for (const auto & entry : animalsMap) {
 
         list << entry.second.getName();
@@ -81,8 +84,10 @@ void AnimalsWindow::setCurrent(const QModelIndex & current)
     if (!current.isValid()) return;
 
     const auto name = current.data().toString();
-    assert(m_db.getAnimals().count(name) != 0);
-    const auto animal = m_db.getAnimals().at(name);
+    assert(dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get().count(name) != 0);
+//    assert(m_db.getAnimals().count(name) != 0);
+    const auto animal = dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get().at(name);
+//    const auto animal = m_db.getAnimals().at(name);
 
     ui->lineEdit_Name->setText(name);
 
@@ -110,7 +115,8 @@ void AnimalsWindow::addNewEntry(const QString & name, unsigned int row)
     animal.setName(name);
     animal.setID(row + 1);
 
-    assert(m_db.insertAnimal(row + 1, animal));
+    assert(dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->insertData(row + 1, animal));
+//    assert(m_db.insertAnimal(row + 1, animal));
 
 }
 
@@ -205,12 +211,14 @@ void AnimalsWindow::on_pushButton_Delete_clicked()
 
     m_nameList.removeRow(idx.row());
 
-    m_db.deleteAnimal(name);
+    dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->deleteData(name);
+//    m_db.deleteAnimal(name);
 }
 
 void AnimalsWindow::on_pushButton_Save_clicked()
 {
-    m_db.saveAnimals();
+    assert(dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->save());
+//    m_db.saveAnimals();
 
     m_parent->show();
     this->setAttribute(Qt::WA_DeleteOnClose);
@@ -237,10 +245,13 @@ void AnimalsWindow::on_lineEdit_Name_editingFinished()
 
     m_nameList.setData(ui->listView->currentIndex(), newName);
 
-    auto data = m_db.getAnimals().at(oldName);
-    assert(m_db.deleteAnimal(data.getName()));
+    auto data = dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get().at(oldName);
+//    auto data = m_db.getAnimals().at(oldName);
+    assert(dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->deleteData(data.getName()));
+//    assert(m_db.deleteAnimal(data.getName()));
     data.setName(newName);
-    assert(m_db.insertAnimal(ui->listView->currentIndex().row() + 1, data));
+    assert(dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->insertData(ui->listView->currentIndex().row() + 1, data));
+//    assert(m_db.insertAnimal(ui->listView->currentIndex().row() + 1, data));
 }
 
 void AnimalsWindow::on_lineEdit_HP_textChanged(const QString & arg1)
@@ -252,10 +263,13 @@ void AnimalsWindow::on_lineEdit_HP_textChanged(const QString & arg1)
     if (!idx.isValid()) return;
 
     const auto name = idx.data().toString();
-    assert(m_db.getAnimals().count(name) != 0);
-    auto animals = m_db.getAnimals();
+    assert(dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get().count(name) != 0);
+//    assert(m_db.getAnimals().count(name) != 0);
+    auto animals = dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get();
+//    auto animals = m_db.getAnimals();
     animals.at(name).setBaseHP(arg1.toUInt());
-    m_db.setAnimals(animals);
+    dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->set(animals);
+//    m_db.setAnimals(animals);
 
     const auto animal = animals.at(name);
     unsigned int sum = animal.baseHP() + animal.baseAttack() + animal.baseDefense() + animal.baseSpeed() +
@@ -272,10 +286,13 @@ void AnimalsWindow::on_lineEdit_Attack_textChanged(const QString & arg1)
     if (!idx.isValid()) return;
 
     const auto name = idx.data().toString();
-    if (m_db.getAnimals().count(name) == 0) return;
-    auto animals = m_db.getAnimals();
+    if (dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get().count(name) == 0) return;
+//    if (m_db.getAnimals().count(name) == 0) return;
+    auto animals = dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get();
+//    auto animals = m_db.getAnimals();
     animals.at(name).setBaseAttack(arg1.toUInt());
-    m_db.setAnimals(animals);
+    dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->set(animals);
+//    m_db.setAnimals(animals);
 
     const auto animal = animals.at(name);
     unsigned int sum = animal.baseHP() + animal.baseAttack() + animal.baseDefense() + animal.baseSpeed() +
@@ -292,10 +309,13 @@ void AnimalsWindow::on_lineEdit_Defense_textChanged(const QString &arg1)
     if (!idx.isValid()) return;
 
     const auto name = idx.data().toString();
-    if (m_db.getAnimals().count(name) == 0) return;
-    auto animals = m_db.getAnimals();
+    if (dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get().count(name) == 0) return;
+//    if (m_db.getAnimals().count(name) == 0) return;
+    auto animals = dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get();
+//    auto animals = m_db.getAnimals();
     animals.at(name).setBaseDefense(arg1.toUInt());
-    m_db.setAnimals(animals);
+    dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->set(animals);
+//    m_db.setAnimals(animals);
 
     const auto animal = animals.at(name);
     unsigned int sum = animal.baseHP() + animal.baseAttack() + animal.baseDefense() + animal.baseSpeed() +
@@ -312,10 +332,13 @@ void AnimalsWindow::on_lineEdit_Speed_textChanged(const QString &arg1)
     if (!idx.isValid()) return;
 
     const auto name = idx.data().toString();
-    if (m_db.getAnimals().count(name) == 0) return;
-    auto animals = m_db.getAnimals();
+    if (dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get().count(name) == 0) return;
+//    if (m_db.getAnimals().count(name) == 0) return;
+    auto animals = dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get();
+//    auto animals = m_db.getAnimals();
     animals.at(name).setBaseSpeed(arg1.toUInt());
-    m_db.setAnimals(animals);
+    dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->set(animals);
+//    m_db.setAnimals(animals);
 
     const auto animal = animals.at(name);
     unsigned int sum = animal.baseHP() + animal.baseAttack() + animal.baseDefense() + animal.baseSpeed() +
@@ -332,10 +355,13 @@ void AnimalsWindow::on_lineEdit_SpecialAttack_textChanged(const QString &arg1)
     if (!idx.isValid()) return;
 
     const auto name = idx.data().toString();
-    if (m_db.getAnimals().count(name) == 0) return;
-    auto animals = m_db.getAnimals();
+    if (dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get().count(name) == 0) return;
+//    if (m_db.getAnimals().count(name) == 0) return;
+    auto animals = dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get();
+//    auto animals = m_db.getAnimals();
     animals.at(name).setBaseSpecialAttack(arg1.toUInt());
-    m_db.setAnimals(animals);
+    dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->set(animals);
+//    m_db.setAnimals(animals);
 
     const auto animal = animals.at(name);
     unsigned int sum = animal.baseHP() + animal.baseAttack() + animal.baseDefense() + animal.baseSpeed() +
@@ -352,10 +378,13 @@ void AnimalsWindow::on_lineEdit_SpecialDefense_textChanged(const QString &arg1)
     if (!idx.isValid()) return;
 
     const auto name = idx.data().toString();
-    if (m_db.getAnimals().count(name) == 0) return;
-    auto animals = m_db.getAnimals();
+    if (dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get().count(name) == 0) return;
+//    if (m_db.getAnimals().count(name) == 0) return;
+    auto animals = dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get();
+//    auto animals = m_db.getAnimals();
     animals.at(name).setBaseSpecialDefense(arg1.toUInt());
-    m_db.setAnimals(animals);
+    dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->set(animals);
+//    m_db.setAnimals(animals);
 
     const auto animal = animals.at(name);
     unsigned int sum = animal.baseHP() + animal.baseAttack() + animal.baseDefense() + animal.baseSpeed() +
@@ -369,10 +398,13 @@ void AnimalsWindow::on_lineEdit_BaseXP_textChanged(const QString &arg1)
     if (!idx.isValid()) return;
 
     const auto name = idx.data().toString();
-    if (m_db.getAnimals().count(name) == 0) return;
-    auto animals = m_db.getAnimals();
+    if (dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get().count(name) == 0) return;
+//    if (m_db.getAnimals().count(name) == 0) return;
+    auto animals = dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get();
+//    auto animals = m_db.getAnimals();
     animals.at(name).setBaseXP(arg1.toUInt());
-    m_db.setAnimals(animals);
+    dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->set(animals);
+//    m_db.setAnimals(animals);
 }
 
 void AnimalsWindow::on_comboBox_Secondary_currentTextChanged(const QString &arg1)
@@ -380,13 +412,17 @@ void AnimalsWindow::on_comboBox_Secondary_currentTextChanged(const QString &arg1
     const auto idx = ui->listView->currentIndex();
     if (!idx.isValid()) return;
 
-    if (m_db.getAnimals().empty()) return;
+    if (dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get().empty()) return;
+//    if (m_db.getAnimals().empty()) return;
 
     const auto name = idx.data().toString();
-    assert(m_db.getAnimals().count(name) != 0);
-    auto animals = m_db.getAnimals();
+    assert(dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get().count(name) != 0);
+//    assert(m_db.getAnimals().count(name) != 0);
+    auto animals = dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get();
+//    auto animals = m_db.getAnimals();
     animals.at(name).setSecondaryType(arg1);
-    m_db.setAnimals(animals);
+    dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->set(animals);
+//    m_db.setAnimals(animals);
 }
 
 void AnimalsWindow::on_comboBox_Primary_currentTextChanged(const QString &arg1)
@@ -396,21 +432,26 @@ void AnimalsWindow::on_comboBox_Primary_currentTextChanged(const QString &arg1)
     const auto idx = ui->listView->currentIndex();
     if (!idx.isValid()) return;
 
-    if (m_db.getAnimals().empty()) return;
+    if (dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get().empty()) return;
+//    if (m_db.getAnimals().empty()) return;
 
     const auto name = idx.data().toString();
-    assert(m_db.getAnimals().count(name) != 0);
-    auto animals = m_db.getAnimals();
+    assert(dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get().count(name) != 0);
+//    assert(m_db.getAnimals().count(name) != 0);
+    auto animals = dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get();
+//    auto animals = m_db.getAnimals();
     animals.at(name).setPrimaryType(arg1);
-    m_db.setAnimals(animals);
+    dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->set(animals);
+//    m_db.setAnimals(animals);
 }
 
 void AnimalsWindow::on_pushButton_EditMoves_clicked()
 {
     const auto idx = ui->listView->currentIndex();
-    const auto animals = m_db.getAnimals();
+    const auto animals = dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->get();
+//    const auto animals = m_db.getAnimals();
     const auto animal = animals.at(idx.data().toString());
-    m_editMovesWin = new AnimalMovesWindow(m_db, animal, this);
+    m_editMovesWin = new AnimalMovesWindow(m_dbMap, m_db, animal, this);
     m_editMovesWin->show();
     this->hide();
 }

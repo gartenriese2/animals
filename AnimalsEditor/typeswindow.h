@@ -2,6 +2,10 @@
 #define TYPESWINDOW_H
 
 #include <QWidget>
+#include <QString>
+
+#include <map>
+#include <memory>
 
 #include "datawindow.h"
 
@@ -14,7 +18,7 @@ class TypesWindow : public QWidget, DataWindow
     Q_OBJECT
 
 public:
-    explicit TypesWindow(Database &, QWidget *parent = 0);
+    explicit TypesWindow(const std::map<QString, std::shared_ptr<db::Database>> &, db::Database &, QWidget *parent = 0);
     ~TypesWindow();
 
 private slots:

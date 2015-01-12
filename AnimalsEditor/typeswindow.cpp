@@ -8,11 +8,9 @@
 #include <iostream>
 #include <cassert>
 
-const std::string k_path("../AnimalsEditor/data/types.xml");
-
-TypesWindow::TypesWindow(Database & db, QWidget *parent) :
+TypesWindow::TypesWindow(const std::map<QString, std::shared_ptr<db::Database>> & map, db::Database & db, QWidget *parent) :
     QWidget(),
-    DataWindow(parent, db),
+    DataWindow(parent, db, map),
     ui(new Ui::TypesWindow)
 {
     ui->setupUi(this);

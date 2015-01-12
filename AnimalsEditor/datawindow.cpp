@@ -2,9 +2,10 @@
 
 #include <iostream>
 
-DataWindow::DataWindow(QWidget * parent, Database & db)
+DataWindow::DataWindow(QWidget * parent, db::Database & db, const std::map<QString, std::shared_ptr<db::Database>> & map)
   : m_parent(parent),
-    m_db(db)
+    m_db(db),
+    m_dbMap(map)
 {
 
 }

@@ -2,6 +2,10 @@
 #define ANIMALSWINDOW_H
 
 #include <QWidget>
+#include <QString>
+
+#include <map>
+#include <memory>
 
 #include "datawindow.h"
 #include "animalmoveswindow.h"
@@ -15,7 +19,7 @@ class AnimalsWindow : public QWidget, DataWindow
     Q_OBJECT
 
 public:
-    explicit AnimalsWindow(Database &, QWidget *parent = 0);
+    explicit AnimalsWindow(const std::map<QString, std::shared_ptr<db::Database>> &, db::Database &, QWidget *parent = 0);
     ~AnimalsWindow();
 
 private slots:

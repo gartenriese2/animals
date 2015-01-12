@@ -163,7 +163,16 @@
             <specialdefense>25</specialdefense>
             <xp>30</xp>
         </basestats>
-        <moves/>
+        <moves>
+            <move>
+                <name>Nudge</name>
+                <level>1</level>
+            </move>
+            <move>
+                <name>Tackle</name>
+                <level>6</level>
+            </move>
+        </moves>
         <evolutions/>
     </animal>
     <animal id="8">
@@ -181,7 +190,12 @@
             <specialdefense>55</specialdefense>
             <xp>75</xp>
         </basestats>
-        <moves/>
+        <moves>
+            <move>
+                <name>Nudge</name>
+                <level>1</level>
+            </move>
+        </moves>
         <evolutions/>
     </animal>
     <animal id="9">
@@ -307,7 +321,12 @@
             <specialdefense>35</specialdefense>
             <xp>40</xp>
         </basestats>
-        <moves/>
+        <moves>
+            <move>
+                <name>Quick Attack</name>
+                <level>1</level>
+            </move>
+        </moves>
         <evolutions/>
     </animal>
     <animal id="16">
@@ -325,7 +344,12 @@
             <specialdefense>60</specialdefense>
             <xp>95</xp>
         </basestats>
-        <moves/>
+        <moves>
+            <move>
+                <name>Quick Attack</name>
+                <level>1</level>
+            </move>
+        </moves>
         <evolutions/>
     </animal>
     <animal id="17">
@@ -343,7 +367,16 @@
             <specialdefense>100</specialdefense>
             <xp>140</xp>
         </basestats>
-        <moves/>
+        <moves>
+            <move>
+                <name>Disc Throw</name>
+                <level>1</level>
+            </move>
+            <move>
+                <name>Disc Cannon</name>
+                <level>15</level>
+            </move>
+        </moves>
         <evolutions/>
     </animal>
     <animal id="18">
@@ -361,7 +394,12 @@
             <specialdefense>60</specialdefense>
             <xp>75</xp>
         </basestats>
-        <moves/>
+        <moves>
+            <move>
+                <name>Fire Ball</name>
+                <level>12</level>
+            </move>
+        </moves>
         <evolutions/>
     </animal>
 </animals>

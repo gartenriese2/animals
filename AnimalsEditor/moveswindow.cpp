@@ -13,9 +13,9 @@ constexpr unsigned int k_maxAccuracy {100};
 constexpr int k_minPriority {-6};
 constexpr int k_maxPriority {6};
 
-MovesWindow::MovesWindow(Database & db, QWidget *parent) :
+MovesWindow::MovesWindow(const std::map<QString, std::shared_ptr<db::Database>> & dbmap, db::Database & db, QWidget *parent) :
     QWidget(),
-    DataWindow(parent, db),
+    DataWindow(parent, db, dbmap),
     ui(new Ui::MovesWindow)
 {
     ui->setupUi(this);

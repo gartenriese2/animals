@@ -2,6 +2,10 @@
 #define MOVESWINDOW_H
 
 #include <QWidget>
+#include <QString>
+
+#include <map>
+#include <memory>
 
 #include "datawindow.h"
 
@@ -14,7 +18,7 @@ class MovesWindow : public QWidget, DataWindow
     Q_OBJECT
 
 public:
-    explicit MovesWindow(Database &, QWidget *parent = 0);
+    explicit MovesWindow(const std::map<QString, std::shared_ptr<db::Database>> &, db::Database &, QWidget *parent = 0);
     ~MovesWindow();
 
 private slots:

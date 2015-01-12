@@ -9,6 +9,14 @@
         <priority>0</priority>
     </move>
     <move id="2">
+        <name>Nudge</name>
+        <basedamage>10</basedamage>
+        <type>Normal</type>
+        <category>Physical</category>
+        <accuracy>100</accuracy>
+        <priority>0</priority>
+    </move>
+    <move id="3">
         <name>Quick Attack</name>
         <basedamage>35</basedamage>
         <type>Normal</type>
@@ -16,7 +24,7 @@
         <accuracy>90</accuracy>
         <priority>1</priority>
     </move>
-    <move id="3">
+    <move id="4">
         <name>Fire Spark</name>
         <basedamage>25</basedamage>
         <type>Fire</type>
@@ -24,7 +32,7 @@
         <accuracy>95</accuracy>
         <priority>0</priority>
     </move>
-    <move id="4">
+    <move id="5">
         <name>Fire Ball</name>
         <basedamage>40</basedamage>
         <type>Fire</type>
@@ -32,7 +40,7 @@
         <accuracy>100</accuracy>
         <priority>0</priority>
     </move>
-    <move id="5">
+    <move id="6">
         <name>Water Splash</name>
         <basedamage>25</basedamage>
         <type>Water</type>
@@ -40,7 +48,15 @@
         <accuracy>95</accuracy>
         <priority>0</priority>
     </move>
-    <move id="6">
+    <move id="7">
+        <name>Water Blast</name>
+        <basedamage>50</basedamage>
+        <type>Water</type>
+        <category>Special</category>
+        <accuracy>95</accuracy>
+        <priority>0</priority>
+    </move>
+    <move id="8">
         <name>Alpha Ray</name>
         <basedamage>30</basedamage>
         <type>Radiation</type>
@@ -48,7 +64,7 @@
         <accuracy>100</accuracy>
         <priority>0</priority>
     </move>
-    <move id="7">
+    <move id="9">
         <name>Beta Ray</name>
         <basedamage>60</basedamage>
         <type>Radiation</type>
@@ -56,7 +72,7 @@
         <accuracy>100</accuracy>
         <priority>0</priority>
     </move>
-    <move id="8">
+    <move id="10">
         <name>Gamma Ray</name>
         <basedamage>100</basedamage>
         <type>Radiation</type>
@@ -64,7 +80,7 @@
         <accuracy>100</accuracy>
         <priority>0</priority>
     </move>
-    <move id="9">
+    <move id="11">
         <name>Avalanche</name>
         <basedamage>120</basedamage>
         <type>Snow</type>
@@ -72,7 +88,7 @@
         <accuracy>75</accuracy>
         <priority>0</priority>
     </move>
-    <move id="10">
+    <move id="12">
         <name>Claw</name>
         <basedamage>35</basedamage>
         <type>Air</type>
@@ -80,7 +96,7 @@
         <accuracy>95</accuracy>
         <priority>0</priority>
     </move>
-    <move id="11">
+    <move id="13">
         <name>Curse</name>
         <basedamage>50</basedamage>
         <type>Magic</type>
@@ -88,7 +104,7 @@
         <accuracy>85</accuracy>
         <priority>0</priority>
     </move>
-    <move id="12">
+    <move id="14">
         <name>Dark Eye</name>
         <basedamage>20</basedamage>
         <type>Dark</type>
@@ -96,7 +112,7 @@
         <accuracy>80</accuracy>
         <priority>0</priority>
     </move>
-    <move id="13">
+    <move id="15">
         <name>Dark Shadow</name>
         <basedamage>60</basedamage>
         <type>Dark</type>
@@ -104,7 +120,7 @@
         <accuracy>100</accuracy>
         <priority>0</priority>
     </move>
-    <move id="14">
+    <move id="16">
         <name>Disc Throw</name>
         <basedamage>25</basedamage>
         <type>Technology</type>
@@ -112,7 +128,7 @@
         <accuracy>90</accuracy>
         <priority>0</priority>
     </move>
-    <move id="15">
+    <move id="17">
         <name>Disc Cannon</name>
         <basedamage>50</basedamage>
         <type>Technology</type>

@@ -8,6 +8,8 @@
 #include <iostream>
 #include <cassert>
 
+namespace db {
+
 const std::string k_animalPath("../AnimalsEditor/data/animals.xml");
 const std::string k_typePath("../AnimalsEditor/data/types.xml");
 const std::string k_movePath("../AnimalsEditor/data/moves.xml");
@@ -15,20 +17,20 @@ const std::string k_movePath("../AnimalsEditor/data/moves.xml");
 Database::Database()
 {
 
-    parseAnimals();
+//    parseAnimals();
     parseTypes();
     parseMoves();
 
 }
 
-const std::map<unsigned int, Animal> Database::getAnimalsByID() const
-{
-    std::map<unsigned int, Animal> map;
-    for (const auto & p : m_animals) {
-        map.emplace(p.second.getID(), p.second);
-    }
-    return map;
-}
+//const std::map<unsigned int, Animal> Database::getAnimalsByID() const
+//{
+//    std::map<unsigned int, Animal> map;
+//    for (const auto & p : m_animals) {
+//        map.emplace(p.second.getID(), p.second);
+//    }
+//    return map;
+//}
 
 const std::map<unsigned int, Move> Database::getMovesByID() const
 {
@@ -52,33 +54,33 @@ bool Database::deleteMove(const QString & name)
     return true;
 }
 
-bool Database::deleteAnimal(const QString & name)
-{
+//bool Database::deleteAnimal(const QString & name)
+//{
 
-    if (m_animals.count(name) == 0) return false;
+//    if (m_animals.count(name) == 0) return false;
 
-    const auto ID = m_animals.at(name).getID();
-    for (auto & a : m_animals) {
-        if (a.second.getID() > ID) a.second.setID(a.second.getID() - 1);
-    }
-    m_animals.erase(name);
+//    const auto ID = m_animals.at(name).getID();
+//    for (auto & a : m_animals) {
+//        if (a.second.getID() > ID) a.second.setID(a.second.getID() - 1);
+//    }
+//    m_animals.erase(name);
 
-    return true;
-}
+//    return true;
+//}
 
-bool Database::insertAnimal(unsigned int ID, const Animal & animal)
-{
-    const auto map = getAnimalsByID();
-    if (ID != 1 && map.count(ID - 1) == 0) return false;
+//bool Database::insertAnimal(unsigned int ID, const Animal & animal)
+//{
+//    const auto map = getAnimalsByID();
+//    if (ID != 1 && map.count(ID - 1) == 0) return false;
 
-    for (auto & a : m_animals) {
-        if (a.second.getID() >= ID) a.second.setID(a.second.getID() + 1);
-    }
+//    for (auto & a : m_animals) {
+//        if (a.second.getID() >= ID) a.second.setID(a.second.getID() + 1);
+//    }
 
-    m_animals.emplace(animal.getName(), animal);
+//    m_animals.emplace(animal.getName(), animal);
 
-    return true;
-}
+//    return true;
+//}
 
 bool Database::insertMove(unsigned int ID, const Move & move)
 {
@@ -130,383 +132,383 @@ bool Database::insertType(unsigned int ID, const Type & type)
     return true;
 }
 
-const Animal Database::getAnimal(QXmlStreamReader & reader) {
-
-    assert(reader.name() == "animal");
-
-    Animal animal;
-
-    const auto attr = reader.attributes();
-    if (!attr.hasAttribute("id")) {
-        std::cout << "Animal has no ID!" << std::endl;
-        return animal;
-    }
-
-    while(!(reader.isEndElement() && reader.name() == "animal")) {
-
-        reader.readNext();
-
-        if (reader.isEndElement()) {
-            continue;
-        }
-
-        auto name = reader.name();
-
-        if (name == "name") {
-            reader.readNext();
-            if(!reader.isCharacters()) {
-                std::cout << "Name does not contain characters!" << std::endl;
-                return animal;
-            } else {
-                animal.setName(reader.text().toString());
-            }
-        } else if (name == "primary") {
-            reader.readNext();
-            if (!reader.isCharacters()) {
-                std::cout << "Primary Type does not contain characters!" << std::endl;
-                return animal;
-            } else {
-                animal.setPrimaryType(reader.text().toString());
-            }
-        } else if (name == "secondary") {
-            reader.readNext();
-            if (!reader.isCharacters()) {
-                if (reader.text().toString() != "") {
-                    std::cout << "Secondary Type does not contain characters!" << std::endl;
-                    return animal;
-                }
-            } else {
-                animal.setSecondaryType(reader.text().toString());
-            }
-        } else if (name == "hp") {
-            reader.readNext();
-            if (!reader.isCharacters()) {
-                std::cout << "HP does not contain characters!" << std::endl;
-                return animal;
-            } else {
-                animal.setBaseHP(reader.text().toUInt());
-            }
-        } else if (name == "attack") {
-            reader.readNext();
-            if (!reader.isCharacters()) {
-                std::cout << "Attack does not contain characters!" << std::endl;
-                return animal;
-            } else {
-                animal.setBaseAttack(reader.text().toUInt());
-            }
-        } else if (name == "defense") {
-            reader.readNext();
-            if (!reader.isCharacters()) {
-                std::cout << "Defense does not contain characters!" << std::endl;
-                return animal;
-            } else {
-                animal.setBaseDefense(reader.text().toUInt());
-            }
-        } else if (name == "speed") {
-            reader.readNext();
-            if (!reader.isCharacters()) {
-                std::cout << "Speed does not contain characters!" << std::endl;
-                return animal;
-            } else {
-                animal.setBaseSpeed(reader.text().toUInt());
-            }
-        } else if (name == "specialattack") {
-            reader.readNext();
-            if (!reader.isCharacters()) {
-                std::cout << "Special Attack does not contain characters!" << std::endl;
-                return animal;
-            } else {
-                animal.setBaseSpecialAttack(reader.text().toUInt());
-            }
-        } else if (name == "specialdefense") {
-            reader.readNext();
-            if (!reader.isCharacters()) {
-                std::cout << "Special Defense does not contain characters!" << std::endl;
-                return animal;
-            } else {
-                animal.setBaseSpecialDefense(reader.text().toUInt());
-            }
-        } else if (name == "xp") {
-            reader.readNext();
-            if (!reader.isCharacters()) {
-                std::cout << "base XP does not contain characters!" << std::endl;
-                return animal;
-            } else {
-                animal.setBaseXP(reader.text().toUInt());
-            }
-        } else if (name == "moves") {
+//const Animal Database::getAnimal(QXmlStreamReader & reader) {
+
+//    assert(reader.name() == "animal");
+
+//    Animal animal;
+
+//    const auto attr = reader.attributes();
+//    if (!attr.hasAttribute("id")) {
+//        std::cout << "Animal has no ID!" << std::endl;
+//        return animal;
+//    }
+
+//    while(!(reader.isEndElement() && reader.name() == "animal")) {
+
+//        reader.readNext();
+
+//        if (reader.isEndElement()) {
+//            continue;
+//        }
+
+//        auto name = reader.name();
+
+//        if (name == "name") {
+//            reader.readNext();
+//            if(!reader.isCharacters()) {
+//                std::cout << "Name does not contain characters!" << std::endl;
+//                return animal;
+//            } else {
+//                animal.setName(reader.text().toString());
+//            }
+//        } else if (name == "primary") {
+//            reader.readNext();
+//            if (!reader.isCharacters()) {
+//                std::cout << "Primary Type does not contain characters!" << std::endl;
+//                return animal;
+//            } else {
+//                animal.setPrimaryType(reader.text().toString());
+//            }
+//        } else if (name == "secondary") {
+//            reader.readNext();
+//            if (!reader.isCharacters()) {
+//                if (reader.text().toString() != "") {
+//                    std::cout << "Secondary Type does not contain characters!" << std::endl;
+//                    return animal;
+//                }
+//            } else {
+//                animal.setSecondaryType(reader.text().toString());
+//            }
+//        } else if (name == "hp") {
+//            reader.readNext();
+//            if (!reader.isCharacters()) {
+//                std::cout << "HP does not contain characters!" << std::endl;
+//                return animal;
+//            } else {
+//                animal.setBaseHP(reader.text().toUInt());
+//            }
+//        } else if (name == "attack") {
+//            reader.readNext();
+//            if (!reader.isCharacters()) {
+//                std::cout << "Attack does not contain characters!" << std::endl;
+//                return animal;
+//            } else {
+//                animal.setBaseAttack(reader.text().toUInt());
+//            }
+//        } else if (name == "defense") {
+//            reader.readNext();
+//            if (!reader.isCharacters()) {
+//                std::cout << "Defense does not contain characters!" << std::endl;
+//                return animal;
+//            } else {
+//                animal.setBaseDefense(reader.text().toUInt());
+//            }
+//        } else if (name == "speed") {
+//            reader.readNext();
+//            if (!reader.isCharacters()) {
+//                std::cout << "Speed does not contain characters!" << std::endl;
+//                return animal;
+//            } else {
+//                animal.setBaseSpeed(reader.text().toUInt());
+//            }
+//        } else if (name == "specialattack") {
+//            reader.readNext();
+//            if (!reader.isCharacters()) {
+//                std::cout << "Special Attack does not contain characters!" << std::endl;
+//                return animal;
+//            } else {
+//                animal.setBaseSpecialAttack(reader.text().toUInt());
+//            }
+//        } else if (name == "specialdefense") {
+//            reader.readNext();
+//            if (!reader.isCharacters()) {
+//                std::cout << "Special Defense does not contain characters!" << std::endl;
+//                return animal;
+//            } else {
+//                animal.setBaseSpecialDefense(reader.text().toUInt());
+//            }
+//        } else if (name == "xp") {
+//            reader.readNext();
+//            if (!reader.isCharacters()) {
+//                std::cout << "base XP does not contain characters!" << std::endl;
+//                return animal;
+//            } else {
+//                animal.setBaseXP(reader.text().toUInt());
+//            }
+//        } else if (name == "moves") {
 
-            std::multimap<unsigned int, QString> moves;
+//            std::multimap<unsigned int, QString> moves;
 
-            while(!(reader.isEndElement() && reader.name() == "moves")) {
+//            while(!(reader.isEndElement() && reader.name() == "moves")) {
 
-                reader.readNext();
+//                reader.readNext();
 
-                if (reader.isEndElement()) {
-                    continue;
-                }
+//                if (reader.isEndElement()) {
+//                    continue;
+//                }
 
-                name = reader.name();
+//                name = reader.name();
 
-                if (name == "move") {
+//                if (name == "move") {
 
-                    QString moveName;
-                    unsigned int moveLevel;
+//                    QString moveName;
+//                    unsigned int moveLevel;
 
-                    while(!(reader.isEndElement() && reader.name() == "move")) {
+//                    while(!(reader.isEndElement() && reader.name() == "move")) {
 
-                        reader.readNext();
+//                        reader.readNext();
 
-                        if (reader.isEndElement()) {
-                            continue;
-                        }
+//                        if (reader.isEndElement()) {
+//                            continue;
+//                        }
 
-                        name = reader.name();
+//                        name = reader.name();
 
-                        if (name == "name") {
-                            reader.readNext();
-                            if (!reader.isCharacters()) {
-                                std::cout << "Move Name does not contain characters!" << std::endl;
-                                return animal;
-                            } else {
-                                moveName = reader.text().toString();
-                            }
-                        } else if (name == "level") {
-                            reader.readNext();
-                            if (!reader.isCharacters()) {
-                                std::cout << "Move Level does not contain characters!" << std::endl;
-                                return animal;
-                            } else {
-                                moveLevel = reader.text().toUInt();
-                            }
-                        }
+//                        if (name == "name") {
+//                            reader.readNext();
+//                            if (!reader.isCharacters()) {
+//                                std::cout << "Move Name does not contain characters!" << std::endl;
+//                                return animal;
+//                            } else {
+//                                moveName = reader.text().toString();
+//                            }
+//                        } else if (name == "level") {
+//                            reader.readNext();
+//                            if (!reader.isCharacters()) {
+//                                std::cout << "Move Level does not contain characters!" << std::endl;
+//                                return animal;
+//                            } else {
+//                                moveLevel = reader.text().toUInt();
+//                            }
+//                        }
 
-                    }
+//                    }
 
-                    moves.emplace(moveLevel, moveName);
+//                    moves.emplace(moveLevel, moveName);
 
-                }
+//                }
 
-            }
+//            }
 
-            animal.setMoves(moves);
+//            animal.setMoves(moves);
 
-        } else if (name == "evolutions") {
+//        } else if (name == "evolutions") {
 
-            std::vector<std::tuple<QString, QString, unsigned int>> evolutions;
+//            std::vector<std::tuple<QString, QString, unsigned int>> evolutions;
 
-            while(!(reader.isEndElement() && reader.name() == "evolutions")) {
+//            while(!(reader.isEndElement() && reader.name() == "evolutions")) {
 
-                reader.readNext();
+//                reader.readNext();
 
-                if (reader.isEndElement()) {
-                    continue;
-                }
+//                if (reader.isEndElement()) {
+//                    continue;
+//                }
 
-                name = reader.name();
+//                name = reader.name();
 
-                if (name == "evolution") {
+//                if (name == "evolution") {
 
-                    QString evolutionName;
-                    QString evolutionMethod;
-                    unsigned int evolutionValue;
+//                    QString evolutionName;
+//                    QString evolutionMethod;
+//                    unsigned int evolutionValue;
 
-                    while(!(reader.isEndElement() && reader.name() == "evolution")) {
+//                    while(!(reader.isEndElement() && reader.name() == "evolution")) {
 
-                        reader.readNext();
+//                        reader.readNext();
 
-                        if (reader.isEndElement()) {
-                            continue;
-                        }
+//                        if (reader.isEndElement()) {
+//                            continue;
+//                        }
 
-                        name = reader.name();
+//                        name = reader.name();
 
-                        if (name == "name") {
-                            reader.readNext();
-                            if (!reader.isCharacters()) {
-                                std::cout << "Evolution Name does not contain characters!" << std::endl;
-                                return animal;
-                            } else {
-                                evolutionName = reader.text().toString();
-                            }
-                        } else if (name == "method") {
-                            reader.readNext();
-                            if (!reader.isCharacters()) {
-                                std::cout << "Evolution Method does not contain characters!" << std::endl;
-                                return animal;
-                            } else {
-                                evolutionMethod = reader.text().toString();
-                            }
-                        } else if (name == "value") {
-                            reader.readNext();
-                            if (!reader.isCharacters()) {
-                                std::cout << "Evolution Value does not contain characters!" << std::endl;
-                                return animal;
-                            } else {
-                                evolutionValue = reader.text().toUInt();
-                            }
-                        }
+//                        if (name == "name") {
+//                            reader.readNext();
+//                            if (!reader.isCharacters()) {
+//                                std::cout << "Evolution Name does not contain characters!" << std::endl;
+//                                return animal;
+//                            } else {
+//                                evolutionName = reader.text().toString();
+//                            }
+//                        } else if (name == "method") {
+//                            reader.readNext();
+//                            if (!reader.isCharacters()) {
+//                                std::cout << "Evolution Method does not contain characters!" << std::endl;
+//                                return animal;
+//                            } else {
+//                                evolutionMethod = reader.text().toString();
+//                            }
+//                        } else if (name == "value") {
+//                            reader.readNext();
+//                            if (!reader.isCharacters()) {
+//                                std::cout << "Evolution Value does not contain characters!" << std::endl;
+//                                return animal;
+//                            } else {
+//                                evolutionValue = reader.text().toUInt();
+//                            }
+//                        }
 
-                    }
+//                    }
 
-                    evolutions.emplace_back(evolutionName, evolutionMethod, evolutionValue);
+//                    evolutions.emplace_back(evolutionName, evolutionMethod, evolutionValue);
 
-                }
+//                }
 
-            }
+//            }
 
-            animal.setEvolutions(evolutions);
+//            animal.setEvolutions(evolutions);
 
-        }
+//        }
 
 
-    }
+//    }
 
-    return animal;
-
-}
-
-void Database::saveAnimals()
-{
-
-    std::map<unsigned int, Animal> animals;
-    for (const auto & p : m_animals) {
-        animals.emplace(p.second.getID(), p.second);
-    }
-
-    QFile file(k_animalPath.c_str());
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        std::cout << "Could not open " << k_animalPath << std::endl;
-        return;
-    }
-
-    QXmlStreamWriter writer(&file);
+//    return animal;
+
+//}
+
+//void Database::saveAnimals()
+//{
+
+//    std::map<unsigned int, Animal> animals;
+//    for (const auto & p : m_animals) {
+//        animals.emplace(p.second.getID(), p.second);
+//    }
+
+//    QFile file(k_animalPath.c_str());
+//    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+//        std::cout << "Could not open " << k_animalPath << std::endl;
+//        return;
+//    }
+
+//    QXmlStreamWriter writer(&file);
 
-    writer.setAutoFormatting(true);
-    writer.writeStartDocument();
-    writer.writeStartElement("animals");
+//    writer.setAutoFormatting(true);
+//    writer.writeStartDocument();
+//    writer.writeStartElement("animals");
 
-    for (const auto & p : animals) {
-        const auto animal = p.second;
-        writer.writeStartElement("animal");
-        writer.writeAttribute("id", QString::number(p.first));
+//    for (const auto & p : animals) {
+//        const auto animal = p.second;
+//        writer.writeStartElement("animal");
+//        writer.writeAttribute("id", QString::number(p.first));
 
-        writer.writeStartElement("name");
-        writer.writeCharacters(p.second.getName());
-        writer.writeEndElement();
+//        writer.writeStartElement("name");
+//        writer.writeCharacters(p.second.getName());
+//        writer.writeEndElement();
 
-        {
-            writer.writeStartElement("type");
+//        {
+//            writer.writeStartElement("type");
 
-            writer.writeStartElement("primary");
-            writer.writeCharacters(p.second.primaryType());
-            writer.writeEndElement();
-            writer.writeStartElement("secondary");
-            writer.writeCharacters(p.second.secondaryType());
-            writer.writeEndElement();
+//            writer.writeStartElement("primary");
+//            writer.writeCharacters(p.second.primaryType());
+//            writer.writeEndElement();
+//            writer.writeStartElement("secondary");
+//            writer.writeCharacters(p.second.secondaryType());
+//            writer.writeEndElement();
 
-            writer.writeEndElement();
-        }
+//            writer.writeEndElement();
+//        }
 
-        {
-            writer.writeStartElement("basestats");
+//        {
+//            writer.writeStartElement("basestats");
 
-            writer.writeStartElement("hp");
-            writer.writeCharacters(QString::number(p.second.baseHP()));
-            writer.writeEndElement();
-            writer.writeStartElement("attack");
-            writer.writeCharacters(QString::number(p.second.baseAttack()));
-            writer.writeEndElement();
-            writer.writeStartElement("defense");
-            writer.writeCharacters(QString::number(p.second.baseDefense()));
-            writer.writeEndElement();
-            writer.writeStartElement("speed");
-            writer.writeCharacters(QString::number(p.second.baseSpeed()));
-            writer.writeEndElement();
-            writer.writeStartElement("specialattack");
-            writer.writeCharacters(QString::number(p.second.baseSpecialAttack()));
-            writer.writeEndElement();
-            writer.writeStartElement("specialdefense");
-            writer.writeCharacters(QString::number(p.second.baseSpecialDefense()));
-            writer.writeEndElement();
-            writer.writeStartElement("xp");
-            writer.writeCharacters(QString::number(p.second.baseXP()));
-            writer.writeEndElement();
+//            writer.writeStartElement("hp");
+//            writer.writeCharacters(QString::number(p.second.baseHP()));
+//            writer.writeEndElement();
+//            writer.writeStartElement("attack");
+//            writer.writeCharacters(QString::number(p.second.baseAttack()));
+//            writer.writeEndElement();
+//            writer.writeStartElement("defense");
+//            writer.writeCharacters(QString::number(p.second.baseDefense()));
+//            writer.writeEndElement();
+//            writer.writeStartElement("speed");
+//            writer.writeCharacters(QString::number(p.second.baseSpeed()));
+//            writer.writeEndElement();
+//            writer.writeStartElement("specialattack");
+//            writer.writeCharacters(QString::number(p.second.baseSpecialAttack()));
+//            writer.writeEndElement();
+//            writer.writeStartElement("specialdefense");
+//            writer.writeCharacters(QString::number(p.second.baseSpecialDefense()));
+//            writer.writeEndElement();
+//            writer.writeStartElement("xp");
+//            writer.writeCharacters(QString::number(p.second.baseXP()));
+//            writer.writeEndElement();
 
-            writer.writeEndElement();
-        }
+//            writer.writeEndElement();
+//        }
 
-        {
-            writer.writeStartElement("moves");
-            for (const auto & move : p.second.moves()) {
-                writer.writeStartElement("move");
+//        {
+//            writer.writeStartElement("moves");
+//            for (const auto & move : p.second.moves()) {
+//                writer.writeStartElement("move");
 
-                writer.writeStartElement("name");
-                writer.writeCharacters(move.second);
-                writer.writeEndElement();
-                writer.writeStartElement("level");
-                writer.writeCharacters(QString::number(move.first));
-                writer.writeEndElement();
+//                writer.writeStartElement("name");
+//                writer.writeCharacters(move.second);
+//                writer.writeEndElement();
+//                writer.writeStartElement("level");
+//                writer.writeCharacters(QString::number(move.first));
+//                writer.writeEndElement();
 
-                writer.writeEndElement();
-            }
-            writer.writeEndElement();
-        }
+//                writer.writeEndElement();
+//            }
+//            writer.writeEndElement();
+//        }
 
-        {
-            writer.writeStartElement("evolutions");
-            for (const auto & evolution : p.second.evolutions()) {
-                writer.writeStartElement("evolution");
+//        {
+//            writer.writeStartElement("evolutions");
+//            for (const auto & evolution : p.second.evolutions()) {
+//                writer.writeStartElement("evolution");
 
-                writer.writeStartElement("name");
-                writer.writeCharacters(std::get<0>(evolution));
-                writer.writeEndElement();
-                writer.writeStartElement("method");
-                writer.writeCharacters(std::get<1>(evolution));
-                writer.writeEndElement();
-                writer.writeStartElement("value");
-                writer.writeCharacters(QString::number(std::get<2>(evolution)));
-                writer.writeEndElement();
+//                writer.writeStartElement("name");
+//                writer.writeCharacters(std::get<0>(evolution));
+//                writer.writeEndElement();
+//                writer.writeStartElement("method");
+//                writer.writeCharacters(std::get<1>(evolution));
+//                writer.writeEndElement();
+//                writer.writeStartElement("value");
+//                writer.writeCharacters(QString::number(std::get<2>(evolution)));
+//                writer.writeEndElement();
 
-                writer.writeEndElement();
-            }
-            writer.writeEndElement();
-        }
+//                writer.writeEndElement();
+//            }
+//            writer.writeEndElement();
+//        }
 
-        writer.writeEndElement();
+//        writer.writeEndElement();
 
-    }
+//    }
 
-    writer.writeEndElement();
-    writer.writeEndDocument();
+//    writer.writeEndElement();
+//    writer.writeEndDocument();
 
-}
+//}
 
-void Database::parseAnimals() {
+//void Database::parseAnimals() {
 
-    QFile file(k_animalPath.c_str());
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        std::cout << "Could not open " << k_animalPath << std::endl;
-        return;
-    }
+//    QFile file(k_animalPath.c_str());
+//    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+//        std::cout << "Could not open " << k_animalPath << std::endl;
+//        return;
+//    }
 
-    QXmlStreamReader reader(&file);
+//    QXmlStreamReader reader(&file);
 
-    while (!reader.atEnd() && !reader.hasError()) {
+//    while (!reader.atEnd() && !reader.hasError()) {
 
-        reader.readNext();
-        if (reader.isStartElement() && reader.name() == "animal") {
+//        reader.readNext();
+//        if (reader.isStartElement() && reader.name() == "animal") {
 
-            const auto ID = reader.attributes().value("id").toUInt();
-            auto animal = getAnimal(reader);
-            animal.setID(ID);
-            m_animals.emplace(animal.getName(), animal);
+//            const auto ID = reader.attributes().value("id").toUInt();
+//            auto animal = getAnimal(reader);
+//            animal.setID(ID);
+//            m_animals.emplace(animal.getName(), animal);
 
-        }
+//        }
 
-    }
+//    }
 
-}
+//}
 
 const Type Database::getType(QXmlStreamReader & reader) {
 
@@ -859,3 +861,5 @@ void Database::parseMoves() {
     }
 
 }
+
+} // namespace db

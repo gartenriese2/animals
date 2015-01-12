@@ -6,11 +6,13 @@
 
 #include <vector>
 #include <utility>
+#include <map>
+#include <memory>
 
 #include "numericmodel.h"
 #include "animal.h"
 
-class Database;
+#include "database.h"
 
 namespace Ui {
 class AnimalMovesWindow;
@@ -21,7 +23,7 @@ class AnimalMovesWindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit AnimalMovesWindow(Database &, const Animal &, QWidget *parent = 0);
+    explicit AnimalMovesWindow(const std::map<QString, std::shared_ptr<db::Database>> &, db::Database &, const Animal &, QWidget *parent = 0);
     ~AnimalMovesWindow();
 
 private slots:
@@ -39,7 +41,8 @@ private:
 
     NumericModel m_movesModel;
 
-    Database & m_db;
+    db::Database & m_db;
+    std::map<QString, std::shared_ptr<db::Database>> m_dbMap;
     Animal m_animal;
 
 };

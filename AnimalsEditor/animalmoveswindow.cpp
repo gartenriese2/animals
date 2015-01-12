@@ -11,12 +11,14 @@
 
 #include "database.h"
 #include "comboboxdelegate.h"
+#include "animaldatabase.h"
 
-AnimalMovesWindow::AnimalMovesWindow(Database & db, const Animal & animal, QWidget * parent) :
+AnimalMovesWindow::AnimalMovesWindow(const std::map<QString, std::shared_ptr<db::Database>> & map, db::Database & db, const Animal & animal, QWidget * parent) :
     QWidget(),
     ui(new Ui::AnimalMovesWindow),
     m_parent(parent),
     m_db(db),
+    m_dbMap(map),
     m_animal(animal)
 {
     ui->setupUi(this);
@@ -128,8 +130,10 @@ void AnimalMovesWindow::on_pushButton_Save_clicked()
     }
     m_animal.setMoves(moves);
 
-    assert(m_db.deleteAnimal(m_animal.getName()));
-    assert(m_db.insertAnimal(m_animal.getID(), m_animal));
+    assert(dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->deleteData(m_animal.getName()));
+//    assert(m_db.deleteAnimal(m_animal.getName()));
+    assert(dynamic_cast<db::AnimalDatabase *>(m_dbMap.at("Animals").get())->insertData(m_animal.getID(), m_animal));
+//    assert(m_db.insertAnimal(m_animal.getID(), m_animal));
 
     m_parent->show();
     this->setAttribute(Qt::WA_DeleteOnClose);
