@@ -20,7 +20,7 @@ class TDatabase {
         TDatabase();
         ~TDatabase();
 
-        auto get() -> std::map<QString, T> const { return m_data; }
+        auto & get() const { return m_data; }
         auto getByID() -> std::map<unsigned int, T> const;
         void set(const std::map<QString, T> & data) { m_data = data; }
         bool deleteData(const QString &);

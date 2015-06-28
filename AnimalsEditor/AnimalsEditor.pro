@@ -5,8 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-#CONFIG   += c++14
-QMAKE_CXXFLAGS += -Wextra -Wall -pedantic -Wconversion -std=c++1z
+QMAKE_CXXFLAGS += -Wextra -Wall -pedantic -Wconversion -std=c++1z -stdlib=libc++
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,8 +27,7 @@ SOURCES += main.cpp\
     comboboxdelegate.cpp \
     animalmoveswindow.cpp \
     animaldatabase.cpp \
-	movedatabase.cpp# \
-	#tdatabase.tpp
+	movedatabase.cpp
 
 HEADERS  += mainwindow.h \
     animalswindow.h \
